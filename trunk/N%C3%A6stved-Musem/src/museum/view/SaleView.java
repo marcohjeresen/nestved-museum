@@ -5,108 +5,160 @@
  */
 package museum.view;
 
+import Util.Listeners;
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashSet;
 import model.EventType;
 import model.Handler.StoreHandler;
+import model.Product;
 import model.ProductGroup;
 import model.TicketType;
 
 /**
  *
- * @author MarcoPc
+ * @author markh_000
  */
-public class SaleView extends javax.swing.JPanel {
-private StoreHandler storeHandler;
+public class SaleView extends javax.swing.JPanel implements ActionListener {
+
+    private StoreHandler storeHandler;
+    private Listeners listeners;
+
     /**
-     * Creates new form Sale
+     * Creates new form SaleView
      */
     public SaleView() {
         storeHandler = StoreHandler.storeHandler();
+        listeners = Listeners.getList();
         initComponents();
-        setSize(1000, 700);
+        listeners.addListener(this);
+        setSize(new Dimension(1008, 691));
         CardLayout cl = (CardLayout) getLayout();
-        cl.addLayoutComponent(jPanel_saleView, "sale");
-        cl.addLayoutComponent(jPanel_endSaleView, "endsale");
+        cl.addLayoutComponent(jP_Sale, "sale");
+        cl.addLayoutComponent(jP_EndSale, "endsale");
         cl.show(this, "sale");
+
     }
-    
-    
+
+    public void showEmployee() {
+        jL_userName.setText("Medarbejder: ");
+        if (storeHandler.getLogEmployee() != null) {
+            jL_EmployeeName.setText(storeHandler.getLogEmployee().getName());
+        }
+    }
+
     public void createGroupPanel(String Type) {
+        int count = 0;
         ArrayList<GroupsPanel> specGroupsList = new ArrayList<>();
-        int x = 7;
-        int y = 15;
+        int x = 15;
+        int y = 25;
         int height = 0;
         int width = 0;
-        jPanel_group.removeAll();
+        jP_type.removeAll();
         repaint();
         switch (Type) {
             case "Product":
-                specGroupsList.removeAll(specGroupsList);
-                for (Object group : storeHandler.getProductGroups()) {
-                    
-                    GroupsPanel groupsPanel = new GroupsPanel(group.toString(), null, null);
-                    if (specGroupsList.size() == 5) {
-                        x = 7;
-                        y = groupsPanel.getHeight() + 25;
-                    } else if (specGroupsList.size() == 10) {
-                        x = 7;
-                        y = 2 * groupsPanel.getHeight() + 35;
+                for (String productGroup : storeHandler.getProductGroups()) {
+                    GroupsPanel groupsPanel = new GroupsPanel(productGroup, null, null);
+                    if (count == 5) {
+                        x = 15;
+                        y = groupsPanel.getHeight() + 30;
                     }
                     groupsPanel.setLocation(x, y);
-                    jPanel_group.add(groupsPanel);
-                    jPanel_group.revalidate();
+                    jP_type.add(groupsPanel);
+                    jP_type.revalidate();
                     x += groupsPanel.getWidth() + 5;
                     groupsPanel.setVisible(true);
                     height = groupsPanel.getHeight();
                     width = groupsPanel.getWidth();
-                    specGroupsList.add(groupsPanel);
+                    count++;
                 }
                 break;
             case "Ticket":
-//                specGroupsList.removeAll(specGroupsList);
-//                for (TicketType ticketType : storeHandler.getTicketTypesList()) {
-//                    GroupsPanel groupsPanel = new GroupsPanel(null, ticketType, null, listeners, storeHandler);
-//                    if (specGroupsList.size() == 3) {
-//                        x = 7;
-//                        y = groupsPanel.getHeight() + 25;
-//                    } else if (specGroupsList.size() == 6) {
-//                        x = 7;
-//                        y = 2 * groupsPanel.getHeight() + 35;
-//                    }
-//                    groupsPanel.setLocation(x, y);
-//                    jPanel_group.add(groupsPanel);
-//                    jPanel_group.revalidate();
-//                    x += groupsPanel.getWidth() + 5;
-//                    groupsPanel.setVisible(true);
-//                    height = groupsPanel.getHeight();
-//                    width = groupsPanel.getWidth();
-//                    specGroupsList.add(groupsPanel);
-//                }
+
+                for (TicketType ticketType : storeHandler.getTicketType()) {
+                    GroupsPanel groupsPanel = new GroupsPanel(null, ticketType, null);
+                    if (count == 4) {
+                        x = 15;
+                        y = groupsPanel.getHeight() + 30;
+                    }
+                    groupsPanel.setLocation(x, y);
+                    jP_type.add(groupsPanel);
+                    jP_type.revalidate();
+                    x += groupsPanel.getWidth() + 5;
+                    groupsPanel.setVisible(true);
+                    height = groupsPanel.getHeight();
+                    width = groupsPanel.getWidth();
+                    count++;
+                }
                 break;
             case "Event":
-//                specGroupsList.removeAll(specGroupsList);
-//                for (EventType eventType : storeHandler.getEventTypesList()) {
-//                    GroupsPanel groupsPanel = new GroupsPanel(null, null, eventType, listeners, storeHandler);
-//                    if (specGroupsList.size() == 3) {
-//                        x = 7;
-//                        y = groupsPanel.getHeight() + 25;
-//                    } else if (specGroupsList.size() == 6) {
-//                        x = 7;
-//                        y = 2 * groupsPanel.getHeight() + 35;
-//                    }
-//                    groupsPanel.setLocation(x, y);
-//                    jPanel_group.add(groupsPanel);
-//                    jPanel_group.revalidate();
-//                    x += groupsPanel.getWidth() + 5;
-//                    groupsPanel.setVisible(true);
-//                    height = groupsPanel.getHeight();
-//                    width = groupsPanel.getWidth();
-//                    specGroupsList.add(groupsPanel);
-//                }
+
+                for (EventType eventType : storeHandler.getEventType()) {
+                    GroupsPanel groupsPanel = new GroupsPanel(null, null, eventType);
+                    if (count == 4) {
+                        x = 15;
+                        y = groupsPanel.getHeight() + 30;
+                    } else if (count == 8) {
+                        x = 15;
+                        y = 2 * groupsPanel.getHeight() + 35;
+                    }
+                    groupsPanel.setLocation(x, y);
+                    jP_type.add(groupsPanel);
+                    jP_type.revalidate();
+                    x += groupsPanel.getWidth() + 5;
+                    groupsPanel.setVisible(true);
+                    height = groupsPanel.getHeight();
+                    width = groupsPanel.getWidth();
+                    count++;
+                }
                 break;
+        }
+
+    }
+
+    public void setChoosenType(String type, boolean search) {
+        jP_product.removeAll();
+        jP_product.repaint();
+        int count = 0;
+        int y = 25;
+        int x = 15;
+        switch (type) {
+            case "Product":
+                jP_product.removeAll();
+                if (search) {
+
+                } else {
+                    for (Product product : storeHandler.getChoosenProduct()) {
+                        ProductView pw = new ProductView(product);
+                        pw.setLocation(x, y);
+                        jP_product.add(pw);
+                        jP_product.revalidate();
+                        y += pw.getHeight() + 5;
+                        pw.setVisible(true);
+                    }
+                }
+                break;
+            case "Ticket":
+                jP_product.removeAll();
+                TicketView tv1 = new TicketView(storeHandler.getChoosenTicket(), 1);
+                TicketView tv2 = new TicketView(storeHandler.getChoosenTicket(), 2);
+                TicketView tv3 = new TicketView(storeHandler.getChoosenTicket(), 3);
+                tv1.setLocation(x, y);
+                y += tv1.getHeight() + 5;
+                tv2.setLocation(x, y);
+                y += tv2.getHeight() + 5;
+                tv3.setLocation(x, y);
+                jP_product.add(tv1);
+                jP_product.add(tv2);
+                jP_product.add(tv3);
+                jP_product.revalidate();
+                break;
+            case "Event":
+                break;
+
         }
     }
 
@@ -119,673 +171,305 @@ private StoreHandler storeHandler;
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel_endSaleView = new javax.swing.JPanel();
-        jButton11 = new javax.swing.JButton();
-        jButton_betal = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        jCheckBox_euro = new javax.swing.JCheckBox();
-        jCheckBox_danske = new javax.swing.JCheckBox();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel_melding = new javax.swing.JLabel();
-        jTextField_modtaget = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        jCheckBox_rabat = new javax.swing.JCheckBox();
-        jTextField_beløb = new javax.swing.JTextField();
-        jCheckBox_kvit = new javax.swing.JCheckBox();
-        jLabel9 = new javax.swing.JLabel();
-        jButton_fortryd = new javax.swing.JButton();
-        jLabel10 = new javax.swing.JLabel();
-        jTextField_returBeløb = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jPanel_saleView = new javax.swing.JPanel();
-        jPanel_group = new javax.swing.JPanel();
-        jPanel_kurv = new javax.swing.JPanel();
-        jPanel_product = new javax.swing.JPanel();
-        jButton_pay = new javax.swing.JButton();
-        jButton_emtybasket = new javax.swing.JButton();
-        jButton_search = new javax.swing.JButton();
-        jButton_showEvent = new javax.swing.JButton();
-        jButton_shoeProduct = new javax.swing.JButton();
-        jButton_showTicket = new javax.swing.JButton();
-        jButton_stuff = new javax.swing.JButton();
+        jP_Sale = new javax.swing.JPanel();
+        jP_type = new javax.swing.JPanel();
+        jP_basket = new javax.swing.JPanel();
+        jP_totalPrice = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        jB_endSale = new javax.swing.JButton();
+        jB_emtyBasket = new javax.swing.JButton();
+        jB_showUtilSide = new javax.swing.JButton();
+        jP_product = new javax.swing.JPanel();
+        jB_seachProdukt = new javax.swing.JButton();
+        jB_showProduct = new javax.swing.JButton();
+        jB_showTicket = new javax.swing.JButton();
+        jB_shoeEvent = new javax.swing.JButton();
+        jL_dkAmount = new javax.swing.JLabel();
+        jL_euroAmount = new javax.swing.JLabel();
+        jB_logOut = new javax.swing.JButton();
+        jB_closeRegisstre = new javax.swing.JButton();
+        jL_userName = new javax.swing.JLabel();
+        jL_EmployeeName = new javax.swing.JLabel();
+        jP_EndSale = new javax.swing.JPanel();
 
         setLayout(new java.awt.CardLayout());
 
-        jButton11.setText(".");
-        jButton11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton11ActionPerformed(evt);
+        jP_Sale.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jP_SaleFocusGained(evt);
             }
         });
 
-        jButton_betal.setText("Betal");
-        jButton_betal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_betalActionPerformed(evt);
-            }
-        });
+        jP_type.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Typer:"));
 
-        jButton9.setText("9");
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
-            }
-        });
-
-        jButton10.setText("0");
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
-            }
-        });
-
-        jCheckBox_euro.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jCheckBox_euro.setText("Euro");
-        jCheckBox_euro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox_euroActionPerformed(evt);
-            }
-        });
-
-        jCheckBox_danske.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jCheckBox_danske.setText("Danske Kroner");
-        jCheckBox_danske.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox_danskeActionPerformed(evt);
-            }
-        });
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jLabel7.setText("Vælg Betalings Type:");
-
-        jLabel_melding.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel_melding.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel_melding.setText("jLabel5");
-
-        jTextField_modtaget.setEditable(false);
-
-        jLabel8.setText("Beløb Modtaget:");
-
-        jCheckBox_rabat.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jCheckBox_rabat.setText("MuseumsKort");
-        jCheckBox_rabat.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox_rabatActionPerformed(evt);
-            }
-        });
-
-        jTextField_beløb.setEditable(false);
-
-        jCheckBox_kvit.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jCheckBox_kvit.setText("Kvitering");
-
-        jLabel9.setText("Beløb Til Betaling:");
-
-        jButton_fortryd.setText("Fortryd");
-        jButton_fortryd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_fortrydActionPerformed(evt);
-            }
-        });
-
-        jLabel10.setText("Penge Retur:");
-
-        jTextField_returBeløb.setEditable(false);
-
-        jButton1.setText("1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jButton7.setText("7");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
-
-        jButton6.setText("6");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
-
-        jButton8.setText("8");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
-
-        jButton3.setText("3");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("2");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jButton5.setText("5");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-
-        jButton4.setText("4");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel_endSaleViewLayout = new javax.swing.GroupLayout(jPanel_endSaleView);
-        jPanel_endSaleView.setLayout(jPanel_endSaleViewLayout);
-        jPanel_endSaleViewLayout.setHorizontalGroup(
-            jPanel_endSaleViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel_endSaleViewLayout.createSequentialGroup()
-                .addGap(300, 300, 300)
-                .addGroup(jPanel_endSaleViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBox_rabat)
-                    .addGroup(jPanel_endSaleViewLayout.createSequentialGroup()
-                        .addGroup(jPanel_endSaleViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel_endSaleViewLayout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(6, 6, 6)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(6, 6, 6)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel_endSaleViewLayout.createSequentialGroup()
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(6, 6, 6)
-                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(6, 6, 6)
-                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel_endSaleViewLayout.createSequentialGroup()
-                                .addGroup(jPanel_endSaleViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel_endSaleViewLayout.createSequentialGroup()
-                                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(6, 6, 6)
-                                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(6, 6, 6)
-                                .addGroup(jPanel_endSaleViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jLabel10)
-                            .addComponent(jTextField_returBeløb)
-                            .addComponent(jCheckBox_danske)
-                            .addComponent(jTextField_beløb, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel_endSaleViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel_endSaleViewLayout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addGroup(jPanel_endSaleViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jCheckBox_euro, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField_modtaget)
-                                    .addComponent(jButton_fortryd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton_betal, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel_endSaleViewLayout.createSequentialGroup()
-                                .addGap(4, 4, 4)
-                                .addComponent(jLabel_melding, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel_endSaleViewLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jCheckBox_kvit, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(374, Short.MAX_VALUE))
-        );
-        jPanel_endSaleViewLayout.setVerticalGroup(
-            jPanel_endSaleViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel_endSaleViewLayout.createSequentialGroup()
-                .addGap(128, 128, 128)
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6)
-                .addComponent(jCheckBox_rabat)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel_endSaleViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel_endSaleViewLayout.createSequentialGroup()
-                        .addGroup(jPanel_endSaleViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox_euro, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jCheckBox_danske))
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel9)
-                        .addGap(6, 6, 6)
-                        .addComponent(jTextField_beløb, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel_endSaleViewLayout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addGap(6, 6, 6)
-                        .addComponent(jTextField_modtaget, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(6, 6, 6)
-                .addComponent(jLabel10)
-                .addGap(6, 6, 6)
-                .addComponent(jTextField_returBeløb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6)
-                .addGroup(jPanel_endSaleViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox_kvit))
-                .addGap(6, 6, 6)
-                .addGroup(jPanel_endSaleViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel_melding))
-                .addGap(6, 6, 6)
-                .addGroup(jPanel_endSaleViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel_endSaleViewLayout.createSequentialGroup()
-                        .addGroup(jPanel_endSaleViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(6, 6, 6)
-                        .addGroup(jPanel_endSaleViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel_endSaleViewLayout.createSequentialGroup()
-                        .addComponent(jButton_fortryd, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton_betal, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(389, Short.MAX_VALUE))
-        );
-
-        add(jPanel_endSaleView, "card3");
-
-        jPanel_saleView.setMaximumSize(new java.awt.Dimension(1001, 670));
-
-        jPanel_group.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Typer:"));
-
-        javax.swing.GroupLayout jPanel_groupLayout = new javax.swing.GroupLayout(jPanel_group);
-        jPanel_group.setLayout(jPanel_groupLayout);
-        jPanel_groupLayout.setHorizontalGroup(
-            jPanel_groupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 962, Short.MAX_VALUE)
-        );
-        jPanel_groupLayout.setVerticalGroup(
-            jPanel_groupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 127, Short.MAX_VALUE)
-        );
-
-        jPanel_kurv.setBorder(javax.swing.BorderFactory.createTitledBorder("Kurv:"));
-
-        javax.swing.GroupLayout jPanel_kurvLayout = new javax.swing.GroupLayout(jPanel_kurv);
-        jPanel_kurv.setLayout(jPanel_kurvLayout);
-        jPanel_kurvLayout.setHorizontalGroup(
-            jPanel_kurvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jP_typeLayout = new javax.swing.GroupLayout(jP_type);
+        jP_type.setLayout(jP_typeLayout);
+        jP_typeLayout.setHorizontalGroup(
+            jP_typeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-        jPanel_kurvLayout.setVerticalGroup(
-            jPanel_kurvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 359, Short.MAX_VALUE)
+        jP_typeLayout.setVerticalGroup(
+            jP_typeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 101, Short.MAX_VALUE)
         );
 
-        jPanel_product.setBorder(javax.swing.BorderFactory.createTitledBorder("Produkt:"));
+        jP_basket.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Kurv:"));
 
-        javax.swing.GroupLayout jPanel_productLayout = new javax.swing.GroupLayout(jPanel_product);
-        jPanel_product.setLayout(jPanel_productLayout);
-        jPanel_productLayout.setHorizontalGroup(
-            jPanel_productLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 317, Short.MAX_VALUE)
+        javax.swing.GroupLayout jP_basketLayout = new javax.swing.GroupLayout(jP_basket);
+        jP_basket.setLayout(jP_basketLayout);
+        jP_basketLayout.setHorizontalGroup(
+            jP_basketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
-        jPanel_productLayout.setVerticalGroup(
-            jPanel_productLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jP_basketLayout.setVerticalGroup(
+            jP_basketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jButton_pay.setText("Betal");
-        jButton_pay.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_payActionPerformed(evt);
-            }
-        });
+        jP_totalPrice.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Total Pris:"));
 
-        jButton_emtybasket.setText("Tøm Kurv");
-        jButton_emtybasket.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_emtybasketActionPerformed(evt);
-            }
-        });
+        jLabel1.setText("Danske Kroner:");
 
-        jButton_search.setText("Søg På Product Nummer");
-        jButton_search.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_searchActionPerformed(evt);
-            }
-        });
+        jLabel2.setText("9672872872872");
 
-        jButton_showEvent.setText("Vis Event Typer");
-        jButton_showEvent.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_showEventActionPerformed(evt);
-            }
-        });
+        jLabel3.setText("EURO:");
 
-        jButton_shoeProduct.setText("Vis Product Grupper");
-        jButton_shoeProduct.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_shoeProductActionPerformed(evt);
-            }
-        });
+        jLabel4.setText("5247228723872872");
 
-        jButton_showTicket.setText("Vis Ticket Typer");
-        jButton_showTicket.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_showTicketActionPerformed(evt);
-            }
-        });
-
-        jButton_stuff.setText("Andet Godt");
-        jButton_stuff.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_stuffActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setText("jLabel1");
-
-        jLabel2.setText("jLabel2");
-
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Total Pris:"));
-
-        jLabel3.setText("Danske Kroner:");
-
-        jLabel4.setText("821562621");
-
-        jLabel5.setText("Euro:");
-
-        jLabel6.setText("32453,354354");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jLabel3)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
-                .addComponent(jLabel5)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(70, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel_saleViewLayout = new javax.swing.GroupLayout(jPanel_saleView);
-        jPanel_saleView.setLayout(jPanel_saleViewLayout);
-        jPanel_saleViewLayout.setHorizontalGroup(
-            jPanel_saleViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel_saleViewLayout.createSequentialGroup()
-                .addGroup(jPanel_saleViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel_saleViewLayout.createSequentialGroup()
-                        .addGroup(jPanel_saleViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton_shoeProduct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton_showEvent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton_showTicket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton_search, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE))
-                        .addGap(6, 6, 6))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel_saleViewLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addGap(8, 8, 8)
-                .addComponent(jPanel_product, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16)
-                .addGroup(jPanel_saleViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel_saleViewLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton_stuff, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)
-                        .addComponent(jButton_emtybasket, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)
-                        .addComponent(jButton_pay, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(21, 21, 21))
-                    .addGroup(jPanel_saleViewLayout.createSequentialGroup()
-                        .addGroup(jPanel_saleViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel_kurv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
-            .addGroup(jPanel_saleViewLayout.createSequentialGroup()
+        javax.swing.GroupLayout jP_totalPriceLayout = new javax.swing.GroupLayout(jP_totalPrice);
+        jP_totalPrice.setLayout(jP_totalPriceLayout);
+        jP_totalPriceLayout.setHorizontalGroup(
+            jP_totalPriceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jP_totalPriceLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel_group, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
-        );
-        jPanel_saleViewLayout.setVerticalGroup(
-            jPanel_saleViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel_saleViewLayout.createSequentialGroup()
-                .addComponent(jPanel_group, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addGroup(jPanel_saleViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel_saleViewLayout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(jButton_search, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton_shoeProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton_showEvent, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton_showTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel2))
-                    .addGroup(jPanel_saleViewLayout.createSequentialGroup()
-                        .addComponent(jPanel_kurv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel_product, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel_saleViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton_stuff, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton_emtybasket, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton_pay, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(290, Short.MAX_VALUE))
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jP_totalPriceLayout.setVerticalGroup(
+            jP_totalPriceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jP_totalPriceLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jP_totalPriceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
-        add(jPanel_saleView, "card2");
+        jB_endSale.setText("Betal:");
+
+        jB_emtyBasket.setText("Tøm Kurv:");
+
+        jB_showUtilSide.setText("Statestik/Lager");
+
+        jP_product.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Produkt:"));
+
+        javax.swing.GroupLayout jP_productLayout = new javax.swing.GroupLayout(jP_product);
+        jP_product.setLayout(jP_productLayout);
+        jP_productLayout.setHorizontalGroup(
+            jP_productLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 384, Short.MAX_VALUE)
+        );
+        jP_productLayout.setVerticalGroup(
+            jP_productLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jB_seachProdukt.setText("Søg Efter Produkt:");
+
+        jB_showProduct.setText("Vis Produkt Grupper:");
+        jB_showProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_showProductActionPerformed(evt);
+            }
+        });
+
+        jB_showTicket.setText("Vis Billet Typer:");
+        jB_showTicket.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_showTicketActionPerformed(evt);
+            }
+        });
+
+        jB_shoeEvent.setText("Vis Event Typer:");
+        jB_shoeEvent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_shoeEventActionPerformed(evt);
+            }
+        });
+
+        jL_dkAmount.setText("jLabel1");
+
+        jL_euroAmount.setText("jLabel2");
+
+        jB_logOut.setText("Log Ud:");
+
+        jB_closeRegisstre.setText("Luk Kassen:");
+
+        jL_userName.setText("jLabel3");
+
+        jL_EmployeeName.setText("jLabel5");
+
+        javax.swing.GroupLayout jP_SaleLayout = new javax.swing.GroupLayout(jP_Sale);
+        jP_Sale.setLayout(jP_SaleLayout);
+        jP_SaleLayout.setHorizontalGroup(
+            jP_SaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jP_type, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jP_SaleLayout.createSequentialGroup()
+                .addGroup(jP_SaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jP_SaleLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jP_SaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jB_seachProdukt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jB_showProduct, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                            .addComponent(jB_showTicket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jB_shoeEvent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jL_dkAmount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jL_euroAmount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jP_SaleLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jL_userName, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jL_EmployeeName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jP_SaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jP_product, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jP_SaleLayout.createSequentialGroup()
+                        .addComponent(jB_logOut, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jB_closeRegisstre, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(6, 6, 6)
+                .addGroup(jP_SaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jP_SaleLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jB_showUtilSide, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
+                        .addGap(15, 15, 15)
+                        .addComponent(jB_emtyBasket, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15)
+                        .addComponent(jB_endSale, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10))
+                    .addComponent(jP_basket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jP_totalPrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        jP_SaleLayout.setVerticalGroup(
+            jP_SaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jP_SaleLayout.createSequentialGroup()
+                .addComponent(jP_type, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jP_SaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jP_SaleLayout.createSequentialGroup()
+                        .addGroup(jP_SaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jP_SaleLayout.createSequentialGroup()
+                                .addComponent(jP_basket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(0, 0, 0)
+                                .addComponent(jP_totalPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jP_product, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(11, 11, 11)
+                        .addGroup(jP_SaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jB_endSale, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                            .addComponent(jB_emtyBasket, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jB_showUtilSide, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jB_logOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jB_closeRegisstre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jP_SaleLayout.createSequentialGroup()
+                                .addComponent(jL_userName)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jL_EmployeeName)))
+                        .addGap(11, 11, 11))
+                    .addGroup(jP_SaleLayout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addComponent(jB_seachProdukt, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jB_showProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jB_showTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jB_shoeEvent, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jL_dkAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jL_euroAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(165, Short.MAX_VALUE))))
+        );
+
+        add(jP_Sale, "card2");
+
+        javax.swing.GroupLayout jP_EndSaleLayout = new javax.swing.GroupLayout(jP_EndSale);
+        jP_EndSale.setLayout(jP_EndSaleLayout);
+        jP_EndSaleLayout.setHorizontalGroup(
+            jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1008, Short.MAX_VALUE)
+        );
+        jP_EndSaleLayout.setVerticalGroup(
+            jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 692, Short.MAX_VALUE)
+        );
+
+        add(jP_EndSale, "card3");
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton_payActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_payActionPerformed
-        CardLayout cl = (CardLayout) getLayout();
-        cl.show(this, "endsale");
-    }//GEN-LAST:event_jButton_payActionPerformed
-
-    private void jButton_emtybasketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_emtybasketActionPerformed
-       
-    }//GEN-LAST:event_jButton_emtybasketActionPerformed
-
-    private void jButton_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_searchActionPerformed
-        
-    }//GEN-LAST:event_jButton_searchActionPerformed
-
-    private void jButton_showEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_showEventActionPerformed
-        createGroupPanel("Event");
-    }//GEN-LAST:event_jButton_showEventActionPerformed
-
-    private void jButton_shoeProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_shoeProductActionPerformed
+    private void jB_showProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_showProductActionPerformed
         createGroupPanel("Product");
-    }//GEN-LAST:event_jButton_shoeProductActionPerformed
+    }//GEN-LAST:event_jB_showProductActionPerformed
 
-    private void jButton_showTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_showTicketActionPerformed
+    private void jP_SaleFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jP_SaleFocusGained
+
+    }//GEN-LAST:event_jP_SaleFocusGained
+
+    private void jB_showTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_showTicketActionPerformed
         createGroupPanel("Ticket");
-    }//GEN-LAST:event_jButton_showTicketActionPerformed
+    }//GEN-LAST:event_jB_showTicketActionPerformed
 
-    private void jButton_stuffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_stuffActionPerformed
-//        jPanel_saleView.setVisible(false);
-//        jPanel2.setVisible(true);
-    }//GEN-LAST:event_jButton_stuffActionPerformed
-
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-//        modtag.add(".");
-//        setModtagetBeløb();
-    }//GEN-LAST:event_jButton11ActionPerformed
-
-    private void jButton_betalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_betalActionPerformed
-//        try {
-//            endSale();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(BuyStuff.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-    }//GEN-LAST:event_jButton_betalActionPerformed
-
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-//        modtag.add("9");
-//        setModtagetBeløb();
-    }//GEN-LAST:event_jButton9ActionPerformed
-
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-//        modtag.add("0");
-//        setModtagetBeløb();
-    }//GEN-LAST:event_jButton10ActionPerformed
-
-    private void jCheckBox_euroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_euroActionPerformed
-//        if (jCheckBox_euro.isSelected()) {
-//            jCheckBox_danske.setSelected(false);
-//            dkOrEuro = "EURO";
-//        }
-//        setBetalingsBeløb();
-    }//GEN-LAST:event_jCheckBox_euroActionPerformed
-
-    private void jCheckBox_danskeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_danskeActionPerformed
-//        if (jCheckBox_danske.isSelected()) {
-//            jCheckBox_euro.setSelected(false);
-//            dkOrEuro = "DK";
-//        }
-//        setBetalingsBeløb();
-    }//GEN-LAST:event_jCheckBox_danskeActionPerformed
-
-    private void jCheckBox_rabatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_rabatActionPerformed
-//
-//        if (jCheckBox_rabat.isSelected()) {
-//
-//        }
-//        setBetalingsBeløb();
-    }//GEN-LAST:event_jCheckBox_rabatActionPerformed
-
-    private void jButton_fortrydActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_fortrydActionPerformed
-//        modtag.remove(modtag.size() - 1);
-//        setModtagetBeløb();
-    }//GEN-LAST:event_jButton_fortrydActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-//        modtag.add("1");
-//        setModtagetBeløb();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-//        modtag.add("7");
-//        setModtagetBeløb();
-    }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-//        modtag.add("6");
-//        setModtagetBeløb();
-    }//GEN-LAST:event_jButton6ActionPerformed
-
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-//        modtag.add("8");
-//        setModtagetBeløb();
-    }//GEN-LAST:event_jButton8ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-//        modtag.add("3");
-//        setModtagetBeløb();
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-//        modtag.add("2");
-//        setModtagetBeløb();
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-//        modtag.add("5");
-//        setModtagetBeløb();
-    }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-//        modtag.add("4");
-//        setModtagetBeløb();
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void jB_shoeEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_shoeEventActionPerformed
+        createGroupPanel("Event");
+    }//GEN-LAST:event_jB_shoeEventActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
-    private javax.swing.JButton jButton_betal;
-    private javax.swing.JButton jButton_emtybasket;
-    private javax.swing.JButton jButton_fortryd;
-    private javax.swing.JButton jButton_pay;
-    private javax.swing.JButton jButton_search;
-    private javax.swing.JButton jButton_shoeProduct;
-    private javax.swing.JButton jButton_showEvent;
-    private javax.swing.JButton jButton_showTicket;
-    private javax.swing.JButton jButton_stuff;
-    private javax.swing.JCheckBox jCheckBox_danske;
-    private javax.swing.JCheckBox jCheckBox_euro;
-    private javax.swing.JCheckBox jCheckBox_kvit;
-    private javax.swing.JCheckBox jCheckBox_rabat;
+    private javax.swing.JButton jB_closeRegisstre;
+    private javax.swing.JButton jB_emtyBasket;
+    private javax.swing.JButton jB_endSale;
+    private javax.swing.JButton jB_logOut;
+    private javax.swing.JButton jB_seachProdukt;
+    private javax.swing.JButton jB_shoeEvent;
+    private javax.swing.JButton jB_showProduct;
+    private javax.swing.JButton jB_showTicket;
+    private javax.swing.JButton jB_showUtilSide;
+    private javax.swing.JLabel jL_EmployeeName;
+    private javax.swing.JLabel jL_dkAmount;
+    private javax.swing.JLabel jL_euroAmount;
+    private javax.swing.JLabel jL_userName;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JLabel jLabel_melding;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel_endSaleView;
-    private javax.swing.JPanel jPanel_group;
-    private javax.swing.JPanel jPanel_kurv;
-    private javax.swing.JPanel jPanel_product;
-    private javax.swing.JPanel jPanel_saleView;
-    private javax.swing.JTextField jTextField_beløb;
-    private javax.swing.JTextField jTextField_modtaget;
-    private javax.swing.JTextField jTextField_returBeløb;
+    private javax.swing.JPanel jP_EndSale;
+    private javax.swing.JPanel jP_Sale;
+    private javax.swing.JPanel jP_basket;
+    private javax.swing.JPanel jP_product;
+    private javax.swing.JPanel jP_totalPrice;
+    private javax.swing.JPanel jP_type;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+        switch (ae.getActionCommand()) {
+            case "Choosen Product":
+                setChoosenType("Product", false);
+                break;
+            case "Choosen Ticket":
+                setChoosenType("Ticket", false);
+                break;
+            default:
+        }
+
+    }
 }

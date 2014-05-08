@@ -5,66 +5,54 @@
  */
 package museum.view;
 
-import Util.*;
-import model.*;
+
 import java.awt.Dimension;
-import model.Handler.*;
+import model.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import model.Handler.StoreHandler;
+
+
 /**
  *
  * @author markh_000
  */
-public class GroupsPanel extends javax.swing.JPanel {
+public class ProductView extends javax.swing.JPanel {
 
-    private String productGroup;
-    private TicketType ticketType;
-    private EventType eventType;
-    private Listeners listners;
+    private Product product;
+//    private SaleHandler saleHandler;
     private StoreHandler storeHandler;
-    
+
 
     /**
-     * Creates new form Groups
+     * Creates new form ProductView
+     * @param product
+     * @param saleHandler1
+     * @param storeHandler
+
      */
-    public GroupsPanel(String productGroup, TicketType ticketType, EventType eventType) {
-        this.productGroup = productGroup;
-        this.ticketType = ticketType;
-        this.eventType = eventType;
-       listners = Listeners.getList();
-       storeHandler = StoreHandler.storeHandler();
-        int x = 0;
+    public ProductView(Product product) {
+
+        setSize(new Dimension(300, 40));
+//        this.saleHandler = ;
+        this.product = product;
+        this.storeHandler = StoreHandler.storeHandler();
         
-        if (productGroup != null) {
-            x = 192;
-        } else  {
-            x = 240;
-        }
-        setSize(new Dimension(x, 40));
-
+        
         initComponents();
-        setText();
+        
+        addName();
+    }
+    public void addName(){
+        jButton1.setText(product.getName());
+        jLabel1.setText("Stock: " + product.getQuantities());
     }
 
-    public void setText() {
-        if (productGroup != null) {
-            jButton1.setText(productGroup);
-        } else if (ticketType != null) {
-            jButton1.setText(ticketType.getType());
-        } else if (eventType != null) {
-            jButton1.setText(eventType.getType());
-        }
-    }
-    
-    public void setGroupType(){
-        if (productGroup != null) {
-            storeHandler.setChoosenProduct(productGroup);
-            
-        } else if (ticketType != null) {
-            storeHandler.setChoosenTicket(ticketType.getType());
-             
-        } else if (eventType != null) {
-//            storeHandler.setEventType(eventType);
-//             storeHandler.setShowType("Event");
-        }
+    public void addProduct() {
+       
+//            saleHandler.addProductLineToSale(product, 1);
+        
+        
     }
 
     /**
@@ -77,33 +65,42 @@ public class GroupsPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
-        jButton1.setText("jButton1");
-        jButton1.setBorder(null);
+        jButton1.setText("Tilføj");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
+        jLabel1.setText("jLabel1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       setGroupType();
+        addProduct();
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
+
+
 }

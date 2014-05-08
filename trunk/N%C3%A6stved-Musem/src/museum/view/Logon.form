@@ -17,6 +17,13 @@
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignCardLayout"/>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="jP_logon">
+      <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+            <LineBorder/>
+          </Border>
+        </Property>
+      </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
           <CardConstraints cardName="card2"/>
@@ -29,7 +36,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="353" max="-2" attributes="0"/>
                   <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="431" max="32767" attributes="0"/>
+                  <EmptySpace pref="429" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -38,7 +45,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="143" max="-2" attributes="0"/>
                   <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="162" max="32767" attributes="0"/>
+                  <EmptySpace pref="160" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -142,6 +149,9 @@
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField_kodeActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButton_2">
               <Properties>
