@@ -62,8 +62,8 @@ public class GroupsPanel extends javax.swing.JPanel {
             storeHandler.setChoosenTicket(ticketType.getType());
              
         } else if (eventType != null) {
-//            storeHandler.setEventType(eventType);
-//             storeHandler.setShowType("Event");
+            storeHandler.setChoosenEvent(eventType.getType());
+
         }
     }
 

@@ -10,6 +10,7 @@ import java.awt.Dimension;
 import model.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import model.Handler.SaleHandler;
 import model.Handler.StoreHandler;
 
 
@@ -20,7 +21,7 @@ import model.Handler.StoreHandler;
 public class ProductView extends javax.swing.JPanel {
 
     private Product product;
-//    private SaleHandler saleHandler;
+    private SaleHandler saleHandler;
     private StoreHandler storeHandler;
 
 
@@ -34,7 +35,7 @@ public class ProductView extends javax.swing.JPanel {
     public ProductView(Product product) {
 
         setSize(new Dimension(300, 40));
-//        this.saleHandler = ;
+        this.saleHandler = SaleHandler.getSaleHandler();
         this.product = product;
         this.storeHandler = StoreHandler.storeHandler();
         
@@ -50,7 +51,7 @@ public class ProductView extends javax.swing.JPanel {
 
     public void addProduct() {
        
-//            saleHandler.addProductLineToSale(product, 1);
+            saleHandler.getCurrentSale().addProduct(product);
         
         
     }

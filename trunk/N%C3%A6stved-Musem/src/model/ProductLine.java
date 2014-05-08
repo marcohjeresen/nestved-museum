@@ -18,9 +18,9 @@ public class ProductLine {
     private Sale sale;
     private int quantities;
 
-    public ProductLine(int id, Sale saleId, Product product1, int quantities) {
+    public ProductLine(int id, Sale sale, Product product1, int quantities) {
         this.id = id;
-        this.sale = saleId;
+        this.sale = sale;
         this.product = product1; 
         this.quantities = quantities;
     }

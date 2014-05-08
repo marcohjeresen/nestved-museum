@@ -112,6 +112,7 @@ private SaleView sv;
                CardLayout cl = (CardLayout) getLayout();
                cl.show(this, "Sale");
                sv.showEmployee();
+               sv.showCashReg();
                break;
        }
     }

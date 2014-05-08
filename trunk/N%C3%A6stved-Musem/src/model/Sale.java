@@ -5,8 +5,11 @@
  */
 package model;
 
+import Util.DateFormatTools;
+import Util.Listeners;
 import java.util.ArrayList;
 import java.util.Date;
+import sun.security.ssl.SSLContextImpl;
 
 /**
  *
@@ -14,6 +17,9 @@ import java.util.Date;
  */
 public class Sale {
 
+    private Listeners listeners;
+
+    private DateFormatTools dateTools;
     private int id;
     private PaymentType paymentType;
     private Employee employee;
@@ -33,7 +39,9 @@ public class Sale {
         ticketLine = new ArrayList<>();
         eventLine = new ArrayList<>();
         productLine = new ArrayList<>();
-        
+        dateTools = new DateFormatTools();
+        listeners = Listeners.getList();
+
     }
 
     public int getId() {
@@ -48,36 +56,58 @@ public class Sale {
         return ticketLine;
     }
 
-    public void setTicketLine(TicketLine tl) {
-        ticketLine.add(tl);
-    }
-
-    public void clearTicketLine() {
-        ticketLine.removeAll(ticketLine);
+    public void addTicketLine(TicketLine tl) {
+        boolean isthere = false;
+        for (TicketLine ticketLine1 : ticketLine) {
+            if (ticketLine1.getTicketType().equals(tl.getTicketType())) {
+                int quantitis = ticketLine1.getQuantities();
+                ticketLine1.setQuantities(quantitis + 1);
+                isthere = true;
+            }
+        }
+        if (!isthere) {
+            ticketLine.add(tl);
+        }
+        listeners.notifyListeners("Basket Chance");
     }
 
     public ArrayList<EventLine> getEventLine() {
         return eventLine;
     }
 
-    public void clearEventLine() {
-        eventLine.removeAll(eventLine);
-    }
-
-    public void setEventLine(EventLine el) {
-        eventLine.add(el);
+    public void addEventLine(EventLine el) {
+        boolean isthere = false;
+        for (EventLine el1 : eventLine) {
+            if (el1.getEventtype().equals(el.getEventtype())) {
+                int quantitis = el1.getQuantities();
+                el1.setQuantities(quantitis + el.getQuantities());
+                isthere = true;
+            }
+        }
+        if (!isthere) {
+            eventLine.add(el);
+        }
+        listeners.notifyListeners("Basket Chance");
     }
 
     public ArrayList<ProductLine> getProductLine() {
         return productLine;
     }
 
-    public void setProductLine(ProductLine pl) {
-        productLine.add(pl);
-    }
-
-    public void clearProductLine() {
-        productLine.removeAll(productLine);
+    public void addProduct(Product p) {
+        boolean isthere = false;
+        for (ProductLine pl : productLine) {
+            if (pl.getProduct().equals(p)) {
+                int quantitis = pl.getQuantities();
+                pl.setQuantities(quantitis + 1);
+                isthere = true;
+            }
+        }
+        if (!isthere) {
+            ProductLine pl = new ProductLine(0, this, p, 1);
+            productLine.add(pl);
+        }
+        listeners.notifyListeners("Basket Chance");
     }
 
     public PaymentType getPaymentType() {
@@ -87,14 +117,9 @@ public class Sale {
     public void setPaymentType(PaymentType paymentType) {
         this.paymentType = paymentType;
     }
-    
 
     public Employee getEmployee() {
         return employee;
-    }
-
-    public void clearEmployee() {
-        employee = null;
     }
 
     public void setEmployee(Employee employee) {
@@ -105,8 +130,8 @@ public class Sale {
         return date;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDate() {
+        this.date = dateTools.getDateNowString();
     }
 
     public Invoice getInvoice() {
@@ -116,13 +141,22 @@ public class Sale {
     public void setInvoice(Invoice invoice) {
         this.invoice = invoice;
     }
-    public void clearInvoice(){
-        invoice = null;
-    }
 
     public int getEndpriceDk(boolean discount) {
         setEndprice(discount);
         return endpriceDk;
+    }
+
+    public void clearSale() {
+        ticketLine.removeAll(ticketLine);
+        eventLine.removeAll(eventLine);
+        productLine.removeAll(productLine);
+        employee = null;
+        invoice = null;
+        date = null;
+        paymentType = null;
+        id = 0;
+        listeners.notifyListeners("Sale Cleard");
     }
 
     public void setEndprice(boolean discount) {
@@ -135,22 +169,22 @@ public class Sale {
                     price = (productline.getProduct().getPriceDk() / 100) * productline.getProduct().getDiscount();
                     price = price * productline.getQuantities();
                     endpriceDk = (int) (endpriceDk + price);
-                    
+
                     price = (productline.getProduct().getPriceEuro() / 100) * productline.getProduct().getDiscount();
                     price = price * productline.getQuantities();
                     endpriceEuro = (int) (endpriceEuro + price);
-                }else{
+                } else {
                     price = productline.getProduct().getPriceDk() * productline.getQuantities();
-                endpriceDk = (int) (endpriceDk + price);
-                price = productline.getProduct().getPriceEuro() * productline.getQuantities();
-                endpriceEuro = (int) (endpriceEuro + price);
+                    endpriceDk = (int) (endpriceDk + price);
+                    price = productline.getProduct().getPriceEuro() * productline.getQuantities();
+                    endpriceEuro = (int) (endpriceEuro + price);
 
                 }
             }
         }
-        if (!eventLine.isEmpty() ) {
+        if (!eventLine.isEmpty()) {
             for (EventLine eventLine1 : eventLine) {
-                
+
                 price = eventLine1.getEventlinePriceDk();
                 endpriceDk = (int) (endpriceDk + price);
                 price = eventLine1.getEventlineEuro();
@@ -171,10 +205,6 @@ public class Sale {
     public int getEndpriceEuro(boolean discount) {
         setEndprice(discount);
         return endpriceEuro;
-    }
-
-    public void clearSale() {
-
     }
 
     @Override

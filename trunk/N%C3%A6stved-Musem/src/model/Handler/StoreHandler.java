@@ -32,6 +32,7 @@ public class StoreHandler {
     private ArrayList<Product> choosenProduct;
 
     private TicketType choosenTicket;
+    private EventType choosenEvent;
 
     public StoreHandler() {
         try {
@@ -40,6 +41,7 @@ public class StoreHandler {
             search = false;
             choosenProduct = new ArrayList<>();
             choosenTicket = null;
+            choosenEvent = null;
         } catch (SQLException ex) {
             Logger.getLogger(StoreHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -113,5 +115,19 @@ public class StoreHandler {
 
     public TicketType getChoosenTicket() {
         return choosenTicket;
+    }
+    
+    public void setChoosenEvent(String eventType){
+        choosenEvent = null;
+        for (EventType eventType1 : controller.getEventTypesList()) {
+            if (eventType1.getType().equals(eventType)) {
+                choosenEvent = eventType1;
+            }
+        }
+        listeners.notifyListeners("Choosen Event");
+    }
+    
+    public EventType getChoosenEventType(){
+        return choosenEvent;
     }
 }
