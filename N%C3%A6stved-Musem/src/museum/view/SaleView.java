@@ -12,9 +12,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import model.EventType;
+import model.Handler.MoneyHandler;
+import model.Handler.SaleHandler;
 import model.Handler.StoreHandler;
 import model.Product;
 import model.ProductGroup;
+import model.ProductLine;
 import model.TicketType;
 
 /**
@@ -24,6 +27,8 @@ import model.TicketType;
 public class SaleView extends javax.swing.JPanel implements ActionListener {
 
     private StoreHandler storeHandler;
+    private SaleHandler saleHandler;
+    private MoneyHandler moneyHandler;
     private Listeners listeners;
 
     /**
@@ -31,6 +36,8 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
      */
     public SaleView() {
         storeHandler = StoreHandler.storeHandler();
+        saleHandler = SaleHandler.getSaleHandler();
+        moneyHandler = MoneyHandler.getMoneyHandler();
         listeners = Listeners.getList();
         initComponents();
         listeners.addListener(this);
@@ -39,6 +46,8 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         cl.addLayoutComponent(jP_Sale, "sale");
         cl.addLayoutComponent(jP_EndSale, "endsale");
         cl.show(this, "sale");
+        jP_basketf.setPreferredSize(new Dimension(450, 200));
+        setPrice();
 
     }
 
@@ -157,9 +166,51 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
                 jP_product.revalidate();
                 break;
             case "Event":
+                jP_product.removeAll();
+                EventView ev = new EventView(storeHandler.getChoosenEventType());
+                ev.setLocation(x, y);
+                jP_product.add(ev);
+                ev.setVisible(true);
+                jP_product.revalidate();
                 break;
-
+            default:
         }
+    }
+
+    public void fillBasket() {
+        int x = 3;
+        int y = 5;
+        jP_basketf.removeAll();
+        jP_basketf.repaint();
+        if (!saleHandler.getCurrentSale().getProductLine().isEmpty()) {
+            for (ProductLine pl : saleHandler.getCurrentSale().getProductLine()) {
+                BasketView bv = new BasketView(pl, null, null);
+                bv.setLocation(x, y);
+                y += bv.getHeight() + 5;
+                jP_basketf.add(bv);
+                bv.setVisible(true);
+                jP_basketf.revalidate();
+            }
+        }
+        if (!saleHandler.getCurrentSale().getTicketLine().isEmpty()) {
+            
+        }
+        if (!saleHandler.getCurrentSale().getEventLine().isEmpty()) {
+            
+        }
+        
+        jP_basketf.setPreferredSize(new Dimension(HEIGHT, y));
+
+    }
+    
+    public void setPrice(){
+        jL_BasketPriceDk.setText(""+saleHandler.getCurrentSale().getEndpriceDk(false));
+        jL_BasketPriceEuro.setText(""+saleHandler.getCurrentSale().getEndpriceEuro(false));
+    }
+    
+    public void showCashReg(){
+        jL_dkAmount.setText(""+moneyHandler.getCashRegister().getAmountDk());
+        jL_euroAmount.setText(""+moneyHandler.getCashRegister().getAmountEuro());
     }
 
     /**
@@ -174,11 +225,13 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         jP_Sale = new javax.swing.JPanel();
         jP_type = new javax.swing.JPanel();
         jP_basket = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jP_basketf = new javax.swing.JPanel();
         jP_totalPrice = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jL_BasketPriceDk = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        jL_BasketPriceEuro = new javax.swing.JLabel();
         jB_endSale = new javax.swing.JButton();
         jB_emtyBasket = new javax.swing.JButton();
         jB_showUtilSide = new javax.swing.JButton();
@@ -218,26 +271,39 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
 
         jP_basket.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Kurv:"));
 
+        javax.swing.GroupLayout jP_basketfLayout = new javax.swing.GroupLayout(jP_basketf);
+        jP_basketf.setLayout(jP_basketfLayout);
+        jP_basketfLayout.setHorizontalGroup(
+            jP_basketfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 461, Short.MAX_VALUE)
+        );
+        jP_basketfLayout.setVerticalGroup(
+            jP_basketfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 405, Short.MAX_VALUE)
+        );
+
+        jScrollPane1.setViewportView(jP_basketf);
+
         javax.swing.GroupLayout jP_basketLayout = new javax.swing.GroupLayout(jP_basket);
         jP_basket.setLayout(jP_basketLayout);
         jP_basketLayout.setHorizontalGroup(
             jP_basketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jP_basketLayout.setVerticalGroup(
             jP_basketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
 
         jP_totalPrice.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Total Pris:"));
 
         jLabel1.setText("Danske Kroner:");
 
-        jLabel2.setText("9672872872872");
+        jL_BasketPriceDk.setText("9672872872872");
 
         jLabel3.setText("EURO:");
 
-        jLabel4.setText("5247228723872872");
+        jL_BasketPriceEuro.setText("5247228723872872");
 
         javax.swing.GroupLayout jP_totalPriceLayout = new javax.swing.GroupLayout(jP_totalPrice);
         jP_totalPrice.setLayout(jP_totalPriceLayout);
@@ -247,11 +313,11 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jL_BasketPriceDk, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jL_BasketPriceEuro, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jP_totalPriceLayout.setVerticalGroup(
@@ -260,9 +326,9 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
                 .addContainerGap()
                 .addGroup(jP_totalPriceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel2)
+                    .addComponent(jL_BasketPriceDk)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel4))
+                    .addComponent(jL_BasketPriceEuro))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
@@ -278,7 +344,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         jP_product.setLayout(jP_productLayout);
         jP_productLayout.setHorizontalGroup(
             jP_productLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 384, Short.MAX_VALUE)
+            .addGap(0, 356, Short.MAX_VALUE)
         );
         jP_productLayout.setVerticalGroup(
             jP_productLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -342,23 +408,23 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
                     .addComponent(jL_EmployeeName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jP_SaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jP_product, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jP_SaleLayout.createSequentialGroup()
                         .addComponent(jB_logOut, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jB_closeRegisstre, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(6, 6, 6)
-                .addGroup(jP_SaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jB_closeRegisstre, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jP_product, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jP_SaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jP_SaleLayout.createSequentialGroup()
                         .addGap(10, 10, 10)
-                        .addComponent(jB_showUtilSide, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                        .addGap(15, 15, 15)
+                        .addComponent(jB_showUtilSide, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(29, 29, 29)
                         .addComponent(jB_emtyBasket, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(15, 15, 15)
+                        .addGap(29, 29, 29)
                         .addComponent(jB_endSale, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10))
-                    .addComponent(jP_basket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jP_totalPrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jP_totalPrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jP_basket, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jP_SaleLayout.setVerticalGroup(
             jP_SaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -375,14 +441,14 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
                         .addGap(11, 11, 11)
                         .addGroup(jP_SaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jB_endSale, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                            .addComponent(jB_emtyBasket, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jB_showUtilSide, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jB_logOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jB_closeRegisstre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jP_SaleLayout.createSequentialGroup()
                                 .addComponent(jL_userName)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jL_EmployeeName)))
+                                .addComponent(jL_EmployeeName))
+                            .addComponent(jB_emtyBasket, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jB_showUtilSide, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(11, 11, 11))
                     .addGroup(jP_SaleLayout.createSequentialGroup()
                         .addGap(55, 55, 55)
@@ -397,7 +463,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
                         .addComponent(jL_dkAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jL_euroAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(165, Short.MAX_VALUE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         add(jP_Sale, "card2");
@@ -443,20 +509,22 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
     private javax.swing.JButton jB_showProduct;
     private javax.swing.JButton jB_showTicket;
     private javax.swing.JButton jB_showUtilSide;
+    private javax.swing.JLabel jL_BasketPriceDk;
+    private javax.swing.JLabel jL_BasketPriceEuro;
     private javax.swing.JLabel jL_EmployeeName;
     private javax.swing.JLabel jL_dkAmount;
     private javax.swing.JLabel jL_euroAmount;
     private javax.swing.JLabel jL_userName;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jP_EndSale;
     private javax.swing.JPanel jP_Sale;
     private javax.swing.JPanel jP_basket;
+    private javax.swing.JPanel jP_basketf;
     private javax.swing.JPanel jP_product;
     private javax.swing.JPanel jP_totalPrice;
     private javax.swing.JPanel jP_type;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -468,6 +536,13 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
             case "Choosen Ticket":
                 setChoosenType("Ticket", false);
                 break;
+            case "Choosen Event":
+                setChoosenType("Event", false);
+                break;
+            case "Basket Chance":
+                fillBasket();
+                setPrice();
+
             default:
         }
 

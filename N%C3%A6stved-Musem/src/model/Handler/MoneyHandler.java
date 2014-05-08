@@ -53,4 +53,9 @@ public class MoneyHandler {
         
         return isthere;
     }
+
+    public CashRegister getCashRegister() {
+        return cashRegister;
+    }
+    
 }

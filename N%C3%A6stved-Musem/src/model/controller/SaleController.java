@@ -48,5 +48,7 @@ public class SaleController {
             Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
 
 }
