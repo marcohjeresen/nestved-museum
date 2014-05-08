@@ -93,7 +93,7 @@ public class StoreController {
     public void getEventData() throws SQLException {
         DBConnection db = new DBConnection();
         try {
-            ResultSet rs = db.getResult("SELECT * FROM eventtype");
+            ResultSet rs = db.getResult("SELECT * FROM eventtype order by eventtype_type");
             while (rs.next()) {
                 EventType eventType = new EventType(rs.getInt("eventtype_id"), rs.getString("eventtype_type"), rs.getInt("eventtype_pricedk"),
                         rs.getInt("eventtype_priceeuro"));
@@ -141,6 +141,14 @@ public class StoreController {
 
     public ArrayList<Product> getProductsList() {
         return productsList;
+    }
+
+    public ArrayList<TicketType> getTicketTypesList() {
+        return ticketTypesList;
+    }
+
+    public ArrayList<EventType> getEventTypesList() {
+        return eventTypesList;
     }
 
 }

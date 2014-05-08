@@ -15,6 +15,7 @@ import Util.*;
  * @author MarcoPc
  */
 import Util.Listeners;
+import java.awt.Dimension;
 public class Logon extends javax.swing.JPanel {
     
     private String kode;
@@ -44,11 +45,13 @@ public class Logon extends javax.swing.JPanel {
         eurocash = false;
         settextfield();
         setEndText();
-        setSize(1005, 690);
+        setSize(new Dimension(1008, 691));
         CardLayout cl = (CardLayout) getLayout();
-        cl.addLayoutComponent(jP_logon, "sale");
-        cl.addLayoutComponent(jP_CashRegistre, "endsale");
+        cl.addLayoutComponent(jP_logon, "Logon");
+        cl.addLayoutComponent(jP_CashRegistre, "CashReg");
         cl.show(this, "sale");
+        kode = "1421";
+        settextfield();
     }
     
     public void setCode(String tal) {
@@ -194,9 +197,16 @@ public class Logon extends javax.swing.JPanel {
 
         setLayout(new java.awt.CardLayout());
 
+        jP_logon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Log På Systemmet. Skriv Kode", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(0, 0, 0)));
 
         jTextField_kode.setEditable(false);
+        jTextField_kode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_kodeActionPerformed(evt);
+            }
+        });
 
         jButton_2.setText("2");
         jButton_2.addActionListener(new java.awt.event.ActionListener() {
@@ -354,14 +364,14 @@ public class Logon extends javax.swing.JPanel {
             .addGroup(jP_logonLayout.createSequentialGroup()
                 .addGap(353, 353, 353)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(431, Short.MAX_VALUE))
+                .addContainerGap(429, Short.MAX_VALUE))
         );
         jP_logonLayout.setVerticalGroup(
             jP_logonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jP_logonLayout.createSequentialGroup()
                 .addGap(143, 143, 143)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(162, Short.MAX_VALUE))
+                .addContainerGap(160, Short.MAX_VALUE))
         );
 
         add(jP_logon, "card2");
@@ -659,7 +669,7 @@ public class Logon extends javax.swing.JPanel {
         if (storeHandler.employeeLogin(talkode)) {
             if (!moneyHandler.cashRegistre()) {
                 CardLayout cl = (CardLayout) getLayout();
-                cl.show(this, "endsale");
+                cl.show(this, "CashReg");
             }
             
         }
@@ -725,6 +735,10 @@ public class Logon extends javax.swing.JPanel {
             System.out.println("he");
         }
     }//GEN-LAST:event_jButton14ActionPerformed
+
+    private void jTextField_kodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_kodeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_kodeActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

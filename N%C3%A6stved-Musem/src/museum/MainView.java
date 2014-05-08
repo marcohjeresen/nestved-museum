@@ -5,41 +5,29 @@
  */
 
 package museum;
-import museum.view.*;
-import Util.Listeners;
-import java.awt.CardLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import java.awt.Dimension;
+
 /**
  *
  * @author MarcoPc
  */
 
-public class MainView extends javax.swing.JFrame implements ActionListener {
-private Listeners listeners;
-private Logon lg;
-private SaleView sv;
+public class MainView extends javax.swing.JFrame {
+
+
 
     /**
      * Creates new form MainView
      */
     public MainView() {
-        listeners = Listeners.getList();
-        listeners.addListener(this);
-        initComponents();
-        CardLayout cl = (CardLayout) getLayout();
-        cl.addLayoutComponent(jPanel_log, "Log");
-        cl.addLayoutComponent(jPanel_sale, "Sale");
-        cl.addLayoutComponent(jPanel3, "Util");
-        cl.show(this, "første");
-        setSize(1024, 730);
         
-        lg = new Logon(); 
-        sv = new SaleView();
-        add(lg);
-        add(sv);
-        lg.setVisible(true);
-        sv.setVisible(false);
+        initComponents();
+        setSize(new Dimension(1024, 730));
+        
+        MainPanel mp = new MainPanel();
+        add(mp);
+        mp.setVisible(true);
     }
 
     /**
@@ -51,51 +39,18 @@ private SaleView sv;
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel_log = new javax.swing.JPanel();
-        jPanel_sale = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new java.awt.CardLayout());
 
-        javax.swing.GroupLayout jPanel_logLayout = new javax.swing.GroupLayout(jPanel_log);
-        jPanel_log.setLayout(jPanel_logLayout);
-        jPanel_logLayout.setHorizontalGroup(
-            jPanel_logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
         );
-        jPanel_logLayout.setVerticalGroup(
-            jPanel_logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 720, Short.MAX_VALUE)
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
         );
-
-        getContentPane().add(jPanel_log, "card2");
-
-        javax.swing.GroupLayout jPanel_saleLayout = new javax.swing.GroupLayout(jPanel_sale);
-        jPanel_sale.setLayout(jPanel_saleLayout);
-        jPanel_saleLayout.setHorizontalGroup(
-            jPanel_saleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
-        );
-        jPanel_saleLayout.setVerticalGroup(
-            jPanel_saleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 720, Short.MAX_VALUE)
-        );
-
-        getContentPane().add(jPanel_sale, "card3");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 720, Short.MAX_VALUE)
-        );
-
-        getContentPane().add(jPanel3, "card4");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -129,6 +84,7 @@ private SaleView sv;
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new MainView().setVisible(true);
             }
@@ -136,22 +92,7 @@ private SaleView sv;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel_log;
-    private javax.swing.JPanel jPanel_sale;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-         switch (ae.getActionCommand()) {
-
-            case "LogAndCashOk":
-                lg.setVisible(false);
-                sv.setVisible(true);
-                revalidate();
-                repaint();
-            default:
-
-        }
-    }
+    
 }
