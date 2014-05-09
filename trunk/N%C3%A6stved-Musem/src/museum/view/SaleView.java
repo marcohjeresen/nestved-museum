@@ -10,7 +10,11 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.Timer;
 import model.EventLine;
 import model.EventType;
 import model.Handler.MoneyHandler;
@@ -33,6 +37,12 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
     private MoneyHandler moneyHandler;
     private Listeners listeners;
     private NumberFormatTools numberFormatTools;
+     private String modtaget;
+    private String dkOrEuro;
+    private ArrayList<String> modtag;
+    private double penge;
+    private Timer timer;
+    private boolean discount;
 
     /**
      * Creates new form SaleView
@@ -51,6 +61,12 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         cl.addLayoutComponent(jP_EndSale, "endsale");
         cl.show(this, "sale");
         jP_basketf.setPreferredSize(new Dimension(450, 200));
+        jButton_betal.setEnabled(false);
+        discount = false;
+        modtaget = "";
+//        setBounds(0, 0, 400, 470);
+        jLabel_melding.setText("");
+        
         setPrice();
 
     }
@@ -129,7 +145,6 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
                 }
                 break;
         }
-
     }
 
     public void setChoosenType(String type, boolean search) {
@@ -218,9 +233,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
                 jP_basketf.revalidate();
             }
         }
-        
         jP_basketf.setPreferredSize(new Dimension(HEIGHT, y));
-
     }
     
     public void setPrice(){
@@ -235,6 +248,79 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         double moneyEuro = numberFormatTools.getDoubleValue(moneyHandler.getCashRegister().getAmountEuro());
         jL_dkAmount.setText(""+moneyDk);
         jL_euroAmount.setText(""+moneyEuro);
+    }
+    
+    public void Museumscard() {
+        discount = jCheckBox_rabat.isSelected();
+        setPaymentAmount();
+    }
+
+    public void setPaymentAmount() {
+
+        if (jCheckBox_danske.isSelected()) {
+            double priceDk = numberFormatTools.getDoubleValue(saleHandler.getCurrentSale().getEndpriceDk(discount));
+            jTextField_beløb.setText("DK: " + priceDk);
+            penge = numberFormatTools.getDoubleValue(saleHandler.getCurrentSale().getEndpriceDk(discount));
+        } else if (jCheckBox_euro.isSelected()) {
+            double priceEuro = numberFormatTools.getDoubleValue(saleHandler.getCurrentSale().getEndpriceEuro(discount));
+            jTextField_beløb.setText("EURO: " + priceEuro);
+            penge = numberFormatTools.getDoubleValue(saleHandler.getCurrentSale().getEndpriceEuro(discount));
+        }
+
+    }
+
+    public void setModtagetBeløb() {
+        modtaget = "";
+        if (!modtag.isEmpty()) {
+            for (String string : modtag) {
+                modtaget = modtaget + string;
+                jButton_betal.setEnabled(true);
+            }
+        }
+
+        jTextField_modtaget.setText(modtaget);
+    }
+
+    public void endSale() throws SQLException {
+        boolean beløbGodkent = false;
+        double modtagetTilBetaling;
+        double retur = 0;
+        int payid = 1;
+        try {
+            modtagetTilBetaling = Double.parseDouble(modtaget);
+            if (penge <= modtagetTilBetaling) {
+                beløbGodkent = true;
+                if (jCheckBox_danske.isSelected()) {
+                    retur = modtagetTilBetaling - penge;
+                    jTextField_returBeløb.setText("Retur DK: " + retur);
+
+                } else if (jCheckBox_euro.isSelected()) {
+                    retur = modtagetTilBetaling - penge;
+                    jTextField_returBeløb.setText("Retur Euro: " + retur);
+                }
+
+//                storeController.alterProductQuantities(sale.getProductLine(), storeHandler.getProductsList());
+
+//                saleHandler.endSale(sale, discount);
+                penge = penge;
+                int money = (int) (penge * 100);
+//                moneyHandler.addCashAmount("+", dkOrEuro, money);
+
+                listeners.notifyListeners("End Sale");
+                jButton_betal.setEnabled(false);
+                jButton_fortryd.setEnabled(false);
+                timer.start();
+                if (jCheckBox_kvit.isSelected()) {
+//                    printHandler.kvitteringPrint(sale, discount);
+                }
+            } else {
+                jLabel_melding.setText("Beløb Ikke Nok!!");
+            }
+
+        } catch (NumberFormatException ex) {
+            jLabel_melding.setText("Tjek indtastede beløb");
+        }
+
     }
 
     /**
@@ -271,6 +357,32 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         jL_userName = new javax.swing.JLabel();
         jL_EmployeeName = new javax.swing.JLabel();
         jP_EndSale = new javax.swing.JPanel();
+        jButton4 = new javax.swing.JButton();
+        jCheckBox_danske = new javax.swing.JCheckBox();
+        jButton7 = new javax.swing.JButton();
+        jButton_fortryd = new javax.swing.JButton();
+        jTextField_returBeløb = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jCheckBox_euro = new javax.swing.JCheckBox();
+        jButton9 = new javax.swing.JButton();
+        jCheckBox_kvit = new javax.swing.JCheckBox();
+        jLabel_melding = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jButton6 = new javax.swing.JButton();
+        jCheckBox_rabat = new javax.swing.JCheckBox();
+        jTextField_modtaget = new javax.swing.JTextField();
+        jButton8 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton_betal = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jTextField_beløb = new javax.swing.JTextField();
+        jButton12 = new javax.swing.JButton();
 
         setLayout(new java.awt.CardLayout());
 
@@ -357,6 +469,11 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         );
 
         jB_endSale.setText("Betal:");
+        jB_endSale.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_endSaleActionPerformed(evt);
+            }
+        });
 
         jB_emtyBasket.setText("Tøm Kurv:");
         jB_emtyBasket.addActionListener(new java.awt.event.ActionListener() {
@@ -497,15 +614,270 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
 
         add(jP_Sale, "card2");
 
+        jButton4.setText("4");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jCheckBox_danske.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jCheckBox_danske.setText("Danske Kroner");
+        jCheckBox_danske.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox_danskeActionPerformed(evt);
+            }
+        });
+
+        jButton7.setText("7");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        jButton_fortryd.setText("Fortryd Indtastning:");
+        jButton_fortryd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_fortrydActionPerformed(evt);
+            }
+        });
+
+        jTextField_returBeløb.setEditable(false);
+
+        jLabel2.setText("Beløb Til Betaling:");
+
+        jButton2.setText("2");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("3");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jCheckBox_euro.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jCheckBox_euro.setText("Euro");
+        jCheckBox_euro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox_euroActionPerformed(evt);
+            }
+        });
+
+        jButton9.setText("9");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
+        jCheckBox_kvit.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jCheckBox_kvit.setText("Kvitering");
+
+        jLabel_melding.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel_melding.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel_melding.setText("jLabel5");
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jLabel4.setText("Vælg Betalings Type:");
+
+        jButton6.setText("6");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jCheckBox_rabat.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jCheckBox_rabat.setText("MuseumsKort");
+        jCheckBox_rabat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox_rabatActionPerformed(evt);
+            }
+        });
+
+        jTextField_modtaget.setEditable(false);
+
+        jButton8.setText("8");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        jButton10.setText("0");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("5");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton_betal.setText("Betal");
+        jButton_betal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_betalActionPerformed(evt);
+            }
+        });
+
+        jButton11.setText(".");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Penge Retur:");
+
+        jLabel6.setText("Beløb Modtaget:");
+
+        jTextField_beløb.setEditable(false);
+
+        jButton12.setText("Gå Tilbage:");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jP_EndSaleLayout = new javax.swing.GroupLayout(jP_EndSale);
         jP_EndSale.setLayout(jP_EndSaleLayout);
         jP_EndSaleLayout.setHorizontalGroup(
             jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1008, Short.MAX_VALUE)
+            .addGroup(jP_EndSaleLayout.createSequentialGroup()
+                .addGap(340, 340, 340)
+                .addGroup(jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jP_EndSaleLayout.createSequentialGroup()
+                        .addGroup(jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jP_EndSaleLayout.createSequentialGroup()
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jP_EndSaleLayout.createSequentialGroup()
+                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6)
+                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6)
+                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jP_EndSaleLayout.createSequentialGroup()
+                                .addGroup(jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jP_EndSaleLayout.createSequentialGroup()
+                                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(6, 6, 6)
+                                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(6, 6, 6)
+                                .addGroup(jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel5)
+                            .addComponent(jTextField_returBeløb)
+                            .addComponent(jCheckBox_danske)
+                            .addComponent(jTextField_beløb, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jP_EndSaleLayout.createSequentialGroup()
+                                .addGroup(jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jP_EndSaleLayout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addGroup(jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jCheckBox_euro, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jTextField_modtaget)
+                                            .addComponent(jButton_fortryd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jButton_betal, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(jP_EndSaleLayout.createSequentialGroup()
+                                        .addGap(4, 4, 4)
+                                        .addComponent(jLabel_melding, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(338, 338, 338))
+                            .addGroup(jP_EndSaleLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jCheckBox_kvit, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(jP_EndSaleLayout.createSequentialGroup()
+                        .addComponent(jCheckBox_rabat)
+                        .addGap(88, 88, 88))))
+            .addGroup(jP_EndSaleLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jP_EndSaleLayout.setVerticalGroup(
             jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 692, Short.MAX_VALUE)
+            .addGroup(jP_EndSaleLayout.createSequentialGroup()
+                .addGap(141, 141, 141)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
+                .addComponent(jCheckBox_rabat)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jP_EndSaleLayout.createSequentialGroup()
+                        .addGroup(jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBox_euro, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jCheckBox_danske))
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel2)
+                        .addGap(6, 6, 6)
+                        .addComponent(jTextField_beløb, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jP_EndSaleLayout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(6, 6, 6)
+                        .addComponent(jTextField_modtaget, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(6, 6, 6)
+                .addComponent(jLabel5)
+                .addGap(6, 6, 6)
+                .addComponent(jTextField_returBeløb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
+                .addGroup(jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBox_kvit))
+                .addGap(6, 6, 6)
+                .addGroup(jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_melding))
+                .addGap(6, 6, 6)
+                .addGroup(jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jP_EndSaleLayout.createSequentialGroup()
+                        .addGroup(jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addGroup(jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jP_EndSaleLayout.createSequentialGroup()
+                        .addComponent(jButton_fortryd, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton_betal, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(81, 81, 81)
+                .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         add(jP_EndSale, "card3");
@@ -531,6 +903,108 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         saleHandler.getCurrentSale().clearSale();
     }//GEN-LAST:event_jB_emtyBasketActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        modtag.add("4");
+        setModtagetBeløb();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jCheckBox_danskeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_danskeActionPerformed
+        if (jCheckBox_danske.isSelected()) {
+            jCheckBox_euro.setSelected(false);
+            dkOrEuro = "DK";
+        }
+        setPaymentAmount();
+    }//GEN-LAST:event_jCheckBox_danskeActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        modtag.add("7");
+        setModtagetBeløb();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton_fortrydActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_fortrydActionPerformed
+        modtag.remove(modtag.size() - 1);
+        setModtagetBeløb();
+    }//GEN-LAST:event_jButton_fortrydActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        modtag.add("2");
+        setModtagetBeløb();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        modtag.add("3");
+        setModtagetBeløb();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        modtag.add("1");
+        setModtagetBeløb();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jCheckBox_euroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_euroActionPerformed
+        if (jCheckBox_euro.isSelected()) {
+            jCheckBox_danske.setSelected(false);
+            dkOrEuro = "EURO";
+        }
+        setPaymentAmount();
+    }//GEN-LAST:event_jCheckBox_euroActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        modtag.add("9");
+        setModtagetBeløb();
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        modtag.add("6");
+        setModtagetBeløb();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jCheckBox_rabatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_rabatActionPerformed
+
+        if (jCheckBox_rabat.isSelected()) {
+
+        }
+        setPaymentAmount();
+    }//GEN-LAST:event_jCheckBox_rabatActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        modtag.add("8");
+        setModtagetBeløb();
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        modtag.add("0");
+        setModtagetBeløb();
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        modtag.add("5");
+        setModtagetBeløb();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton_betalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_betalActionPerformed
+        try {
+            endSale();
+        } catch (SQLException ex) {
+            Logger.getLogger(SaleView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton_betalActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        modtag.add(".");
+        setModtagetBeløb();
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        CardLayout cl = (CardLayout) getLayout();
+                cl.show(this, "sale");
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jB_endSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_endSaleActionPerformed
+        CardLayout cl = (CardLayout) getLayout();
+                cl.show(this, "endsale");
+    }//GEN-LAST:event_jB_endSaleActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jB_closeRegisstre;
@@ -542,6 +1016,24 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
     private javax.swing.JButton jB_showProduct;
     private javax.swing.JButton jB_showTicket;
     private javax.swing.JButton jB_showUtilSide;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
+    private javax.swing.JButton jButton_betal;
+    private javax.swing.JButton jButton_fortryd;
+    private javax.swing.JCheckBox jCheckBox_danske;
+    private javax.swing.JCheckBox jCheckBox_euro;
+    private javax.swing.JCheckBox jCheckBox_kvit;
+    private javax.swing.JCheckBox jCheckBox_rabat;
     private javax.swing.JLabel jL_BasketPriceDk;
     private javax.swing.JLabel jL_BasketPriceEuro;
     private javax.swing.JLabel jL_EmployeeName;
@@ -549,7 +1041,12 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
     private javax.swing.JLabel jL_euroAmount;
     private javax.swing.JLabel jL_userName;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel_melding;
     private javax.swing.JPanel jP_EndSale;
     private javax.swing.JPanel jP_Sale;
     private javax.swing.JPanel jP_basket;
@@ -558,6 +1055,9 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
     private javax.swing.JPanel jP_totalPrice;
     private javax.swing.JPanel jP_type;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextField_beløb;
+    private javax.swing.JTextField jTextField_modtaget;
+    private javax.swing.JTextField jTextField_returBeløb;
     // End of variables declaration//GEN-END:variables
 
     @Override
