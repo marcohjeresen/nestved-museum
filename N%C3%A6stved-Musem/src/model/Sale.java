@@ -67,14 +67,15 @@ public class Sale {
                     ticketLine.get(i).setQuantities(amount + quantities);
                     isthere = true;
                 }
-                if (!isthere) {
-                    if ("Gruppebillet, min. 10 personer".equals(tt.getType())) {
-                        System.out.println("efsefefe");
-                        quantities = 10;
-                    }
-                    TicketLine tl = new TicketLine(0, this, quantities, tt);
-                    ticketLine.add(tl);
+            }
+            if (!isthere) {
+                if ("Gruppebillet, min. 10 personer".equals(tt.getType())) {
+                    System.out.println("efsefefe");
+                    quantities = 10;
                 }
+                TicketLine tl = new TicketLine(0, this, quantities, tt);
+                ticketLine.add(tl);
+
             }
 
         } else {
@@ -99,9 +100,11 @@ public class Sale {
                     eventLine.get(i).setQuantities(amount + quantities);
                     isthere = true;
                 }
-                if (!isthere) {
+            }
+            if (!isthere) {
+                EventLine el = new EventLine(0, et, this, quantities, dateTools.getDateNowString(), customer, place);
+                eventLine.add(el);
 
-                }
             }
         } else {
             EventLine el = new EventLine(0, et, this, quantities, dateTools.getDateNowString(), customer, place);
@@ -124,19 +127,21 @@ public class Sale {
                     productLine.get(i).setQuantities(amount + 1);
                     isthere = true;
                 }
-                if (!isthere) {
-                    ProductLine pl = new ProductLine(0, this, p, 1);
-                    productLine.add(pl);
-                }
+
             }
+            if (!isthere) {
+                ProductLine pl = new ProductLine(0, this, p, 1);
+                productLine.add(pl);
+            }
+
         } else {
             ProductLine pl = new ProductLine(0, this, p, 1);
             productLine.add(pl);
         }
         listeners.notifyListeners("Basket Change");
     }
-    
-    public void removeProductLine(Product p){
+
+    public void removeProductLine(Product p) {
         for (int i = 0; i < productLine.size(); i++) {
             if (productLine.get(i).getProduct().equals(p)) {
                 productLine.remove(i);
@@ -144,8 +149,8 @@ public class Sale {
         }
         listeners.notifyListeners("Basket Change");
     }
-    
-    public void removeEventLine(EventType et){
+
+    public void removeEventLine(EventType et) {
         for (int i = 0; i < eventLine.size(); i++) {
             if (eventLine.get(i).getEventtype().equals(et)) {
                 eventLine.remove(i);
@@ -153,8 +158,8 @@ public class Sale {
         }
         listeners.notifyListeners("Basket Change");
     }
-    
-    public void removeTicketLine(TicketType t){
+
+    public void removeTicketLine(TicketType t) {
         for (int i = 0; i < ticketLine.size(); i++) {
             if (ticketLine.get(i).getTicketType().equals(t)) {
                 ticketLine.remove(i);
