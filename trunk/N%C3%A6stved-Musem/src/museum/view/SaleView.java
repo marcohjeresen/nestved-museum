@@ -5,12 +5,13 @@
  */
 package museum.view;
 
-import Util.Listeners;
+import Util.*;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import model.EventLine;
 import model.EventType;
 import model.Handler.MoneyHandler;
 import model.Handler.SaleHandler;
@@ -18,6 +19,7 @@ import model.Handler.StoreHandler;
 import model.Product;
 import model.ProductGroup;
 import model.ProductLine;
+import model.TicketLine;
 import model.TicketType;
 
 /**
@@ -30,6 +32,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
     private SaleHandler saleHandler;
     private MoneyHandler moneyHandler;
     private Listeners listeners;
+    private NumberFormatTools numberFormatTools;
 
     /**
      * Creates new form SaleView
@@ -39,6 +42,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         saleHandler = SaleHandler.getSaleHandler();
         moneyHandler = MoneyHandler.getMoneyHandler();
         listeners = Listeners.getList();
+        numberFormatTools = NumberFormatTools.getTools();
         initComponents();
         listeners.addListener(this);
         setSize(new Dimension(1008, 691));
@@ -168,6 +172,8 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
             case "Event":
                 jP_product.removeAll();
                 EventView ev = new EventView(storeHandler.getChoosenEventType());
+                x = 65;
+                y = 50;
                 ev.setLocation(x, y);
                 jP_product.add(ev);
                 ev.setVisible(true);
@@ -193,10 +199,24 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
             }
         }
         if (!saleHandler.getCurrentSale().getTicketLine().isEmpty()) {
-            
+            for (TicketLine ticketLine : saleHandler.getCurrentSale().getTicketLine()) {
+                BasketView bv = new BasketView(null, null, ticketLine);
+                bv.setLocation(x, y);
+                y += bv.getHeight() + 5;
+                jP_basketf.add(bv);
+                bv.setVisible(true);
+                jP_basketf.revalidate();
+            }
         }
         if (!saleHandler.getCurrentSale().getEventLine().isEmpty()) {
-            
+            for (EventLine eventLine : saleHandler.getCurrentSale().getEventLine()) {
+                BasketView bv = new BasketView(null, eventLine, null);
+                bv.setLocation(x, y);
+                y += bv.getHeight() + 5;
+                jP_basketf.add(bv);
+                bv.setVisible(true);
+                jP_basketf.revalidate();
+            }
         }
         
         jP_basketf.setPreferredSize(new Dimension(HEIGHT, y));
@@ -204,13 +224,17 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
     }
     
     public void setPrice(){
-        jL_BasketPriceDk.setText(""+saleHandler.getCurrentSale().getEndpriceDk(false));
-        jL_BasketPriceEuro.setText(""+saleHandler.getCurrentSale().getEndpriceEuro(false));
+        double moneyDk = numberFormatTools.getDoubleValue(saleHandler.getCurrentSale().getEndpriceDk(false));
+        double moneyEuro = numberFormatTools.getDoubleValue(saleHandler.getCurrentSale().getEndpriceEuro(false));
+        jL_BasketPriceDk.setText(""+moneyDk);
+        jL_BasketPriceEuro.setText(""+moneyEuro);
     }
     
     public void showCashReg(){
-        jL_dkAmount.setText(""+moneyHandler.getCashRegister().getAmountDk());
-        jL_euroAmount.setText(""+moneyHandler.getCashRegister().getAmountEuro());
+        double moneyDk = numberFormatTools.getDoubleValue(moneyHandler.getCashRegister().getAmountDk());
+        double moneyEuro = numberFormatTools.getDoubleValue(moneyHandler.getCashRegister().getAmountEuro());
+        jL_dkAmount.setText(""+moneyDk);
+        jL_euroAmount.setText(""+moneyEuro);
     }
 
     /**
@@ -335,6 +359,11 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         jB_endSale.setText("Betal:");
 
         jB_emtyBasket.setText("Tøm Kurv:");
+        jB_emtyBasket.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_emtyBasketActionPerformed(evt);
+            }
+        });
 
         jB_showUtilSide.setText("Statestik/Lager");
 
@@ -498,6 +527,10 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         createGroupPanel("Event");
     }//GEN-LAST:event_jB_shoeEventActionPerformed
 
+    private void jB_emtyBasketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_emtyBasketActionPerformed
+        saleHandler.getCurrentSale().clearSale();
+    }//GEN-LAST:event_jB_emtyBasketActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jB_closeRegisstre;
@@ -539,7 +572,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
             case "Choosen Event":
                 setChoosenType("Event", false);
                 break;
-            case "Basket Chance":
+            case "Basket Change":
                 fillBasket();
                 setPrice();
 

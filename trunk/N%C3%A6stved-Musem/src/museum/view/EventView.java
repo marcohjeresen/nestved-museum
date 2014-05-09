@@ -9,6 +9,8 @@ package museum.view;
 //import model.handler.StoreHandler;
 import java.awt.Dimension;
 import model.*;
+import model.Handler.SaleHandler;
+import model.Handler.StoreHandler;
 //import model.handler.*;
 
 /**
@@ -18,8 +20,8 @@ import model.*;
 public class EventView extends javax.swing.JPanel {
 
     private EventType eventType;
-//    private StoreHandler storeHandler;
-//    private SaleHandler saleHandler;
+    private StoreHandler storeHandler;
+    private SaleHandler saleHandler;
     private boolean kunde;
     private boolean dag;
     private boolean måned;
@@ -35,8 +37,8 @@ public class EventView extends javax.swing.JPanel {
      */
     public EventView(EventType eventType) {
         this.eventType = eventType;
-//        this.saleHandler = saleHandler1;
-        setSize(new Dimension(238, 375));
+        saleHandler = SaleHandler.getSaleHandler();
+        setSize(new Dimension(238,410));
         initComponents();
         tallet = "";
         kunde = true;
@@ -189,9 +191,9 @@ public class EventView extends javax.swing.JPanel {
         String place = jTextField_sted.getText();
         if (!place.equals("") && place.length() > 4) {
             String dato = jTextField_år.getText() + "-" + jTextField_måned.getText() + "-" + jTextField_dag.getText() + " " + jTextField_tid.getText() + ":00";
-            int antal = Integer.parseInt(jTextField_antalBørn.getText()) + Integer.parseInt(jTextField_antalWok.getText());
-            int kundenummer = Integer.parseInt(jTextField_kundenummer.getText());
-//            saleHandler.addEventLineToSale(eventType, antal, dato, kundenummer, place);
+            int amount = Integer.parseInt(jTextField_antalBørn.getText()) + Integer.parseInt(jTextField_antalWok.getText());
+            int customerNumber = Integer.parseInt(jTextField_kundenummer.getText());
+            saleHandler.getCurrentSale().addEventLine(eventType, amount, customerNumber, place);
         }
 
     }
