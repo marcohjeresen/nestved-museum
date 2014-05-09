@@ -10,6 +10,7 @@ import java.awt.Dimension;
 import javax.swing.JButton;
 import model.*;
 import java.util.Calendar;
+import model.Handler.SaleHandler;
 //import model.handler.*;
 
 /**
@@ -18,7 +19,7 @@ import java.util.Calendar;
  */
 public class TicketView extends javax.swing.JPanel {
 
-//    private SaleHandler saleHandler;
+    private SaleHandler saleHandler;
     private TicketType ticketType;
     private int plusAntal;
 
@@ -26,9 +27,9 @@ public class TicketView extends javax.swing.JPanel {
      * Creates new form TicketVeiw
      */
     public TicketView(TicketType ticketType1, int plusAntal) {
-        setSize(new Dimension(300, 40));
+        setSize(new Dimension(335, 40));
         this.ticketType = ticketType1;
-//        this.saleHandler = saleHandler;
+        saleHandler = SaleHandler.getSaleHandler();
         this.plusAntal = plusAntal;
         
         initComponents();
@@ -51,10 +52,8 @@ public class TicketView extends javax.swing.JPanel {
     }
 
     public void addticket() {
-//        String date = "";
-//        Calendar cal = Calendar.getInstance();
-//        date = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DATE) + " " + cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND);
-//        saleHandler.addTicketLineToSale(ticketType, plusAntal, date);
+   
+        saleHandler.getCurrentSale().addTicketLine(ticketType, plusAntal);
 
     }
 
@@ -80,7 +79,7 @@ public class TicketView extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

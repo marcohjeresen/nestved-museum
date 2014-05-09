@@ -38,10 +38,14 @@ private Listeners listeners;
         if (productLine != null) {
             jLabel_title.setText(productLine.getProduct().getName());
             jLabel_quantities.setText("Antal: " + productLine.getQuantities());
+            
+            
             double priceDk = (productLine.getProduct().getPriceDk() * productLine.getQuantities());
             priceDk = priceDk / 100;
             double priceEuro = (productLine.getProduct().getPriceEuro() * productLine.getQuantities());
             priceEuro = priceEuro /100;
+            
+            
             jLabel_dk.setText("Pris Dk: " + priceDk);
             jLabel_euro.setText("Pris Euro: " + priceEuro);
         }else if (eventLine != null) {
@@ -62,41 +66,40 @@ private Listeners listeners;
     }
     
     public void addQuantities(){
-//        if (productLine != null) {
-//            saleHandler.addProductLineToSale(productLine.getProduct(), +1);
-//        }else if (eventLine != null){
-//            eventLine.setQuantities(eventLine.getQuantities() +1);
-//        }else if (ticketLine != null) {
-//            ticketLine.setQuantities(ticketLine.getQuantities() +1);
-//        }
-//        setLabel();
+        if (productLine != null) {
+            saleHandler.getCurrentSale().addRemoveProductLineQuantities(productLine.getProduct(), 1);
+            
+                    
+        }else if (eventLine != null){
+            saleHandler.getCurrentSale().addRemoveEventLineQuantities(eventLine.getEventtype(), 1);
+            
+        }else if (ticketLine != null) {
+            saleHandler.getCurrentSale().addRemoveTicketLineQuantities(ticketLine.getTicketType(), 1);
+            
+        }
+        setLabel();
     }
     
     public void removeQuantities(){
-//        if (productLine != null) {
-//            if (productLine.getQuantities() != 1) {
-//                productLine.setQuantities(productLine.getQuantities() -1);
-//            }
-//        }else if (eventLine != null){
-//            if (eventLine.getQuantities() != 1) {
-//                eventLine.setQuantities(eventLine.getQuantities() -1);
-//            }
-//        }else if (ticketLine != null) {
-//            if (ticketLine.getQuantities() != 1) {
-//                 ticketLine.setQuantities(ticketLine.getQuantities() -1);
-//            }
-//        }
-//        setLabel();
+        if (productLine != null) {
+           saleHandler.getCurrentSale().addRemoveProductLineQuantities(productLine.getProduct(), -1);
+             
+        }else if (eventLine != null){
+            saleHandler.getCurrentSale().addRemoveEventLineQuantities(eventLine.getEventtype(), -1);
+        }else if (ticketLine != null) {
+            saleHandler.getCurrentSale().addRemoveTicketLineQuantities(ticketLine.getTicketType(), -1);
+        }
+        setLabel();
     }
     
     public void clearLine(){
-//        if(productLine != null){
-//          saleHandler.removeProductLineFromSale(productLine.getId());
-//        }else if(eventLine != null){
-//          saleHandler.removeEventLineFromSale(eventLine.getId());
-//        }else if(ticketLine != null){
-//          saleHandler.removeTicketLineFromSale(ticketLine.getId());
-//        }
+        if(productLine != null){
+          saleHandler.getCurrentSale().removeProductLine(productLine.getProduct());
+        }else if(eventLine != null){
+          saleHandler.getCurrentSale().removeEventLine(eventLine.getEventtype());
+        }else if(ticketLine != null){
+          saleHandler.getCurrentSale().removeTicketLine(ticketLine.getTicketType());
+        }
     }
     
     /**
