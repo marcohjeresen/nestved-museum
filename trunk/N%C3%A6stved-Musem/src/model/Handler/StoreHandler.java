@@ -58,6 +58,10 @@ public class StoreHandler {
     public Employee getLogEmployee() {
         return logEmployee;
     }
+    
+    public void logOutEmployee(){
+        logEmployee = null;
+    }
 
     public boolean employeeLogin(int kode) {
         boolean logon = false;

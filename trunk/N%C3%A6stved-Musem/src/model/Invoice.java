@@ -18,9 +18,9 @@ public class Invoice {
     private String date;
     private int priceDk;
     private int priceEuro;
-    private InvoiceStatus invoiceStatus;
+    private int invoiceStatus;
 
-    public Invoice(int id, String date, int priceDk, int priceEuro, InvoiceStatus invoiceStatus) {
+    public Invoice(int id, String date, int priceDk, int priceEuro, int invoiceStatus) {
         this.id = id;
         this.date = date;
         this.priceDk = priceDk;
@@ -60,18 +60,18 @@ public class Invoice {
         this.priceEuro = priceEuro;
     }
 
-    public InvoiceStatus getInvoiceStatus() {
+    public int getInvoiceStatus() {
         return invoiceStatus;
     }
 
-    public void setInvoiceStatus(InvoiceStatus invoiceStatus) {
+    public void setInvoiceStatus(int invoiceStatus) {
         this.invoiceStatus = invoiceStatus;
     }
 
     
     @Override
     public String toString() {
-        return "id: " + id + " date: " + date + " priceDk: " + priceDk + " priceEuro: " + priceEuro + " invoiceStatus: " + invoiceStatus.getType();
+        return "id: " + id + " date: " + date + " priceDk: " + priceDk + " priceEuro: " + priceEuro + " invoiceStatus: " + invoiceStatus;
     }
     
 }

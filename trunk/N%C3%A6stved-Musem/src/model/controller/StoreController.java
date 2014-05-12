@@ -165,6 +165,7 @@ public class StoreController {
                 }
             }
         }
+        db.close();
     }
 
 }

@@ -12,6 +12,7 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import museum.view.Logon;
 import museum.view.SaleView;
 
@@ -22,10 +23,11 @@ import museum.view.SaleView;
 public class MainPanel extends javax.swing.JPanel implements ActionListener {
 private Listeners listeners;
 private SaleView sv;
+private Logon logon;
     /**
      * Creates new form MainPanel
      */
-    public MainPanel() {
+    public MainPanel() throws SQLException {
         listeners = Listeners.getList();
         initComponents();
         listeners.addListener(this);
@@ -35,12 +37,18 @@ private SaleView sv;
         cl.addLayoutComponent(jP_Sale, "Sale");
         cl.addLayoutComponent(jP_Util, "Util");
         cl.show(this, "Logon");
-        Logon logon = new Logon();
+        logon = new Logon();
         jP_Log.add(logon);
         logon.setVisible(true);
         sv = new SaleView();
         jP_Sale.add(sv);
         sv.setVisible(true);
+    }
+    
+    public void showPage(String page){
+        CardLayout cl = (CardLayout) getLayout();
+               cl.show(this, page);
+        
     }
 
     /**
@@ -109,10 +117,22 @@ private SaleView sv;
     public void actionPerformed(ActionEvent ae) {
        switch (ae.getActionCommand()){
            case "LogAndCashOk":
-               CardLayout cl = (CardLayout) getLayout();
-               cl.show(this, "Sale");
+               showPage("Sale");
+               
                sv.showEmployee();
                sv.showCashReg();
+               break;
+           case "LogOut":
+               
+               showPage("Logon");
+               logon.showPage("Logon");
+               
+               break;
+           case "EndCashAndDay":
+               showPage("Logon");
+               logon.clearCashPage();
+               logon.openOrClose();
+               logon.showPage("CashReg");
                break;
        }
     }

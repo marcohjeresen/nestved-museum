@@ -7,6 +7,9 @@
 package museum;
 
 import java.awt.Dimension;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -20,7 +23,7 @@ public class MainView extends javax.swing.JFrame {
     /**
      * Creates new form MainView
      */
-    public MainView() {
+    public MainView() throws SQLException {
         
         initComponents();
         setSize(new Dimension(1024, 730));
@@ -86,7 +89,11 @@ public class MainView extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new MainView().setVisible(true);
+                try {
+                    new MainView().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
