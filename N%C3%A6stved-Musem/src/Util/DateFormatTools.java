@@ -39,6 +39,21 @@ public class DateFormatTools {
         return date;
 
     }
+    
+    public String getDateNowShortString(){
+        Calendar c = Calendar.getInstance();
+        String year = "" + c.get(Calendar.YEAR);
+        String month = "" + (c.get(Calendar.MONTH) + 1);
+        String day = "" + c.get(Calendar.DAY_OF_MONTH);
+        if (month.length() == 1) {
+            month = "0"+month;
+        }
+        if (day.length() == 1) {
+            day = "0"+day;
+        }
+        String date = "" + year + "-" + month + "-" + day;
+        return date;
+    }
 
     public String getDateFromCal(Calendar calendar) {
         String year = "" + calendar.get(Calendar.YEAR);

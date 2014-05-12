@@ -18,12 +18,15 @@ import Util.Listeners;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import print.PrintHandler;
 
 public class Logon extends javax.swing.JPanel implements ActionListener {
 
     private String kode;
     private StoreHandler storeHandler;
     private MoneyHandler moneyHandler;
+    private PrintHandler printHandler;
     private Listeners listeners;
     private boolean dkcash;
     private boolean eurocash;
@@ -35,10 +38,11 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
     /**
      * Creates new form Logon
      */
-    public Logon() {
+    public Logon() throws SQLException {
         storeHandler = StoreHandler.storeHandler();
         moneyHandler = MoneyHandler.getMoneyHandler();
         listeners = Listeners.getList();
+        printHandler = new PrintHandler();
 
         initComponents();
         kode = "0";
@@ -119,6 +123,7 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
                 
             moneyHandler.endCashregister(dkMoney, euroMoney, storeHandler.getLogEmployee());
             storeHandler.logOutEmployee();
+            printHandler.cashReport();
             listeners.notifyListeners("LogOut");
 //            if (jCheckBox_kvit.isSelected()) {
 //                printHandler.cashReport();
