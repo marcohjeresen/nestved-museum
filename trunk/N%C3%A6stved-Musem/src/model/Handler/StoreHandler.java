@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import model.Employee;
 import model.EventType;
 import model.Product;
+import model.ProductLine;
 import model.TicketLine;
 import model.TicketType;
 import model.controller.StoreController;
@@ -130,4 +131,6 @@ public class StoreHandler {
     public EventType getChoosenEventType(){
         return choosenEvent;
     }
+    
+    
 }

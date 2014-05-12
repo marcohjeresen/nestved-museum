@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import model.Employee;
 import model.EventType;
 import model.Product;
+import model.ProductLine;
 import model.TicketType;
 import museum.MainView;
 
@@ -149,6 +150,21 @@ public class StoreController {
 
     public ArrayList<EventType> getEventTypesList() {
         return eventTypesList;
+    }
+
+    public void alterProductQuantities(ArrayList<ProductLine> saleProductList) throws SQLException {
+        DBConnection db = new DBConnection();
+        int quantities = 0;
+        for (ProductLine salePL : saleProductList) {
+            for (int i = 0; i < productsList.size(); i++) {
+                if (salePL.getProduct().equals(productsList.get(i))) {
+                    quantities = productsList.get(i).getQuantities() - salePL.getQuantities();
+                    productsList.get(i).setQuantities(quantities);
+
+                    db.execute("update product set product_quantities = " + quantities + " where product_numberid = " + productsList.get(i).getProductNumber() + ";");
+                }
+            }
+        }
     }
 
 }
