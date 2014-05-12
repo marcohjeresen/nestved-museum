@@ -40,7 +40,7 @@ import museum.MainView;
  * @author MarcoPc
  */
 public class PrintHandler implements Printable {
-    
+
     public static final int LINES_PER_PAGE = 23;
     private ArrayList<Line> lines;
     ArrayList<ProductLine> productLines;
@@ -52,7 +52,7 @@ public class PrintHandler implements Printable {
     private StoreController storeController;
     private MoneyHandler moneyHandler;
     private DateFormatTools dateFormatTools;
-    
+
     public PrintHandler() throws SQLException {
         saleHandler = SaleHandler.getSaleHandler();
         storeHandler = StoreHandler.storeHandler();
@@ -65,7 +65,7 @@ public class PrintHandler implements Printable {
         eventLines = new ArrayList<>();
         xCord = 10;
     }
-    
+
     public void kvitteringPrint(Sale sale, boolean discount) {
         lines.removeAll(lines);
         Line startLine = new Line("Næstved Museum", 0, 0);
@@ -77,7 +77,7 @@ public class PrintHandler implements Printable {
         int priceDk = 0;
         int priceEuro = 0;
         xCord = 27;
-        
+
         if (!sale.getProductLine().isEmpty()) {
             Line produ = new Line("Produkter: ", 0, 0);
             lines.add(produ);
@@ -85,7 +85,7 @@ public class PrintHandler implements Printable {
             for (ProductLine productLine : sale.getProductLine()) {
                 priceDk = productLine.getProduct().getPriceDk() * productLine.getQuantities();
                 priceEuro = productLine.getProduct().getPriceEuro() * productLine.getQuantities();
-                
+
                 Line product = new Line(productLine.getProduct().getName() + "", 0, 0);
                 Line productPrice = new Line("Antal: " + productLine.getQuantities(), priceDk, priceEuro);
                 lines.add(product);
@@ -100,7 +100,7 @@ public class PrintHandler implements Printable {
             for (EventLine eventLine : sale.getEventLine()) {
                 priceDk = eventLine.getEventlinePriceDk();
                 priceEuro = eventLine.getEventlineEuro();
-                
+
                 Line eventLineText = new Line(eventLine.getEventtype().getType() + "", 0, 0);
                 Line eventLinePlace = new Line(eventLine.getPlace() + "", 0, 0);
                 Line eventLinePrice = new Line("Antal: " + eventLine.getQuantities(), priceDk, priceEuro);
@@ -117,7 +117,7 @@ public class PrintHandler implements Printable {
             for (TicketLine ticketLine : sale.getTicketLine()) {
                 priceDk = ticketLine.getTicketType().getPriceDk() * ticketLine.getQuantities();
                 priceEuro = ticketLine.getTicketType().getPriceEuro() * ticketLine.getQuantities();
-                
+
                 Line ticketLineText = new Line(ticketLine.getTicketType().getType(), 0, 0);
                 Line ticketPrice = new Line("Antal: " + ticketLine.getQuantities(), priceDk, priceEuro);
                 lines.add(ticketLineText);
@@ -136,8 +136,9 @@ public class PrintHandler implements Printable {
 
 //        doPrint("Kvit");
     }
-    
+
     public void cashReport() {
+        Line empty = new Line("", 0, -1);
         String date = dateFormatTools.getDateNowShortString();
         System.out.println(date);
         DBConnection db = new DBConnection();
@@ -152,7 +153,7 @@ public class PrintHandler implements Printable {
                 System.out.println(rs.getInt("sale_id"));
                 idList.add(rs.getInt("sale_id"));
             }
-            
+
             for (Integer integer : idList) {
                 rs = db.getResult("select * from productline where productline_sale_id = " + integer + "");
                 while (rs.next()) {
@@ -215,25 +216,12 @@ public class PrintHandler implements Printable {
                     }
                 }
             }
-            
+
             db.close();
         } catch (SQLException ex) {
             Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        for (ProductLine productLine : prodLineList) {
-            System.out.println(productLine.getProduct().getName() + "      " + productLine.getQuantities());
-        }
-        for (TicketLine ticketLine : ticketLineList) {
-            System.out.println(ticketLine.getTicketType().getType() + "    " + ticketLine.getQuantities());
-        }
-        for (EventLine eventLine : eventLineList) {
-            System.out.println(eventLine.getEventtype().getType() + "     " + eventLine.getQuantities());
-        }
-    
-    
 
-        
         lines.removeAll(lines);
 //        
         Line pro = new Line("Produkter: ", 0, -1);
@@ -268,7 +256,7 @@ public class PrintHandler implements Printable {
         Line totalp = new Line("Product:    Antal I Alt: " + totalProd + "    Antal Forskelige: " + productLines.size(), 0, -1);
         Line totalt = new Line("Billetter:    Antal I Alt: " + totalTic + "    Antal Forskelige: " + ticketLines.size(), 0, -1);
         Line totale = new Line("Event:    Antal I Alt: " + totalEvt + "    Antal Forskelige: " + eventLines.size(), 0, -1);
-        
+
         lines.add(t);
         lines.add(tot);
         lines.add(totalp);
@@ -277,101 +265,80 @@ public class PrintHandler implements Printable {
         lines.add(t);
         Line cash = new Line("Kasse Opgørelse:", 0, -1);
         lines.add(cash);
-//        DBConnection db = new DBConnection();
-//        for (CashRegister cashRegister : moneyHandler.getCashRegistersList()) {
-//            if (cashRegister != null) {
-//                date = formatter.parse(cashRegister.getDate());
-//                date2 = Calendar.getInstance();
-//                date2.setTime(date);
-//                if (date2.getTime().after(calfirst.getTime())) {
-//                    if (date2.getTime().before(calSecond.getTime())) {
-//                        try {
-//                            ResultSet rs = db.getResult("SELECT * FROM cashregistercontent where starting_id = " + cashRegister.getId() + ";");
-//                            while (rs.next()) {
-//                                for (Employee employee : storeHandler.getEmployeesList()) {
-//                                    if (employee.getCpr() == rs.getInt("starting_employee_cpr")) {
-//                                        Line ll = new Line("Kasse Start:   Dato: " + cashRegister.getDate(), 0, -1);
-//                                        double dk = rs.getInt("starting_amount_dk") / 100;
-//                                        double euro = rs.getInt("starting_amount_euro") / 100;
-//                                        Line l = new Line("Medarbejder: " + cashRegister.getEmployee().getName() + " DK I Kassen: " + dk + " EURO I Kassen: " + euro, 0, -1);
-//                                        lines.add(ll);
-//                                        lines.add(l);
-//                                    }
-//                                }
-//                                
-//                            }
-//                        } catch (SQLException ex) {
-//                            Logger.getLogger(Museum2.class.getName()).log(Level.SEVERE, null, ex);
-//                        }
-//                        
-//                        try {
-//                            ResultSet rs = db.getResult("SELECT * FROM differance where differance_id = " + cashRegister.getId() + ";");
-//                            while (rs.next()) {
-//                                for (Employee employee : storeHandler.getEmployeesList()) {
-//                                    if (employee.getCpr() == rs.getInt("differance_employeecpr")) {
-//                                        DifferanceRegistre d = new DifferanceRegistre(rs.getInt("differance_id"), employee, rs.getInt("differance_currentcashdk"), rs.getInt("differance_currentcasheuro"),
-//                                                rs.getInt("differance_expecteddk"), rs.getInt("differance_expectedeuro"), rs.getInt("differance_differancedk"), rs.getInt("differance_differanceeuro"), rs.getString("differance_date"));
-//                                        Line lll = new Line("Kasse Slut:   Dato: " + d.getDate(), 0, -1);
-//                                        double fDk = d.getExpectedDk() / 100;
-//                                        double fEuro = d.getExpectedEuro() / 100;
-//                                        double SDk = d.getCurrentCashDk() / 100;
-//                                        double sEuro = d.getCurrentCahsEuro() / 100;
-//                                        Line llll = new Line("" + d.getEmployee().getName() + "  ForvDk: " + fDk + " ForvEuro: " + fEuro
-//                                                + " SlutDk: " + SDk + " SlutEuro: " + sEuro, 0, -1);
-//                                        double DDk = d.getDifferanceDk() / 100;
-//                                        double DEuro = d.getDifferanceEuro() / 100;
-//                                        Line dif = new Line("Difference Type: " + " DifDk: " + DDk + " DifEuro: " + DEuro, 0, -1);
-//                                        lines.add(lll);
-//                                        lines.add(llll);
-//                                        lines.add(dif);
-//                                        lines.add(emty);
-//                                    }
-//                                }
-//                                
-//                            }
-//                        } catch (SQLException ex) {
-//                            Logger.getLogger(Museum2.class.getName()).log(Level.SEVERE, null, ex);
-//                        }
-//                        lines.add(t);
-//                    }
-//                }
-//            }
-//            
-//        }
-        
+        db = new DBConnection();
+
+        try {
+            ResultSet rs = db.getResult("select *  from cashregistercontent , differance "
+                    + "where starting_date like '" + date + "_________' and starting_id = differance_id");
+            while (rs.next()) {
+                for (Employee employee : storeController.getEmployeesList()) {
+                    if (employee.getCpr() == rs.getInt("starting_employee_cpr")) {
+                        Line ll = new Line("Kasse Start:   Dato: " + rs.getString("starting_date"), 0, -1);
+                        double dk = rs.getInt("starting_amount_dk") / 100;
+                        double euro = rs.getInt("starting_amount_euro") / 100;
+                        Line l = new Line("Medarbejder: " + storeHandler.getLogEmployee().getName() + " DK I Kassen: " + dk + " EURO I Kassen: " + euro, 0, -1);
+                        lines.add(ll);
+                        lines.add(l);
+                    }
+                    if (employee.getCpr() == rs.getInt("differance_employeecpr")) {
+                        DifferanceRegistre d = new DifferanceRegistre(rs.getInt("differance_id"), employee, rs.getInt("differance_currentcashdk"), rs.getInt("differance_currentcasheuro"),
+                        rs.getInt("differance_expecteddk"), rs.getInt("differance_expectedeuro"), rs.getInt("differance_differancedk"), rs.getInt("differance_differanceeuro"), rs.getString("differance_date"));
+                        Line lll = new Line("Kasse Slut:   Dato: " + d.getDate(), 0, -1);
+                        double fDk = d.getExpectedDk() / 100;
+                        double fEuro = d.getExpectedEuro() / 100;
+                        double SDk = d.getCurrentCashDk() / 100;
+                        double sEuro = d.getCurrentCahsEuro() / 100;
+                        Line llll = new Line("" + d.getEmployee().getName() + "  ForvDk: " + fDk + " ForvEuro: " + fEuro
+                                + " SlutDk: " + SDk + " SlutEuro: " + sEuro, 0, -1);
+                        double DDk = d.getDifferanceDk() / 100;
+                        double DEuro = d.getDifferanceEuro() / 100;
+                        Line dif = new Line("Difference Type: " + " DifDk: " + DDk + " DifEuro: " + DEuro, 0, -1);
+                        lines.add(lll);
+                        lines.add(llll);
+                        lines.add(dif);
+                        lines.add(empty);
+                    }
+                }
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
         doPrint("Kvit");
-        
+
     }
 
-    
-    public void stockReport(ArrayList<StockLine> stockList) {
-        for (StockLine stockLine : stockList) {
-            Line li = new Line("", 1, -2);
-            li.setProductNumber(stockLine.getProducNumber());
-            li.setProductTitle(stockLine.getProducName());
-            li.setProductSupplier(stockLine.getProducSuppl());
-            li.setProductBuyPrice(stockLine.getProducBuyPrice());
-            li.setProductQuantities(stockLine.getProducQuantitis());
-            lines.add(li);
-        }
-        doPrint("Kvit");
-    }
+//    public void stockReport(ArrayList<StockLine> stockList) {
+//        for (StockLine stockLine : stockList) {
+//            Line li = new Line("", 1, -2);
+//            li.setProductNumber(stockLine.getProducNumber());
+//            li.setProductTitle(stockLine.getProducName());
+//            li.setProductSupplier(stockLine.getProducSuppl());
+//            li.setProductBuyPrice(stockLine.getProducBuyPrice());
+//            li.setProductQuantities(stockLine.getProducQuantitis());
+//            lines.add(li);
+//        }
+//        doPrint("Kvit");
+//    }
 //    
+
     public void drawLines(Graphics g, int page) {
         g.setColor(new Color(150, 190, 255));
         g.fillRect(5, 10, 10 * xCord, 75);
         g.setColor(new Color(50, 90, 155));
         g.drawRect(5, 10, 10 * xCord, 75);
-        
+
         g.setColor(Color.BLACK);
         Calendar cal = Calendar.getInstance();
         g.drawString(cal.getTime().toString(), 5, 80);
-        
+
         int lineCount = 0;
         for (int i = page * LINES_PER_PAGE; i < (page + 1) * LINES_PER_PAGE; i++) {
             if (i < lines.size()) {
                 int yCoord = 120 + 20 * (i - page * LINES_PER_PAGE);
-                
+
                 if (lines.get(i).getPriceDk() != 0) {
                     if (lines.get(i).getPriceEuro() == -1) {
                         g.drawString(lines.get(i).getText(), 10, yCoord);
@@ -395,7 +362,7 @@ public class PrintHandler implements Printable {
                     double priceDk = (lines.get(i).getPriceDk() / 100);
                     g.drawString(priceDk + " kr", 9 * xCord, yCoord);
                 }
-                
+
                 lineCount++;
             }
         }
@@ -417,7 +384,7 @@ public class PrintHandler implements Printable {
 //        }
         g.drawString("Side " + (page + 1), 10, 175 + lineCount * 20);
     }
-    
+
     @Override
     public int print(Graphics g, PageFormat pf, int page) throws PrinterException {
         int printResult;
@@ -434,9 +401,9 @@ public class PrintHandler implements Printable {
             printResult = PAGE_EXISTS;
         }
         return printResult;
-        
+
     }
-    
+
     public void doPrint(String type) {
         PrinterJob job = PrinterJob.getPrinterJob();
         Printable doc = this;
@@ -447,13 +414,13 @@ public class PrintHandler implements Printable {
                 switch (type) {
                     case "Kvit":
                         job.print();
-                        
+
                         break;
                     case "Stock":
-                        
+
                         break;
                 }
-                
+
             } catch (PrinterException ex) {
                 System.out.println("printer problemmer");
             }
