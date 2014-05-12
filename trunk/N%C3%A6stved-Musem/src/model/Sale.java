@@ -119,29 +119,27 @@ public class Sale {
 
     public void addProduct(Product p) {
         boolean isthere = false;
-        if (!productLine.isEmpty()) {
-
-            for (int i = 0; i < productLine.size(); i++) {
-                if (productLine.get(i).getProduct().equals(p)) {
-                    int amount = productLine.get(i).getQuantities();
-                    if (p.getQuantities() > amount) {
-                        productLine.get(i).setQuantities(amount + 1);
-                    isthere = true;
-                    }else{
-                        isthere = true;
+        if (p.getQuantities() >= 1) {
+            if (!productLine.isEmpty()) {
+                for (int i = 0; i < productLine.size(); i++) {
+                    if (productLine.get(i).getProduct().equals(p)) {
+                        int amount = productLine.get(i).getQuantities();
+                        if (p.getQuantities() > amount) {
+                            productLine.get(i).setQuantities(amount + 1);
+                            isthere = true;
+                        } else {
+                            isthere = true;
+                        }
                     }
-                    
                 }
-
-            }
-            if (!isthere) {
+                if (!isthere) {
+                    ProductLine pl = new ProductLine(0, this, p, 1);
+                    productLine.add(pl);
+                }
+            } else {
                 ProductLine pl = new ProductLine(0, this, p, 1);
                 productLine.add(pl);
             }
-
-        } else {
-            ProductLine pl = new ProductLine(0, this, p, 1);
-            productLine.add(pl);
         }
         listeners.notifyListeners("Basket Change");
     }
@@ -179,11 +177,11 @@ public class Sale {
                 int amount = productLine.get(i).getQuantities();
                 if (p.getQuantities() > amount) {
                     productLine.get(i).setQuantities(amount + quantities);
-                if (productLine.get(i).getQuantities() == 0) {
-                    productLine.remove(i);
+                    if (productLine.get(i).getQuantities() == 0) {
+                        productLine.remove(i);
+                    }
                 }
-                }
-                
+
             }
         }
         listeners.notifyListeners("Basket Change");
@@ -209,7 +207,7 @@ public class Sale {
         for (int i = 0; i < eventLine.size(); i++) {
             if (eventLine.get(i).getEventtype().equals(et)) {
                 int amount = eventLine.get(i).getQuantities();
-                
+
                 eventLine.get(i).setQuantities(amount + quantities);
                 if (eventLine.get(i).getQuantities() == 0) {
                     eventLine.remove(i);
@@ -298,8 +296,8 @@ public class Sale {
         if (!eventLine.isEmpty()) {
             for (EventLine eventLine1 : eventLine) {
                 if (discount) {
-                    price = eventLine1.getEventlinePriceDk() *90;
-                    price = price /100;
+                    price = eventLine1.getEventlinePriceDk() * 90;
+                    price = price / 100;
                     endpriceDk = (int) (endpriceDk + price);
                     price = eventLine1.getEventlineEuro() / 100;
                     price = price * 90;

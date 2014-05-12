@@ -120,15 +120,15 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
                 moneyHandler.setCashRegistre(dkMoney, euroMoney);
                 listeners.notifyListeners("LogAndCashOk");
             } else {
-                
-            moneyHandler.endCashregister(dkMoney, euroMoney, storeHandler.getLogEmployee());
-            storeHandler.logOutEmployee();
-            printHandler.cashReport();
-            listeners.notifyListeners("LogOut");
-//            if (jCheckBox_kvit.isSelected()) {
-//                printHandler.cashReport();
-//            }
 
+                moneyHandler.endCashregister(dkMoney, euroMoney, storeHandler.getLogEmployee());
+
+                if (jCheckBox_kvit.isSelected()) {
+                    printHandler.cashReport();
+                }
+                storeHandler.logOutEmployee();
+
+                listeners.notifyListeners("LogOut");
             }
         }
 
@@ -136,18 +136,18 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
 
     public void setEndText() {
         if (openOrClose()) {
-             double dkReg = moneyHandler.getCashRegister().getAmountDk() / 100;
-        double euroReg = moneyHandler.getCashRegister().getAmountEuro() / 100;
-        double difDk = (dkc * 100) - moneyHandler.getCashRegister().getAmountDk();
-        double difeuro = (euc * 100) - moneyHandler.getCashRegister().getAmountEuro();
-        difDk = difDk / 100;
-        difeuro = difeuro / 100;
-        jTextField_dkRegistre.setText("" + dkReg);
-        jTextField_EuroRegistre.setText("" + euroReg);
-        jTextField_diffDk.setText("" + difDk);
-        jTextField_diffEuro.setText("" + difeuro);
-        jButton_end.setText("Luk Kassen");
-        jCheckBox_kvit.setEnabled(true);
+            double dkReg = moneyHandler.getCashRegister().getAmountDk() / 100;
+            double euroReg = moneyHandler.getCashRegister().getAmountEuro() / 100;
+            double difDk = (dkc * 100) - moneyHandler.getCashRegister().getAmountDk();
+            double difeuro = (euc * 100) - moneyHandler.getCashRegister().getAmountEuro();
+            difDk = difDk / 100;
+            difeuro = difeuro / 100;
+            jTextField_dkRegistre.setText("" + dkReg);
+            jTextField_EuroRegistre.setText("" + euroReg);
+            jTextField_diffDk.setText("" + difDk);
+            jTextField_diffEuro.setText("" + difeuro);
+            jButton_end.setText("Luk Kassen");
+            jCheckBox_kvit.setEnabled(true);
         } else {
             jButton_end.setText("Open Kassen");
 
@@ -159,8 +159,8 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
         }
 
     }
-    
-    public void clearCashPage(){
+
+    public void clearCashPage() {
         jTextField_DkCash.setText("");
         jTextField_EuroRegistre.setText("");
         jTextField_Eurocash.setText("");
@@ -702,7 +702,7 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
             if (!moneyHandler.cashRegistre()) {
                 showPage("CashReg");
 
-            }else{
+            } else {
                 listeners.notifyListeners("LogAndCashOk");
             }
 
