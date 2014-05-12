@@ -16,8 +16,11 @@ import Util.*;
  */
 import Util.Listeners;
 import java.awt.Dimension;
-public class Logon extends javax.swing.JPanel {
-    
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class Logon extends javax.swing.JPanel implements ActionListener {
+
     private String kode;
     private StoreHandler storeHandler;
     private MoneyHandler moneyHandler;
@@ -36,7 +39,7 @@ public class Logon extends javax.swing.JPanel {
         storeHandler = StoreHandler.storeHandler();
         moneyHandler = MoneyHandler.getMoneyHandler();
         listeners = Listeners.getList();
-              
+
         initComponents();
         kode = "0";
         dk = "0";
@@ -49,11 +52,16 @@ public class Logon extends javax.swing.JPanel {
         CardLayout cl = (CardLayout) getLayout();
         cl.addLayoutComponent(jP_logon, "Logon");
         cl.addLayoutComponent(jP_CashRegistre, "CashReg");
-        cl.show(this, "sale");
+        cl.show(this, "Logon");
         kode = "1421";
         settextfield();
     }
-    
+
+    public void showPage(String page) {
+        CardLayout cl = (CardLayout) getLayout();
+        cl.show(this, page);
+    }
+
     public void setCode(String tal) {
         if (kode == "0") {
             kode = tal;
@@ -62,16 +70,16 @@ public class Logon extends javax.swing.JPanel {
         }
         settextfield();
     }
-    
+
     public void settextfield() {
         jTextField_kode.setText("Kode: " + kode);
     }
-    
+
     public boolean openOrClose() {
         boolean open = moneyHandler.cashRegistre();
         return open;
     }
-    
+
     public void setcash(String tal) {
         if (dkcash) {
             dk = dk + tal;
@@ -82,7 +90,7 @@ public class Logon extends javax.swing.JPanel {
         setText();
         setEndText();
     }
-    
+
     public void setText() {
         dkc = Double.parseDouble(dk);
         euc = Double.parseDouble(euro);
@@ -92,9 +100,9 @@ public class Logon extends javax.swing.JPanel {
             jTextField_Eurocash.setText("Total: " + euc);
         }
     }
-    
+
     public void endReg() throws ParseException {
-        
+
         if (dkcash) {
             dkcash = false;
             setText();
@@ -108,38 +116,56 @@ public class Logon extends javax.swing.JPanel {
                 moneyHandler.setCashRegistre(dkMoney, euroMoney);
                 listeners.notifyListeners("LogAndCashOk");
             } else {
-//            moneyHandler.endCashregister(dkMoney, euroMoney, employee);
+                
+            moneyHandler.endCashregister(dkMoney, euroMoney, storeHandler.getLogEmployee());
+            storeHandler.logOutEmployee();
+            listeners.notifyListeners("LogOut");
 //            if (jCheckBox_kvit.isSelected()) {
 //                printHandler.cashReport();
 //            }
 
             }
         }
-        
+
     }
-    
+
     public void setEndText() {
         if (openOrClose()) {
-//             double dkReg = moneyHandler.getCashRegister().getAmountDk() / 100;
-//        double euroReg = moneyHandler.getCashRegister().getAmountEuro() / 100;
-//        double difDk = (dkc * 100) - moneyHandler.getCashRegister().getAmountDk();
-//        double difeuro = (euc * 100) - moneyHandler.getCashRegister().getAmountEuro();
-//        difDk = difDk / 100;
-//        difeuro = difeuro / 100;
-//        jTextField_dkRegistre.setText("" + dkReg);
-//        jTextField_EuroRegistre.setText("" + euroReg);
-//        jTextField_diffDk.setText("" + difDk);
-//        jTextField_diffEuro.setText("" + difeuro);
+             double dkReg = moneyHandler.getCashRegister().getAmountDk() / 100;
+        double euroReg = moneyHandler.getCashRegister().getAmountEuro() / 100;
+        double difDk = (dkc * 100) - moneyHandler.getCashRegister().getAmountDk();
+        double difeuro = (euc * 100) - moneyHandler.getCashRegister().getAmountEuro();
+        difDk = difDk / 100;
+        difeuro = difeuro / 100;
+        jTextField_dkRegistre.setText("" + dkReg);
+        jTextField_EuroRegistre.setText("" + euroReg);
+        jTextField_diffDk.setText("" + difDk);
+        jTextField_diffEuro.setText("" + difeuro);
+        jButton_end.setText("Luk Kassen");
+        jCheckBox_kvit.setEnabled(true);
         } else {
             jButton_end.setText("Open Kassen");
-            
+
             jTextField_dkRegistre.setEnabled(false);;
             jTextField_EuroRegistre.setEnabled(false);;
             jTextField_diffDk.setEnabled(false);;
             jTextField_diffEuro.setEnabled(false);;
             jCheckBox_kvit.setEnabled(false);
         }
-        
+
+    }
+    
+    public void clearCashPage(){
+        jTextField_DkCash.setText("");
+        jTextField_EuroRegistre.setText("");
+        jTextField_Eurocash.setText("");
+        jTextField_diffDk.setText("");
+        jTextField_diffEuro.setText("");
+        jTextField_dkRegistre.setText("");
+        jTextField_kode.setText("");
+        dk = "0";
+        euro = "0";
+        dkcash = true;
     }
 
     /**
@@ -661,17 +687,20 @@ public class Logon extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton_LogonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_LogonActionPerformed
-        
+
         int talkode = Integer.parseInt(kode);
         kode = "0";
         settextfield();
-        
+        clearCashPage();
+
         if (storeHandler.employeeLogin(talkode)) {
             if (!moneyHandler.cashRegistre()) {
-                CardLayout cl = (CardLayout) getLayout();
-                cl.show(this, "CashReg");
+                showPage("CashReg");
+
+            }else{
+                listeners.notifyListeners("LogAndCashOk");
             }
-            
+
         }
     }//GEN-LAST:event_jButton_LogonActionPerformed
 
@@ -786,4 +815,17 @@ public class Logon extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField_dkRegistre;
     private javax.swing.JTextField jTextField_kode;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+        switch (ae.getActionCommand()) {
+            case "LogOut":
+                showPage("Logon");
+
+                break;
+            case "Log":
+
+                break;
+        }
+    }
 }

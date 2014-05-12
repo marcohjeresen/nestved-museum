@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.CashRegister;
+import model.DifferanceRegistre;
 import model.Employee;
 import museum.MainView;
 
@@ -53,6 +54,18 @@ public class MoneyController {
         try {
             db.execute("insert into cashregistercontent values (" + register.getId() + ",'" + register.getDate() + "'," + register.getAmountDk() + "," + register.getAmountEuro() + "," + register.getEmployee().getCpr() + ")");
             System.out.println("det virker.,... klap klap");
+            db.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void addEndCashToDatabase(DifferanceRegistre dif){
+        DBConnection db = new DBConnection();
+        try {
+            db.execute("insert into differance values ('"+dif.getId()+"',"+dif.getEmployee().getCpr()+""
+                    + ","+dif.getCurrentCashDk()+","+dif.getCurrentCahsEuro()+","+dif.getExpectedDk()+","+dif.getExpectedEuro()+""
+                    + ","+dif.getDifferanceDk()+","+dif.getDifferanceEuro()+",'"+dif.getDate()+"')");
             db.close();
         } catch (SQLException ex) {
             Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);

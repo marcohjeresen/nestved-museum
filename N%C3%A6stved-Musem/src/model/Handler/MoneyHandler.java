@@ -7,6 +7,7 @@
 package model.Handler;
 import model.*;
 import Util.*;
+import java.util.Calendar;
 import model.controller.MoneyController;
 
 /**
@@ -43,6 +44,10 @@ public class MoneyHandler {
         moneyController.addStartingCashToDataBase(cashRegister);
         
     }
+    public void endRegistre(){
+        cashRegister = null;
+    }
+    
     public boolean cashRegistre(){
         boolean isthere = false;
         if (cashRegister == null) {
@@ -77,6 +82,18 @@ public class MoneyHandler {
         }
         
       
+    }
+    
+     public void endCashregister(int DkIndTheBox, int EuroIndTheBox, Employee employee){
+        int differanceDk =  DkIndTheBox - cashRegister.getAmountDk();
+        int differanceEuro = EuroIndTheBox - cashRegister.getAmountEuro() ;
+        Calendar cal = Calendar.getInstance();
+        String dato = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DATE) + " " + cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND);
+        DifferanceRegistre differanceRegistre = new DifferanceRegistre(cashRegister.getId(), employee, DkIndTheBox, EuroIndTheBox,cashRegister.getAmountDk(), cashRegister.getAmountEuro(),  differanceDk, differanceEuro, dato);
+        moneyController.addEndCashToDatabase(differanceRegistre);
+        
+        cashRegister = null;
+        
     }
     
 }

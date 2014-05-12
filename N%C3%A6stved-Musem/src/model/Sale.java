@@ -124,8 +124,13 @@ public class Sale {
             for (int i = 0; i < productLine.size(); i++) {
                 if (productLine.get(i).getProduct().equals(p)) {
                     int amount = productLine.get(i).getQuantities();
-                    productLine.get(i).setQuantities(amount + 1);
+                    if (p.getQuantities() > amount) {
+                        productLine.get(i).setQuantities(amount + 1);
                     isthere = true;
+                    }else{
+                        isthere = true;
+                    }
+                    
                 }
 
             }
@@ -172,10 +177,13 @@ public class Sale {
         for (int i = 0; i < productLine.size(); i++) {
             if (productLine.get(i).getProduct().equals(p)) {
                 int amount = productLine.get(i).getQuantities();
-                productLine.get(i).setQuantities(amount + quantities);
+                if (p.getQuantities() > amount) {
+                    productLine.get(i).setQuantities(amount + quantities);
                 if (productLine.get(i).getQuantities() == 0) {
                     productLine.remove(i);
                 }
+                }
+                
             }
         }
         listeners.notifyListeners("Basket Change");
@@ -201,6 +209,7 @@ public class Sale {
         for (int i = 0; i < eventLine.size(); i++) {
             if (eventLine.get(i).getEventtype().equals(et)) {
                 int amount = eventLine.get(i).getQuantities();
+                
                 eventLine.get(i).setQuantities(amount + quantities);
                 if (eventLine.get(i).getQuantities() == 0) {
                     eventLine.remove(i);
@@ -288,19 +297,45 @@ public class Sale {
         }
         if (!eventLine.isEmpty()) {
             for (EventLine eventLine1 : eventLine) {
+                if (discount) {
+                    price = eventLine1.getEventlinePriceDk() *90;
+                    price = price /100;
+                    endpriceDk = (int) (endpriceDk + price);
+                    price = eventLine1.getEventlineEuro() / 100;
+                    price = price * 90;
+                    endpriceEuro = (int) (endpriceEuro + price);
 
-                price = eventLine1.getEventlinePriceDk();
-                endpriceDk = (int) (endpriceDk + price);
-                price = eventLine1.getEventlineEuro();
-                endpriceEuro = (int) (endpriceEuro + price);
+                } else {
+                    price = eventLine1.getEventlinePriceDk();
+                    endpriceDk = (int) (endpriceDk + price);
+                    price = eventLine1.getEventlineEuro();
+                    endpriceEuro = (int) (endpriceEuro + price);
+
+                }
+
             }
         }
         if (!ticketLine.isEmpty()) {
             for (TicketLine ticketLine1 : ticketLine) {
-                price = ticketLine1.getTicketType().getPriceDk() * ticketLine1.getQuantities();
-                endpriceDk = (int) (endpriceDk + price);
-                price = ticketLine1.getTicketType().getPriceEuro() * ticketLine1.getQuantities();
-                endpriceEuro = (int) (endpriceEuro + price);
+                if (discount) {
+                    price = ticketLine1.getTicketType().getPriceDk() * 90;
+                    price = price / 100;
+                    price = price * ticketLine1.getQuantities();
+                    endpriceDk = (int) (endpriceDk + price);
+                    price = ticketLine1.getTicketType().getPriceEuro() * 90;
+                    price = price / 100;
+                    price = price * ticketLine1.getQuantities();
+
+                    endpriceEuro = (int) (endpriceEuro + price);
+
+                } else {
+
+                    price = ticketLine1.getTicketType().getPriceDk() * ticketLine1.getQuantities();
+                    endpriceDk = (int) (endpriceDk + price);
+                    price = ticketLine1.getTicketType().getPriceEuro() * ticketLine1.getQuantities();
+                    endpriceEuro = (int) (endpriceEuro + price);
+                }
+
             }
         }
 

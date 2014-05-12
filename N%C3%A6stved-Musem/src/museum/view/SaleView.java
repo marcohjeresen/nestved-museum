@@ -25,6 +25,7 @@ import model.ProductGroup;
 import model.ProductLine;
 import model.TicketLine;
 import model.TicketType;
+import model.controller.SaleController;
 import model.controller.StoreController;
 
 /**
@@ -36,6 +37,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
     private StoreHandler storeHandler;
     private StoreController storeController;
     private SaleHandler saleHandler;
+    private SaleController saleController;
     private MoneyHandler moneyHandler;
     private Listeners listeners;
     private NumberFormatTools numberFormatTools;
@@ -43,7 +45,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
     private String dkOrEuro;
     private ArrayList<String> modtag;
     private double penge;
-//    private Timer timer;
+    private Timer timer;
     private boolean discount;
 
     /**
@@ -53,6 +55,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         storeHandler = StoreHandler.storeHandler();
         storeController = StoreController.getStoreController();
         saleHandler = SaleHandler.getSaleHandler();
+        saleController = SaleController.controller();
         moneyHandler = MoneyHandler.getMoneyHandler();
         listeners = Listeners.getList();
         numberFormatTools = NumberFormatTools.getTools();
@@ -68,11 +71,25 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         discount = false;
         modtaget = "";
         modtag = new ArrayList<>();
-//        setBounds(0, 0, 400, 470);
         jLabel_endError.setText("");
-
+        jB_endSale.setEnabled(false);
         setPrice();
 
+        timer = new Timer(5000, new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+clearAll();
+                showPage("sale");
+                
+                timer.stop();
+            }
+        });
+    }
+    
+    public void showPage(String page){
+        CardLayout cl = (CardLayout) getLayout();
+                cl.show(this, page);
     }
 
     public void clearList() {
@@ -219,6 +236,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
                 jP_basketf.add(bv);
                 bv.setVisible(true);
                 jP_basketf.revalidate();
+                jB_endSale.setEnabled(true);
             }
         }
         if (!saleHandler.getCurrentSale().getTicketLine().isEmpty()) {
@@ -229,6 +247,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
                 jP_basketf.add(bv);
                 bv.setVisible(true);
                 jP_basketf.revalidate();
+                jB_endSale.setEnabled(true);
             }
         }
         if (!saleHandler.getCurrentSale().getEventLine().isEmpty()) {
@@ -239,6 +258,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
                 jP_basketf.add(bv);
                 bv.setVisible(true);
                 jP_basketf.revalidate();
+                jB_endSale.setEnabled(true);
             }
         }
         jP_basketf.setPreferredSize(new Dimension(HEIGHT, y));
@@ -273,6 +293,8 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
             double priceEuro = numberFormatTools.getDoubleValue(saleHandler.getCurrentSale().getEndpriceEuro(discount));
             jTextField_endprice.setText("EURO: " + priceEuro);
             penge = numberFormatTools.getDoubleValue(saleHandler.getCurrentSale().getEndpriceEuro(discount));
+        } else {
+            jTextField_endprice.setText("" + 0);
         }
 
     }
@@ -289,6 +311,22 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         jTextField_payamount.setText(modtaget);
     }
 
+    public void clearAll() {
+        setPaymentAmount();
+        showCashReg();
+        setPrice();
+        fillBasket();
+        jP_product.removeAll();
+        jP_type.removeAll();
+        modtag.removeAll(modtag);
+        modtaget = "";
+        jB_endSale.setEnabled(false);
+        setModtagetBeløb();
+        jTextField_payback.setText("");
+        
+
+    }
+
     public void endSale() throws SQLException {
         boolean beløbGodkent = false;
         double modtagetTilBetaling;
@@ -299,28 +337,38 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
             if (penge <= modtagetTilBetaling) {
                 beløbGodkent = true;
                 if (jToggleButton_dk.isSelected()) {
-                    retur = modtagetTilBetaling - penge;
+                    int amount1 = (int) (modtagetTilBetaling * 100);
+                    int amount2 = (int) (penge * 100);
+                    retur = amount1 - amount2;
+                    retur = retur / 100;
                     jTextField_payback.setText("Retur DK: " + retur);
+                    dkOrEuro = "DK";
 
                 } else if (jToggleButton_euro.isSelected()) {
-                    retur = modtagetTilBetaling - penge;
+                    int amount1 = (int) (modtagetTilBetaling * 100);
+                    int amount2 = (int) (penge * 100);
+                    retur = amount1 - amount2;
+                    retur = retur / 100;
                     jTextField_payback.setText("Retur Euro: " + retur);
+                    dkOrEuro = "EURO";
                 }
-
+                saleHandler.getCurrentSale().setEmployee(storeHandler.getLogEmployee());
                 storeController.alterProductQuantities(saleHandler.getCurrentSale().getProductLine());
-//                saleHandler.endSale(sale, discount);
-                penge = penge;
+                saleController.endSale(saleHandler.getCurrentSale(), discount);
+
                 jLabel_endError.setText("Betaling Godkendt:");
                 int money = (int) (penge * 100);
                 moneyHandler.addCashAmount("+", dkOrEuro, money);
 
                 listeners.notifyListeners("End Sale");
                 jButton_saleEnd.setEnabled(false);
-//                jButton_fortryd.setEnabled(false);
-//                timer.start();
+
+                
                 if (!jToggleButton_noKvit.isSelected()) {
 //                    printHandler.kvitteringPrint(sale, discount);
                 }
+                saleHandler.newSale();
+                timer.start();
             } else {
                 jLabel_endError.setText("Beløb Ikke Nok!!");
             }
@@ -329,7 +377,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
             jLabel_endError.setText("Tjek indtastede beløb");
         }
         revalidate();
-repaint();
+        repaint();
 
     }
 
@@ -535,8 +583,18 @@ repaint();
         jL_euroAmount.setText("jLabel2");
 
         jB_logOut.setText("Log Ud:");
+        jB_logOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_logOutActionPerformed(evt);
+            }
+        });
 
         jB_closeRegisstre.setText("Luk Kassen:");
+        jB_closeRegisstre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_closeRegisstreActionPerformed(evt);
+            }
+        });
 
         jL_userName.setText("jLabel3");
 
@@ -655,19 +713,21 @@ repaint();
         jLabel4.setText("Beløb Til Betaling:");
 
         jTextField_endprice.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jTextField_endprice.setText("jTextField1");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel5.setText("Beløb Modtaget:");
 
         jTextField_payamount.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jTextField_payamount.setText("jTextField2");
+        jTextField_payamount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_payamountActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel6.setText("Beløb Retur:");
 
         jTextField_payback.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jTextField_payback.setText("jTextField3");
 
         jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jButton1.setText("1");
@@ -927,12 +987,13 @@ repaint();
     }//GEN-LAST:event_jB_emtyBasketActionPerformed
 
     private void jB_endSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_endSaleActionPerformed
-        CardLayout cl = (CardLayout) getLayout();
-        cl.show(this, "endsale");
+        showPage("endsale");
+        jToggleButton_dk.setSelected(true);
+        setPaymentAmount();
     }//GEN-LAST:event_jB_endSaleActionPerformed
 
     private void jToggleButton_euroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton_euroActionPerformed
-jToggleButton_dk.setSelected(false);
+        jToggleButton_dk.setSelected(false);
         setPaymentAmount();
     }//GEN-LAST:event_jToggleButton_euroActionPerformed
 
@@ -1006,8 +1067,7 @@ jToggleButton_dk.setSelected(false);
     }//GEN-LAST:event_jToggleButton_dkActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        CardLayout cl = (CardLayout) getLayout();
-        cl.show(this, "sale");
+        showPage("sale");
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton_saleEndActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_saleEndActionPerformed
@@ -1017,6 +1077,20 @@ jToggleButton_dk.setSelected(false);
             Logger.getLogger(SaleView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton_saleEndActionPerformed
+
+    private void jTextField_payamountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_payamountActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_payamountActionPerformed
+
+    private void jB_logOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_logOutActionPerformed
+      storeHandler.logOutEmployee();
+        listeners.notifyListeners("LogOut");
+    }//GEN-LAST:event_jB_logOutActionPerformed
+
+    private void jB_closeRegisstreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_closeRegisstreActionPerformed
+        
+        listeners.notifyListeners("EndCashAndDay");
+    }//GEN-LAST:event_jB_closeRegisstreActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
