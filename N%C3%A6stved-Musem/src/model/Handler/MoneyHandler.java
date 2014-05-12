@@ -58,4 +58,25 @@ public class MoneyHandler {
         return cashRegister;
     }
     
+    public void addCashAmount(String type, String curency ,int amount){
+        int amountDk = cashRegister.getAmountDk();
+        int amountEuro = cashRegister.getAmountEuro();
+        switch (type) {
+            case "+":
+                if (curency == "DK") {
+                    cashRegister.setAmountDk(amountDk + amount);
+                }else if (curency == "EURO")
+                    cashRegister.setAmountEuro(amountEuro + amount);
+                break;
+            case "-":
+                if (curency == "Dk") {
+                    cashRegister.setAmountDk(amountDk - amount);
+                }else if (curency == "Euro")
+                    cashRegister.setAmountEuro(amountEuro - amount);
+                break;
+        }
+        
+      
+    }
+    
 }

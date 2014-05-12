@@ -25,6 +25,7 @@ import model.ProductGroup;
 import model.ProductLine;
 import model.TicketLine;
 import model.TicketType;
+import model.controller.StoreController;
 
 /**
  *
@@ -33,6 +34,7 @@ import model.TicketType;
 public class SaleView extends javax.swing.JPanel implements ActionListener {
 
     private StoreHandler storeHandler;
+    private StoreController storeController;
     private SaleHandler saleHandler;
     private MoneyHandler moneyHandler;
     private Listeners listeners;
@@ -41,14 +43,15 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
     private String dkOrEuro;
     private ArrayList<String> modtag;
     private double penge;
-    private Timer timer;
+//    private Timer timer;
     private boolean discount;
 
     /**
      * Creates new form SaleView
      */
-    public SaleView() {
+    public SaleView() throws SQLException {
         storeHandler = StoreHandler.storeHandler();
+        storeController = StoreController.getStoreController();
         saleHandler = SaleHandler.getSaleHandler();
         moneyHandler = MoneyHandler.getMoneyHandler();
         listeners = Listeners.getList();
@@ -304,16 +307,17 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
                     jTextField_payback.setText("Retur Euro: " + retur);
                 }
 
-//                storeController.alterProductQuantities(sale.getProductLine(), storeHandler.getProductsList());
+                storeController.alterProductQuantities(saleHandler.getCurrentSale().getProductLine());
 //                saleHandler.endSale(sale, discount);
                 penge = penge;
+                jLabel_endError.setText("Betaling Godkendt:");
                 int money = (int) (penge * 100);
-//                moneyHandler.addCashAmount("+", dkOrEuro, money);
+                moneyHandler.addCashAmount("+", dkOrEuro, money);
 
                 listeners.notifyListeners("End Sale");
                 jButton_saleEnd.setEnabled(false);
 //                jButton_fortryd.setEnabled(false);
-                timer.start();
+//                timer.start();
                 if (!jToggleButton_noKvit.isSelected()) {
 //                    printHandler.kvitteringPrint(sale, discount);
                 }
@@ -324,6 +328,8 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         } catch (NumberFormatException ex) {
             jLabel_endError.setText("Tjek indtastede beløb");
         }
+        revalidate();
+repaint();
 
     }
 
@@ -763,6 +769,11 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         jToggleButton_noKvit.setText("Ingen Kvittering:");
 
         jButton_saleEnd.setText("GodKend:");
+        jButton_saleEnd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_saleEndActionPerformed(evt);
+            }
+        });
 
         jLabel_endError.setForeground(new java.awt.Color(255, 0, 0));
         jLabel_endError.setText("jLabel7");
@@ -998,6 +1009,14 @@ jToggleButton_dk.setSelected(false);
         CardLayout cl = (CardLayout) getLayout();
         cl.show(this, "sale");
     }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void jButton_saleEndActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_saleEndActionPerformed
+        try {
+            endSale();
+        } catch (SQLException ex) {
+            Logger.getLogger(SaleView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton_saleEndActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
