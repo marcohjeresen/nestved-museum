@@ -26,12 +26,15 @@ public class NumberFormatTools {
     }
     
     public int getIntValue(double price){
-        priceInt = (int) (price * 100);
+        priceDouble = price;
+        priceInt = (int) (priceDouble * 100);
+        
         return priceInt;
     }
     
     public double getDoubleValue(int price){
-        priceDouble = price / 100;
+        priceDouble = price;
+        priceDouble = priceDouble / 100;
         return priceDouble;
     }
     

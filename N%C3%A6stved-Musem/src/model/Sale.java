@@ -260,17 +260,21 @@ public class Sale {
     }
 
     public void setEndprice(boolean discount) {
-        double price = 0;
+        int price = 0;
         endpriceDk = 0;
         endpriceEuro = 0;
         if (!productLine.isEmpty()) {
             for (ProductLine productline : productLine) {
                 if (discount) {
-                    price = (productline.getProduct().getPriceDk() / 100) * productline.getProduct().getDiscount();
+                    price = productline.getProduct().getPriceDk() / 100;
+                    price = price * productline.getProduct().getDiscount();
                     price = price * productline.getQuantities();
                     endpriceDk = (int) (endpriceDk + price);
 
-                    price = (productline.getProduct().getPriceEuro() / 100) * productline.getProduct().getDiscount();
+                    price = productline.getProduct().getPriceEuro() * productline.getProduct().getDiscount();
+                    price = price / 100;
+//                    price =  
+
                     price = price * productline.getQuantities();
                     endpriceEuro = (int) (endpriceEuro + price);
                 } else {
@@ -304,6 +308,7 @@ public class Sale {
 
     public int getEndpriceEuro(boolean discount) {
         setEndprice(discount);
+        System.out.println(endpriceEuro);
         return endpriceEuro;
     }
 

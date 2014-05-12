@@ -37,7 +37,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
     private MoneyHandler moneyHandler;
     private Listeners listeners;
     private NumberFormatTools numberFormatTools;
-     private String modtaget;
+    private String modtaget;
     private String dkOrEuro;
     private ArrayList<String> modtag;
     private double penge;
@@ -58,17 +58,22 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         setSize(new Dimension(1008, 691));
         CardLayout cl = (CardLayout) getLayout();
         cl.addLayoutComponent(jP_Sale, "sale");
-        cl.addLayoutComponent(jP_EndSale, "endsale");
+        cl.addLayoutComponent(jP_endSale, "endsale");
         cl.show(this, "sale");
         jP_basketf.setPreferredSize(new Dimension(450, 200));
-        jButton_betal.setEnabled(false);
+        jButton_saleEnd.setEnabled(false);
         discount = false;
         modtaget = "";
+        modtag = new ArrayList<>();
 //        setBounds(0, 0, 400, 470);
-        jLabel_melding.setText("");
-        
+        jLabel_endError.setText("");
+
         setPrice();
 
+    }
+
+    public void clearList() {
+        modtag.removeAll(modtag);
     }
 
     public void showEmployee() {
@@ -235,35 +240,35 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         }
         jP_basketf.setPreferredSize(new Dimension(HEIGHT, y));
     }
-    
-    public void setPrice(){
+
+    public void setPrice() {
         double moneyDk = numberFormatTools.getDoubleValue(saleHandler.getCurrentSale().getEndpriceDk(false));
         double moneyEuro = numberFormatTools.getDoubleValue(saleHandler.getCurrentSale().getEndpriceEuro(false));
-        jL_BasketPriceDk.setText(""+moneyDk);
-        jL_BasketPriceEuro.setText(""+moneyEuro);
+        jL_BasketPriceDk.setText("" + moneyDk);
+        jL_BasketPriceEuro.setText("" + moneyEuro);
     }
-    
-    public void showCashReg(){
+
+    public void showCashReg() {
         double moneyDk = numberFormatTools.getDoubleValue(moneyHandler.getCashRegister().getAmountDk());
         double moneyEuro = numberFormatTools.getDoubleValue(moneyHandler.getCashRegister().getAmountEuro());
-        jL_dkAmount.setText(""+moneyDk);
-        jL_euroAmount.setText(""+moneyEuro);
+        jL_dkAmount.setText("" + moneyDk);
+        jL_euroAmount.setText("" + moneyEuro);
     }
-    
+
     public void Museumscard() {
-        discount = jCheckBox_rabat.isSelected();
+        discount = jToggleButton_member.isSelected();
         setPaymentAmount();
     }
 
     public void setPaymentAmount() {
 
-        if (jCheckBox_danske.isSelected()) {
+        if (jToggleButton_dk.isSelected()) {
             double priceDk = numberFormatTools.getDoubleValue(saleHandler.getCurrentSale().getEndpriceDk(discount));
-            jTextField_beløb.setText("DK: " + priceDk);
+            jTextField_endprice.setText("DK: " + priceDk);
             penge = numberFormatTools.getDoubleValue(saleHandler.getCurrentSale().getEndpriceDk(discount));
-        } else if (jCheckBox_euro.isSelected()) {
+        } else if (jToggleButton_euro.isSelected()) {
             double priceEuro = numberFormatTools.getDoubleValue(saleHandler.getCurrentSale().getEndpriceEuro(discount));
-            jTextField_beløb.setText("EURO: " + priceEuro);
+            jTextField_endprice.setText("EURO: " + priceEuro);
             penge = numberFormatTools.getDoubleValue(saleHandler.getCurrentSale().getEndpriceEuro(discount));
         }
 
@@ -274,11 +279,11 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         if (!modtag.isEmpty()) {
             for (String string : modtag) {
                 modtaget = modtaget + string;
-                jButton_betal.setEnabled(true);
+                jButton_saleEnd.setEnabled(true);
             }
         }
 
-        jTextField_modtaget.setText(modtaget);
+        jTextField_payamount.setText(modtaget);
     }
 
     public void endSale() throws SQLException {
@@ -290,35 +295,34 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
             modtagetTilBetaling = Double.parseDouble(modtaget);
             if (penge <= modtagetTilBetaling) {
                 beløbGodkent = true;
-                if (jCheckBox_danske.isSelected()) {
+                if (jToggleButton_dk.isSelected()) {
                     retur = modtagetTilBetaling - penge;
-                    jTextField_returBeløb.setText("Retur DK: " + retur);
+                    jTextField_payback.setText("Retur DK: " + retur);
 
-                } else if (jCheckBox_euro.isSelected()) {
+                } else if (jToggleButton_euro.isSelected()) {
                     retur = modtagetTilBetaling - penge;
-                    jTextField_returBeløb.setText("Retur Euro: " + retur);
+                    jTextField_payback.setText("Retur Euro: " + retur);
                 }
 
 //                storeController.alterProductQuantities(sale.getProductLine(), storeHandler.getProductsList());
-
 //                saleHandler.endSale(sale, discount);
                 penge = penge;
                 int money = (int) (penge * 100);
 //                moneyHandler.addCashAmount("+", dkOrEuro, money);
 
                 listeners.notifyListeners("End Sale");
-                jButton_betal.setEnabled(false);
-                jButton_fortryd.setEnabled(false);
+                jButton_saleEnd.setEnabled(false);
+//                jButton_fortryd.setEnabled(false);
                 timer.start();
-                if (jCheckBox_kvit.isSelected()) {
+                if (!jToggleButton_noKvit.isSelected()) {
 //                    printHandler.kvitteringPrint(sale, discount);
                 }
             } else {
-                jLabel_melding.setText("Beløb Ikke Nok!!");
+                jLabel_endError.setText("Beløb Ikke Nok!!");
             }
 
         } catch (NumberFormatException ex) {
-            jLabel_melding.setText("Tjek indtastede beløb");
+            jLabel_endError.setText("Tjek indtastede beløb");
         }
 
     }
@@ -356,33 +360,33 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         jB_closeRegisstre = new javax.swing.JButton();
         jL_userName = new javax.swing.JLabel();
         jL_EmployeeName = new javax.swing.JLabel();
-        jP_EndSale = new javax.swing.JPanel();
-        jButton4 = new javax.swing.JButton();
-        jCheckBox_danske = new javax.swing.JCheckBox();
-        jButton7 = new javax.swing.JButton();
-        jButton_fortryd = new javax.swing.JButton();
-        jTextField_returBeløb = new javax.swing.JTextField();
+        jP_endSale = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        jToggleButton_dk = new javax.swing.JToggleButton();
+        jToggleButton_euro = new javax.swing.JToggleButton();
+        jToggleButton_member = new javax.swing.JToggleButton();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField_endprice = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jTextField_payamount = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jTextField_payback = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jCheckBox_euro = new javax.swing.JCheckBox();
-        jButton9 = new javax.swing.JButton();
-        jCheckBox_kvit = new javax.swing.JCheckBox();
-        jLabel_melding = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jButton6 = new javax.swing.JButton();
-        jCheckBox_rabat = new javax.swing.JCheckBox();
-        jTextField_modtaget = new javax.swing.JTextField();
-        jButton8 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        jButton_betal = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jTextField_beløb = new javax.swing.JTextField();
         jButton12 = new javax.swing.JButton();
+        jToggleButton_noKvit = new javax.swing.JToggleButton();
+        jButton_saleEnd = new javax.swing.JButton();
+        jLabel_endError = new javax.swing.JLabel();
+        jButton13 = new javax.swing.JButton();
 
         setLayout(new java.awt.CardLayout());
 
@@ -614,53 +618,52 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
 
         add(jP_Sale, "card2");
 
-        jButton4.setText("4");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel2.setText("Betalings Type:");
+
+        jToggleButton_dk.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jToggleButton_dk.setText("Danske Kroner:");
+        jToggleButton_dk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                jToggleButton_dkActionPerformed(evt);
             }
         });
 
-        jCheckBox_danske.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jCheckBox_danske.setText("Danske Kroner");
-        jCheckBox_danske.addActionListener(new java.awt.event.ActionListener() {
+        jToggleButton_euro.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jToggleButton_euro.setText("Euro:");
+        jToggleButton_euro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox_danskeActionPerformed(evt);
+                jToggleButton_euroActionPerformed(evt);
             }
         });
 
-        jButton7.setText("7");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        jToggleButton_member.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jToggleButton_member.setText("Medlemskort:");
+        jToggleButton_member.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                jToggleButton_memberActionPerformed(evt);
             }
         });
 
-        jButton_fortryd.setText("Fortryd Indtastning:");
-        jButton_fortryd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_fortrydActionPerformed(evt);
-            }
-        });
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel4.setText("Beløb Til Betaling:");
 
-        jTextField_returBeløb.setEditable(false);
+        jTextField_endprice.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jTextField_endprice.setText("jTextField1");
 
-        jLabel2.setText("Beløb Til Betaling:");
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel5.setText("Beløb Modtaget:");
 
-        jButton2.setText("2");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
+        jTextField_payamount.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jTextField_payamount.setText("jTextField2");
 
-        jButton3.setText("3");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel6.setText("Beløb Retur:");
 
+        jTextField_payback.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jTextField_payback.setText("jTextField3");
+
+        jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jButton1.setText("1");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -668,62 +671,31 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
             }
         });
 
-        jCheckBox_euro.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jCheckBox_euro.setText("Euro");
-        jCheckBox_euro.addActionListener(new java.awt.event.ActionListener() {
+        jButton2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jButton2.setText("2");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox_euroActionPerformed(evt);
+                jButton2ActionPerformed(evt);
             }
         });
 
-        jButton9.setText("9");
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
+        jButton3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jButton3.setText("3");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
+                jButton3ActionPerformed(evt);
             }
         });
 
-        jCheckBox_kvit.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jCheckBox_kvit.setText("Kvitering");
-
-        jLabel_melding.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel_melding.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel_melding.setText("jLabel5");
-
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jLabel4.setText("Vælg Betalings Type:");
-
-        jButton6.setText("6");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        jButton4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jButton4.setText("4");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                jButton4ActionPerformed(evt);
             }
         });
 
-        jCheckBox_rabat.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jCheckBox_rabat.setText("MuseumsKort");
-        jCheckBox_rabat.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox_rabatActionPerformed(evt);
-            }
-        });
-
-        jTextField_modtaget.setEditable(false);
-
-        jButton8.setText("8");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
-
-        jButton10.setText("0");
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
-            }
-        });
-
+        jButton5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jButton5.setText("5");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -731,13 +703,47 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
             }
         });
 
-        jButton_betal.setText("Betal");
-        jButton_betal.addActionListener(new java.awt.event.ActionListener() {
+        jButton6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jButton6.setText("6");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_betalActionPerformed(evt);
+                jButton6ActionPerformed(evt);
             }
         });
 
+        jButton7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jButton7.setText("7");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        jButton8.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jButton8.setText("8");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        jButton9.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jButton9.setText("9");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
+        jButton10.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jButton10.setText("0");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
+        jButton11.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jButton11.setText(".");
         jButton11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -745,142 +751,148 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
             }
         });
 
-        jLabel5.setText("Penge Retur:");
-
-        jLabel6.setText("Beløb Modtaget:");
-
-        jTextField_beløb.setEditable(false);
-
-        jButton12.setText("Gå Tilbage:");
+        jButton12.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jButton12.setText("<-");
         jButton12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton12ActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jP_EndSaleLayout = new javax.swing.GroupLayout(jP_EndSale);
-        jP_EndSale.setLayout(jP_EndSaleLayout);
-        jP_EndSaleLayout.setHorizontalGroup(
-            jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jP_EndSaleLayout.createSequentialGroup()
-                .addGap(340, 340, 340)
-                .addGroup(jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jP_EndSaleLayout.createSequentialGroup()
-                        .addGroup(jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jP_EndSaleLayout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(6, 6, 6)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(6, 6, 6)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jP_EndSaleLayout.createSequentialGroup()
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(6, 6, 6)
-                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(6, 6, 6)
-                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jP_EndSaleLayout.createSequentialGroup()
-                                .addGroup(jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jP_EndSaleLayout.createSequentialGroup()
-                                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(6, 6, 6)
-                                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(6, 6, 6)
-                                .addGroup(jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jLabel5)
-                            .addComponent(jTextField_returBeløb)
-                            .addComponent(jCheckBox_danske)
-                            .addComponent(jTextField_beløb, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jP_EndSaleLayout.createSequentialGroup()
-                                .addGroup(jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jP_EndSaleLayout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addGroup(jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jCheckBox_euro, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField_modtaget)
-                                            .addComponent(jButton_fortryd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jButton_betal, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(jP_EndSaleLayout.createSequentialGroup()
-                                        .addGap(4, 4, 4)
-                                        .addComponent(jLabel_melding, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(338, 338, 338))
-                            .addGroup(jP_EndSaleLayout.createSequentialGroup()
+        jToggleButton_noKvit.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jToggleButton_noKvit.setText("Ingen Kvittering:");
+
+        jButton_saleEnd.setText("GodKend:");
+
+        jLabel_endError.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel_endError.setText("jLabel7");
+
+        jButton13.setText("Tilbage:");
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jP_endSaleLayout = new javax.swing.GroupLayout(jP_endSale);
+        jP_endSale.setLayout(jP_endSaleLayout);
+        jP_endSaleLayout.setHorizontalGroup(
+            jP_endSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jP_endSaleLayout.createSequentialGroup()
+                .addGroup(jP_endSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jP_endSaleLayout.createSequentialGroup()
+                        .addGap(239, 239, 239)
+                        .addGroup(jP_endSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jP_endSaleLayout.createSequentialGroup()
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jCheckBox_kvit, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(jP_EndSaleLayout.createSequentialGroup()
-                        .addComponent(jCheckBox_rabat)
-                        .addGap(88, 88, 88))))
-            .addGroup(jP_EndSaleLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(jToggleButton_noKvit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jP_endSaleLayout.createSequentialGroup()
+                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel_endError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jP_endSaleLayout.createSequentialGroup()
+                                .addGroup(jP_endSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jTextField_payback, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jToggleButton_member, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jTextField_endprice, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jToggleButton_dk, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jP_endSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jP_endSaleLayout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
+                                        .addComponent(jTextField_payamount, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jP_endSaleLayout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(jP_endSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jToggleButton_euro, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(jP_endSaleLayout.createSequentialGroup()
+                                .addGroup(jP_endSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jP_endSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jP_endSaleLayout.createSequentialGroup()
+                                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jP_endSaleLayout.createSequentialGroup()
+                                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jButton_saleEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                    .addGroup(jP_endSaleLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(372, Short.MAX_VALUE))
         );
-        jP_EndSaleLayout.setVerticalGroup(
-            jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jP_EndSaleLayout.createSequentialGroup()
-                .addGap(141, 141, 141)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6)
-                .addComponent(jCheckBox_rabat)
+        jP_endSaleLayout.setVerticalGroup(
+            jP_endSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jP_endSaleLayout.createSequentialGroup()
+                .addGap(63, 63, 63)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jP_endSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jToggleButton_euro, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jToggleButton_dk, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jP_EndSaleLayout.createSequentialGroup()
-                        .addGroup(jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox_euro, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jCheckBox_danske))
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel2)
-                        .addGap(6, 6, 6)
-                        .addComponent(jTextField_beløb, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jP_EndSaleLayout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(6, 6, 6)
-                        .addComponent(jTextField_modtaget, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(6, 6, 6)
-                .addComponent(jLabel5)
-                .addGap(6, 6, 6)
-                .addComponent(jTextField_returBeløb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6)
-                .addGroup(jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox_kvit))
-                .addGap(6, 6, 6)
-                .addGroup(jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel_melding))
-                .addGap(6, 6, 6)
-                .addGroup(jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jP_EndSaleLayout.createSequentialGroup()
-                        .addGroup(jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(6, 6, 6)
-                        .addGroup(jP_EndSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jP_EndSaleLayout.createSequentialGroup()
-                        .addComponent(jButton_fortryd, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton_betal, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(81, 81, 81)
-                .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jToggleButton_member, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jP_endSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jP_endSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField_endprice, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_payamount))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField_payback, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
+                .addGroup(jP_endSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jP_endSaleLayout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(jToggleButton_noKvit, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jP_endSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jP_endSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_endError))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jP_endSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jP_endSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton_saleEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(67, 67, 67)
+                .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        add(jP_EndSale, "card3");
+        add(jP_endSale, "card3");
     }// </editor-fold>//GEN-END:initComponents
 
     private void jB_showProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_showProductActionPerformed
@@ -903,28 +915,20 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         saleHandler.getCurrentSale().clearSale();
     }//GEN-LAST:event_jB_emtyBasketActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        modtag.add("4");
-        setModtagetBeløb();
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void jB_endSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_endSaleActionPerformed
+        CardLayout cl = (CardLayout) getLayout();
+        cl.show(this, "endsale");
+    }//GEN-LAST:event_jB_endSaleActionPerformed
 
-    private void jCheckBox_danskeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_danskeActionPerformed
-        if (jCheckBox_danske.isSelected()) {
-            jCheckBox_euro.setSelected(false);
-            dkOrEuro = "DK";
-        }
+    private void jToggleButton_euroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton_euroActionPerformed
+jToggleButton_dk.setSelected(false);
         setPaymentAmount();
-    }//GEN-LAST:event_jCheckBox_danskeActionPerformed
+    }//GEN-LAST:event_jToggleButton_euroActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        modtag.add("7");
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        modtag.add("1");
         setModtagetBeløb();
-    }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void jButton_fortrydActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_fortrydActionPerformed
-        modtag.remove(modtag.size() - 1);
-        setModtagetBeløb();
-    }//GEN-LAST:event_jButton_fortrydActionPerformed
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         modtag.add("2");
@@ -936,59 +940,40 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         setModtagetBeløb();
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        modtag.add("1");
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        modtag.add("4");
         setModtagetBeløb();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jCheckBox_euroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_euroActionPerformed
-        if (jCheckBox_euro.isSelected()) {
-            jCheckBox_danske.setSelected(false);
-            dkOrEuro = "EURO";
-        }
-        setPaymentAmount();
-    }//GEN-LAST:event_jCheckBox_euroActionPerformed
-
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        modtag.add("9");
-        setModtagetBeløb();
-    }//GEN-LAST:event_jButton9ActionPerformed
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        modtag.add("6");
-        setModtagetBeløb();
-    }//GEN-LAST:event_jButton6ActionPerformed
-
-    private void jCheckBox_rabatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_rabatActionPerformed
-
-        if (jCheckBox_rabat.isSelected()) {
-
-        }
-        setPaymentAmount();
-    }//GEN-LAST:event_jCheckBox_rabatActionPerformed
-
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        modtag.add("8");
-        setModtagetBeløb();
-    }//GEN-LAST:event_jButton8ActionPerformed
-
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        modtag.add("0");
-        setModtagetBeløb();
-    }//GEN-LAST:event_jButton10ActionPerformed
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         modtag.add("5");
         setModtagetBeløb();
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jButton_betalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_betalActionPerformed
-        try {
-            endSale();
-        } catch (SQLException ex) {
-            Logger.getLogger(SaleView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jButton_betalActionPerformed
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        modtag.add("6");
+        setModtagetBeløb();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        modtag.add("7");
+        setModtagetBeløb();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        modtag.add("8");
+        setModtagetBeløb();
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        modtag.add("9");
+        setModtagetBeløb();
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        modtag.add("0");
+        setModtagetBeløb();
+    }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         modtag.add(".");
@@ -996,14 +981,23 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        CardLayout cl = (CardLayout) getLayout();
-                cl.show(this, "sale");
+        modtag.remove(modtag.size() - 1);
+        setModtagetBeløb();
     }//GEN-LAST:event_jButton12ActionPerformed
 
-    private void jB_endSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_endSaleActionPerformed
+    private void jToggleButton_memberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton_memberActionPerformed
+        Museumscard();
+    }//GEN-LAST:event_jToggleButton_memberActionPerformed
+
+    private void jToggleButton_dkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton_dkActionPerformed
+        jToggleButton_euro.setSelected(false);
+        setPaymentAmount();
+    }//GEN-LAST:event_jToggleButton_dkActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         CardLayout cl = (CardLayout) getLayout();
-                cl.show(this, "endsale");
-    }//GEN-LAST:event_jB_endSaleActionPerformed
+        cl.show(this, "sale");
+    }//GEN-LAST:event_jButton13ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1020,6 +1014,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -1028,12 +1023,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JButton jButton_betal;
-    private javax.swing.JButton jButton_fortryd;
-    private javax.swing.JCheckBox jCheckBox_danske;
-    private javax.swing.JCheckBox jCheckBox_euro;
-    private javax.swing.JCheckBox jCheckBox_kvit;
-    private javax.swing.JCheckBox jCheckBox_rabat;
+    private javax.swing.JButton jButton_saleEnd;
     private javax.swing.JLabel jL_BasketPriceDk;
     private javax.swing.JLabel jL_BasketPriceEuro;
     private javax.swing.JLabel jL_EmployeeName;
@@ -1046,18 +1036,22 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel_melding;
-    private javax.swing.JPanel jP_EndSale;
+    private javax.swing.JLabel jLabel_endError;
     private javax.swing.JPanel jP_Sale;
     private javax.swing.JPanel jP_basket;
     private javax.swing.JPanel jP_basketf;
+    private javax.swing.JPanel jP_endSale;
     private javax.swing.JPanel jP_product;
     private javax.swing.JPanel jP_totalPrice;
     private javax.swing.JPanel jP_type;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField_beløb;
-    private javax.swing.JTextField jTextField_modtaget;
-    private javax.swing.JTextField jTextField_returBeløb;
+    private javax.swing.JTextField jTextField_endprice;
+    private javax.swing.JTextField jTextField_payamount;
+    private javax.swing.JTextField jTextField_payback;
+    private javax.swing.JToggleButton jToggleButton_dk;
+    private javax.swing.JToggleButton jToggleButton_euro;
+    private javax.swing.JToggleButton jToggleButton_member;
+    private javax.swing.JToggleButton jToggleButton_noKvit;
     // End of variables declaration//GEN-END:variables
 
     @Override
