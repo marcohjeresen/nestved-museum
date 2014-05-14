@@ -58,7 +58,9 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
         cl.addLayoutComponent(jP_CashRegistre, "CashReg");
         cl.show(this, "Logon");
         kode = "1421";
+        
         settextfield();
+       
     }
 
     public void showPage(String page) {
@@ -108,9 +110,15 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
     public void endReg() throws ParseException {
 
         if (dkcash) {
-            dkcash = false;
-            setText();
+            if (dkc != 0) {
+               dkcash = false;
+            setText(); 
+            }
+            
         } else if (!dkcash && eurocash) {
+            if (euc != 0) {
+                
+            
             int dkMoney = (int) (dkc * 100);
             int euroMoney = (int) (euc * 100);
             setEndText();
@@ -131,11 +139,12 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
                 listeners.notifyListeners("LogOut");
             }
         }
-
+}
     }
 
     public void setEndText() {
         if (openOrClose()) {
+            jLabel_overskrift.setText("God Aften :-)");
             double dkReg = moneyHandler.getCashRegister().getAmountDk() / 100;
             double euroReg = moneyHandler.getCashRegister().getAmountEuro() / 100;
             double difDk = (dkc * 100) - moneyHandler.getCashRegister().getAmountDk();
@@ -149,8 +158,9 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
             jButton_end.setText("Luk Kassen");
             jCheckBox_kvit.setEnabled(true);
         } else {
+            jLabel_overskrift.setText("Godmorgen :-)");
             jButton_end.setText("Open Kassen");
-
+            jCheckBox_kvit.setSelected(false);
             jTextField_dkRegistre.setEnabled(false);;
             jTextField_EuroRegistre.setEnabled(false);;
             jTextField_diffDk.setEnabled(false);;
@@ -224,7 +234,7 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
         jTextField_Eurocash = new javax.swing.JTextField();
         jTextField_dkRegistre = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        jLabel_overskrift = new javax.swing.JLabel();
 
         setLayout(new java.awt.CardLayout());
 
@@ -407,6 +417,17 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
 
         add(jP_logon, "card2");
 
+        jTextField_DkCash.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextField_DkCashMouseClicked(evt);
+            }
+        });
+        jTextField_DkCash.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_DkCashActionPerformed(evt);
+            }
+        });
+
         jLabel2.setText("Euro I Kassen:");
 
         jLabel1.setText("Dk I Kassen:");
@@ -511,10 +532,21 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
         jCheckBox_kvit.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jCheckBox_kvit.setText("Udskriv Rapport");
 
+        jTextField_Eurocash.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextField_EurocashMouseClicked(evt);
+            }
+        });
+        jTextField_Eurocash.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_EurocashActionPerformed(evt);
+            }
+        });
+
         jLabel3.setText("Kassens Indhold Dk");
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel7.setText("jLabel7");
+        jLabel_overskrift.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jLabel_overskrift.setText("jLabel7");
 
         javax.swing.GroupLayout jP_CashRegistreLayout = new javax.swing.GroupLayout(jP_CashRegistre);
         jP_CashRegistre.setLayout(jP_CashRegistreLayout);
@@ -574,23 +606,23 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
                                 .addGroup(jP_CashRegistreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jTextField_EuroRegistre)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jTextField_diffEuro, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jTextField_diffEuro)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addComponent(jCheckBox_kvit, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jP_CashRegistreLayout.createSequentialGroup()
-                        .addGap(114, 114, 114)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 746, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jP_CashRegistreLayout.createSequentialGroup()
                         .addGap(362, 362, 362)
-                        .addComponent(jButton_end, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(140, Short.MAX_VALUE))
+                        .addComponent(jButton_end, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jP_CashRegistreLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel_overskrift, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(306, 306, 306))
         );
         jP_CashRegistreLayout.setVerticalGroup(
             jP_CashRegistreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jP_CashRegistreLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(75, 75, 75)
+                .addGap(36, 36, 36)
+                .addComponent(jLabel_overskrift, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50)
                 .addGroup(jP_CashRegistreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jP_CashRegistreLayout.createSequentialGroup()
                         .addGroup(jP_CashRegistreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -701,11 +733,14 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
         if (storeHandler.employeeLogin(talkode)) {
             if (!moneyHandler.cashRegistre()) {
                 showPage("CashReg");
+                setText();
 
             } else {
                 listeners.notifyListeners("LogAndCashOk");
             }
 
+        }else{
+            jTextField_kode.setText("Forkert Kode!!");
         }
     }//GEN-LAST:event_jButton_LogonActionPerformed
 
@@ -774,6 +809,24 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_kodeActionPerformed
 
+    private void jTextField_DkCashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_DkCashActionPerformed
+
+    }//GEN-LAST:event_jTextField_DkCashActionPerformed
+
+    private void jTextField_EurocashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_EurocashActionPerformed
+
+    }//GEN-LAST:event_jTextField_EurocashActionPerformed
+
+    private void jTextField_DkCashMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField_DkCashMouseClicked
+        dkcash = true;
+        dk = "0";
+    }//GEN-LAST:event_jTextField_DkCashMouseClicked
+
+    private void jTextField_EurocashMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField_EurocashMouseClicked
+        dkcash = false;
+        euro = "0";
+    }//GEN-LAST:event_jTextField_EurocashMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -808,7 +861,7 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel_overskrift;
     private javax.swing.JPanel jP_CashRegistre;
     private javax.swing.JPanel jP_logon;
     private javax.swing.JPanel jPanel1;

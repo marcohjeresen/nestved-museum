@@ -47,6 +47,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
     private double penge;
     private Timer timer;
     private boolean discount;
+    private boolean readyBuy;
 
     /**
      * Creates new form SaleView
@@ -69,6 +70,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         jP_basketf.setPreferredSize(new Dimension(450, 200));
         jButton_saleEnd.setEnabled(false);
         discount = false;
+        readyBuy = false;
         modtaget = "";
         modtag = new ArrayList<>();
         jLabel_endError.setText("");
@@ -79,17 +81,19 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
 
             @Override
             public void actionPerformed(ActionEvent ae) {
-clearAll();
+                clearAll();
                 showPage("sale");
-                
+                jToggleButton_dk.setSelected(true);
+                setPaymentAmount();
+                jLabel_endError.setText("");
                 timer.stop();
             }
         });
     }
-    
-    public void showPage(String page){
+
+    public void showPage(String page) {
         CardLayout cl = (CardLayout) getLayout();
-                cl.show(this, page);
+        cl.show(this, page);
     }
 
     public void clearList() {
@@ -228,6 +232,7 @@ clearAll();
         int y = 5;
         jP_basketf.removeAll();
         jP_basketf.repaint();
+        jB_endSale.setEnabled(false);
         if (!saleHandler.getCurrentSale().getProductLine().isEmpty()) {
             for (ProductLine pl : saleHandler.getCurrentSale().getProductLine()) {
                 BasketView bv = new BasketView(pl, null, null);
@@ -237,6 +242,7 @@ clearAll();
                 bv.setVisible(true);
                 jP_basketf.revalidate();
                 jB_endSale.setEnabled(true);
+                readyBuy = true;
             }
         }
         if (!saleHandler.getCurrentSale().getTicketLine().isEmpty()) {
@@ -248,6 +254,7 @@ clearAll();
                 bv.setVisible(true);
                 jP_basketf.revalidate();
                 jB_endSale.setEnabled(true);
+                readyBuy = true;
             }
         }
         if (!saleHandler.getCurrentSale().getEventLine().isEmpty()) {
@@ -259,9 +266,11 @@ clearAll();
                 bv.setVisible(true);
                 jP_basketf.revalidate();
                 jB_endSale.setEnabled(true);
+                
             }
         }
         jP_basketf.setPreferredSize(new Dimension(HEIGHT, y));
+        
     }
 
     public void setPrice() {
@@ -323,7 +332,7 @@ clearAll();
         jB_endSale.setEnabled(false);
         setModtagetBeløb();
         jTextField_payback.setText("");
-        
+        repaint();
 
     }
 
@@ -363,7 +372,6 @@ clearAll();
                 listeners.notifyListeners("End Sale");
                 jButton_saleEnd.setEnabled(false);
 
-                
                 if (!jToggleButton_noKvit.isSelected()) {
 //                    printHandler.kvitteringPrint(sale, discount);
                 }
@@ -414,6 +422,8 @@ clearAll();
         jB_closeRegisstre = new javax.swing.JButton();
         jL_userName = new javax.swing.JLabel();
         jL_EmployeeName = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         jP_endSale = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jToggleButton_dk = new javax.swing.JToggleButton();
@@ -600,6 +610,10 @@ clearAll();
 
         jL_EmployeeName.setText("jLabel5");
 
+        jLabel7.setText("DK I Kassen:");
+
+        jLabel8.setText("EURO I Kassen:");
+
         javax.swing.GroupLayout jP_SaleLayout = new javax.swing.GroupLayout(jP_Sale);
         jP_Sale.setLayout(jP_SaleLayout);
         jP_SaleLayout.setHorizontalGroup(
@@ -613,13 +627,25 @@ clearAll();
                             .addComponent(jB_seachProdukt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jB_showProduct, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
                             .addComponent(jB_showTicket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jB_shoeEvent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jL_dkAmount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jL_euroAmount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jB_shoeEvent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jP_SaleLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jL_userName, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jL_EmployeeName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jP_SaleLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jP_SaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jP_SaleLayout.createSequentialGroup()
+                                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jL_dkAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jP_SaleLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(jP_SaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jL_EmployeeName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jP_SaleLayout.createSequentialGroup()
+                                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jL_euroAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jP_SaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jP_SaleLayout.createSequentialGroup()
@@ -674,9 +700,13 @@ clearAll();
                         .addGap(18, 18, 18)
                         .addComponent(jB_shoeEvent, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jL_dkAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jL_euroAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jP_SaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jL_dkAmount, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jP_SaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jL_euroAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
@@ -990,6 +1020,7 @@ clearAll();
         showPage("endsale");
         jToggleButton_dk.setSelected(true);
         setPaymentAmount();
+        jLabel_endError.setText("");
     }//GEN-LAST:event_jB_endSaleActionPerformed
 
     private void jToggleButton_euroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton_euroActionPerformed
@@ -1083,12 +1114,12 @@ clearAll();
     }//GEN-LAST:event_jTextField_payamountActionPerformed
 
     private void jB_logOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_logOutActionPerformed
-      storeHandler.logOutEmployee();
+        storeHandler.logOutEmployee();
         listeners.notifyListeners("LogOut");
     }//GEN-LAST:event_jB_logOutActionPerformed
 
     private void jB_closeRegisstreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_closeRegisstreActionPerformed
-        
+
         listeners.notifyListeners("EndCashAndDay");
     }//GEN-LAST:event_jB_closeRegisstreActionPerformed
 
@@ -1129,6 +1160,8 @@ clearAll();
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel_endError;
     private javax.swing.JPanel jP_Sale;
     private javax.swing.JPanel jP_basket;
