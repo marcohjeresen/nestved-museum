@@ -58,6 +58,7 @@ public class Sale {
 
     public void addTicketLine(TicketType tt, int quantities) {
         boolean isthere = false;
+
         if (!ticketLine.isEmpty()) {
 
             for (int i = 0; i < ticketLine.size(); i++) {
@@ -70,7 +71,6 @@ public class Sale {
             }
             if (!isthere) {
                 if ("Gruppebillet, min. 10 personer".equals(tt.getType())) {
-                    System.out.println("efsefefe");
                     quantities = 10;
                 }
                 TicketLine tl = new TicketLine(0, this, quantities, tt);
@@ -79,6 +79,9 @@ public class Sale {
             }
 
         } else {
+            if ("Gruppebillet, min. 10 personer".equals(tt.getType())) {
+                quantities = 10;
+            }
             TicketLine tl = new TicketLine(0, this, quantities, tt);
             ticketLine.add(tl);
         }
@@ -196,7 +199,10 @@ public class Sale {
                     ticketLine.remove(i);
                 }
                 if ("Gruppebillet, min. 10 personer".equals(tt.getType())) {
-                    ticketLine.remove(i);
+                    if (ticketLine.get(i).getQuantities() < 10) {
+                      ticketLine.remove(i);  
+                    }
+                    
                 }
             }
         }
