@@ -53,7 +53,7 @@ public class PrintHandler implements Printable {
     private MoneyHandler moneyHandler;
     private DateFormatTools dateFormatTools;
 
-    public PrintHandler() throws SQLException {
+    public PrintHandler() throws SQLException, ClassNotFoundException {
         saleHandler = SaleHandler.getSaleHandler();
         storeHandler = StoreHandler.storeHandler();
         moneyHandler = MoneyHandler.getMoneyHandler();
@@ -137,7 +137,7 @@ public class PrintHandler implements Printable {
 //        doPrint("Kvit");
     }
 
-    public void cashReport() {
+    public void cashReport() throws ClassNotFoundException, SQLException {
         Line empty = new Line("", 0, -1);
         String date = dateFormatTools.getDateNowShortString();
         System.out.println(date);
