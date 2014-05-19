@@ -10,23 +10,18 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Timer;
-import model.EventLine;
-import model.EventType;
-import model.Handler.MoneyHandler;
-import model.Handler.SaleHandler;
-import model.Handler.StoreHandler;
-import model.Product;
-import model.ProductGroup;
-import model.ProductLine;
-import model.TicketLine;
-import model.TicketType;
-import model.controller.SaleController;
-import model.controller.StoreController;
+import model.*;
+import model.Handler.*;
+
+import model.controller.*;
 
 /**
  *
@@ -51,8 +46,10 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
 
     /**
      * Creates new form SaleView
+     * @throws java.sql.SQLException
+     * @throws java.lang.ClassNotFoundException
      */
-    public SaleView() throws SQLException {
+    public SaleView() throws SQLException, ClassNotFoundException {
         storeHandler = StoreHandler.storeHandler();
         storeController = StoreController.getStoreController();
         saleHandler = SaleHandler.getSaleHandler();
@@ -90,6 +87,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
             }
         });
     }
+    
 
     public void showPage(String page) {
         CardLayout cl = (CardLayout) getLayout();
@@ -174,6 +172,17 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
                 }
                 break;
         }
+    }
+
+    public void setSearchPanel() {
+        jP_product.removeAll();
+        jP_product.repaint();
+
+        SearchPanel sp = new SearchPanel();
+        sp.setLocation(60, 35);
+        jP_product.add(sp);
+        jP_product.revalidate();
+        sp.setVisible(true);
     }
 
     public void setChoosenType(String type, boolean search) {
@@ -266,11 +275,11 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
                 bv.setVisible(true);
                 jP_basketf.revalidate();
                 jB_endSale.setEnabled(true);
-                
+
             }
         }
         jP_basketf.setPreferredSize(new Dimension(HEIGHT, y));
-        
+
     }
 
     public void setPrice() {
@@ -336,7 +345,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
 
     }
 
-    public void endSale() throws SQLException {
+    public void endSale() throws SQLException, ClassNotFoundException {
         boolean beløbGodkent = false;
         double modtagetTilBetaling;
         double retur = 0;
@@ -551,6 +560,11 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         });
 
         jB_showUtilSide.setText("Statestik/Lager");
+        jB_showUtilSide.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_showUtilSideActionPerformed(evt);
+            }
+        });
 
         jP_product.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Produkt:"));
 
@@ -566,6 +580,11 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         );
 
         jB_seachProdukt.setText("Søg Efter Produkt:");
+        jB_seachProdukt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_seachProduktActionPerformed(evt);
+            }
+        });
 
         jB_showProduct.setText("Vis Produkt Grupper:");
         jB_showProduct.addActionListener(new java.awt.event.ActionListener() {
@@ -621,31 +640,30 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
             .addComponent(jP_type, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jP_SaleLayout.createSequentialGroup()
                 .addGroup(jP_SaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jP_SaleLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jL_userName, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jP_SaleLayout.createSequentialGroup()
                         .addGap(10, 10, 10)
-                        .addGroup(jP_SaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jB_seachProdukt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jB_showProduct, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
-                            .addComponent(jB_showTicket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jB_shoeEvent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jP_SaleLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jL_userName, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jP_SaleLayout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(jP_SaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jP_SaleLayout.createSequentialGroup()
+                                .addGroup(jP_SaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jB_seachProdukt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jB_showProduct, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                                    .addComponent(jB_showTicket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jB_shoeEvent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jP_SaleLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jL_EmployeeName, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jP_SaleLayout.createSequentialGroup()
                                 .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jL_dkAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jP_SaleLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(jP_SaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jL_EmployeeName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jP_SaleLayout.createSequentialGroup()
-                                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jL_euroAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jL_euroAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jP_SaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jP_SaleLayout.createSequentialGroup()
@@ -703,11 +721,14 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
                         .addGroup(jP_SaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jL_dkAmount, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
                             .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jP_SaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jL_euroAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(jP_SaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jP_SaleLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jL_euroAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jP_SaleLayout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(177, Short.MAX_VALUE))))
         );
 
         add(jP_Sale, "card2");
@@ -1106,6 +1127,8 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
             endSale();
         } catch (SQLException ex) {
             Logger.getLogger(SaleView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SaleView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton_saleEndActionPerformed
 
@@ -1122,6 +1145,32 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
 
         listeners.notifyListeners("EndCashAndDay");
     }//GEN-LAST:event_jB_closeRegisstreActionPerformed
+
+    private void jB_seachProduktActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_seachProduktActionPerformed
+        setSearchPanel();
+    }//GEN-LAST:event_jB_seachProduktActionPerformed
+
+    private void jB_showUtilSideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_showUtilSideActionPerformed
+        
+
+        String filename = "test2.txt";
+
+        Scanner textScan;
+        try {
+            File file = new File(filename);
+            textScan = new Scanner(file);
+            while (textScan.hasNext()) {
+               String inp = textScan.nextLine();
+               System.out.println("hej");
+
+            }
+            textScan.close();
+        } catch (FileNotFoundException ex) {
+            System.out.println("kunne ikke finde" + ex.getMessage());
+        }
+
+        
+    }//GEN-LAST:event_jB_showUtilSideActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

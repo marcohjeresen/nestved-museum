@@ -3,16 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package museum;
 
 import Util.Listeners;
+import db.DBConnection;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import museum.view.Logon;
 import museum.view.SaleView;
 
@@ -21,34 +23,68 @@ import museum.view.SaleView;
  * @author markh_000
  */
 public class MainPanel extends javax.swing.JPanel implements ActionListener {
-private Listeners listeners;
-private SaleView sv;
-private Logon logon;
+
+    private Listeners listeners;
+    private SaleView sv;
+    private Logon logon;
+
     /**
      * Creates new form MainPanel
      */
-    public MainPanel() throws SQLException {
+    public MainPanel() {
         listeners = Listeners.getList();
         initComponents();
         listeners.addListener(this);
         setSize(new Dimension(1008, 691));
+
+        connect();
+    }
+
+    public void connect() {
+        DBConnection db = null;
+        jP_Log.removeAll();
+        repaint();
         CardLayout cl = (CardLayout) getLayout();
         cl.addLayoutComponent(jP_Log, "Logon");
         cl.addLayoutComponent(jP_Sale, "Sale");
         cl.addLayoutComponent(jP_Util, "Util");
         cl.show(this, "Logon");
-        logon = new Logon();
-        jP_Log.add(logon);
-        logon.setVisible(true);
-        sv = new SaleView();
-        jP_Sale.add(sv);
-        sv.setVisible(true);
+
+        try {
+            db = new DBConnection();
+        } catch (SQLException ex) {
+
+            System.out.println("Could not connect: ");
+        } catch (ClassNotFoundException ex) {
+            System.out.println("No driver found");
+        }
+        if (db.isConnected()) {
+            try {
+                logon = new Logon();
+                jP_Log.add(logon);
+                logon.setVisible(true);
+                sv = new SaleView();
+                jP_Sale.add(sv);
+                sv.setVisible(true);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("død");
+            } catch (SQLException ex) {
+                Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            
+            DbError dbError = new DbError(listeners);
+            jP_Log.add(dbError);
+
+            dbError.setVisible(true);
+        }
     }
-    
-    public void showPage(String page){
+
+    public void showPage(String page) {
         CardLayout cl = (CardLayout) getLayout();
-               cl.show(this, page);
-        
+        cl.show(this, page);
+
     }
 
     /**
@@ -115,25 +151,28 @@ private Logon logon;
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-       switch (ae.getActionCommand()){
-           case "LogAndCashOk":
-               showPage("Sale");
-               
-               sv.showEmployee();
-               sv.showCashReg();
-               break;
-           case "LogOut":
-               
-               showPage("Logon");
-               logon.showPage("Logon");
-               
-               break;
-           case "EndCashAndDay":
-               showPage("Logon");
-               logon.clearCashPage();
-               logon.openOrClose();
-               logon.showPage("CashReg");
-               break;
-       }
+        switch (ae.getActionCommand()) {
+            case "LogAndCashOk":
+                showPage("Sale");
+
+                sv.showEmployee();
+                sv.showCashReg();
+                break;
+            case "LogOut":
+
+                showPage("Logon");
+                logon.showPage("Logon");
+
+                break;
+            case "EndCashAndDay":
+                showPage("Logon");
+                logon.clearCashPage();
+                logon.openOrClose();
+                logon.showPage("CashReg");
+                break;
+            case "Database Retry":
+                connect();
+                break;
+        }
     }
 }

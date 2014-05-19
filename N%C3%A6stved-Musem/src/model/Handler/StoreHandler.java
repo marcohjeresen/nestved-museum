@@ -45,6 +45,8 @@ public class StoreHandler {
             choosenEvent = null;
         } catch (SQLException ex) {
             Logger.getLogger(StoreHandler.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(StoreHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -58,8 +60,8 @@ public class StoreHandler {
     public Employee getLogEmployee() {
         return logEmployee;
     }
-    
-    public void logOutEmployee(){
+
+    public void logOutEmployee() {
         logEmployee = null;
     }
 
@@ -104,6 +106,16 @@ public class StoreHandler {
         listeners.notifyListeners("Choosen Product");
     }
 
+    public void setSearchProduct(int productNumber) {
+        choosenProduct.removeAll(choosenProduct);
+        for (Product product : controller.getProductsList()) {
+            if (product.getProductNumber() == productNumber) {
+                choosenProduct.add(product);
+            }
+        }
+        listeners.notifyListeners("Choosen Product");
+    }
+
     public ArrayList<Product> getChoosenProduct() {
         return choosenProduct;
     }
@@ -121,8 +133,8 @@ public class StoreHandler {
     public TicketType getChoosenTicket() {
         return choosenTicket;
     }
-    
-    public void setChoosenEvent(String eventType){
+
+    public void setChoosenEvent(String eventType) {
         choosenEvent = null;
         for (EventType eventType1 : controller.getEventTypesList()) {
             if (eventType1.getType().equals(eventType)) {
@@ -131,10 +143,9 @@ public class StoreHandler {
         }
         listeners.notifyListeners("Choosen Event");
     }
-    
-    public EventType getChoosenEventType(){
+
+    public EventType getChoosenEventType() {
         return choosenEvent;
     }
-    
-    
+
 }
