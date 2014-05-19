@@ -5,9 +5,11 @@
  */
 package model.Handler;
 
+import Util.DateFormatTools;
 import Util.Listeners;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,6 +36,7 @@ public class StoreHandler {
 
     private TicketType choosenTicket;
     private EventType choosenEvent;
+    private String event;
 
     public StoreHandler() {
         try {
@@ -82,6 +85,10 @@ public class StoreHandler {
             ProductGroups.add(product.getGroupType());
         }
         return ProductGroups;
+    }
+    
+    public ArrayList<Product> getProductList(){
+        return controller.getProductsList();
     }
 
     public ArrayList<TicketType> getTicketType() {
@@ -146,6 +153,31 @@ public class StoreHandler {
 
     public EventType getChoosenEventType() {
         return choosenEvent;
+    }
+    
+    
+    public Boolean dayHaveEvent(Calendar c){
+        boolean isthere = false;
+        
+        try {
+            DateFormatTools dft = new DateFormatTools();
+            String date = dft.getShortDateFromCal(c);
+           isthere = controller.arThereEvent(date);
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(StoreHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return isthere;
+    }
+    
+    public void SetDateToCalender(Calendar c){
+        DateFormatTools dft = new DateFormatTools();
+        event = controller.getDayEvent(dft.getShortDateFromCal(c));
+    }
+    
+    public String getDayEvent(){
+        return event;
     }
 
 }

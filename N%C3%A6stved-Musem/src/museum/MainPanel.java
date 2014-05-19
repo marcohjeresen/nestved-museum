@@ -15,8 +15,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import museum.view.Logon;
-import museum.view.SaleView;
+import museum.view.*;
 
 /**
  *
@@ -27,6 +26,7 @@ public class MainPanel extends javax.swing.JPanel implements ActionListener {
     private Listeners listeners;
     private SaleView sv;
     private Logon logon;
+    private UtilView utilView;
 
     /**
      * Creates new form MainPanel
@@ -58,6 +58,9 @@ public class MainPanel extends javax.swing.JPanel implements ActionListener {
                 sv = new SaleView();
                 jP_Sale.add(sv);
                 sv.setVisible(true);
+                utilView = new UtilView();
+                jP_Util.add(utilView);
+                utilView.setVisible(true);
             } catch (ClassNotFoundException ex) {
 //                Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
                 System.out.println("død");
@@ -151,7 +154,6 @@ public class MainPanel extends javax.swing.JPanel implements ActionListener {
                 sv.showCashReg();
                 break;
             case "LogOut":
-
                 showPage("Logon");
                 logon.showPage("Logon");
 
@@ -165,6 +167,8 @@ public class MainPanel extends javax.swing.JPanel implements ActionListener {
             case "Database Retry":
                 connect();
                 break;
+            case "Show Util":
+                showPage("Util");
         }
     }
 }

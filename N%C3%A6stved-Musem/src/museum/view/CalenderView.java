@@ -30,14 +30,14 @@ private Listeners listeners;
 
      * @param x
      */
-    public CalenderView(int day, int mounth, int year, String x, StoreHandler storeHandler1, Listeners listeners1) {
+    public CalenderView(int day, int mounth, int year, String x) {
         this.day = day;
         this.mounth = mounth;
         this.year = year;
         this.x = x;
-        this.storeHandler = storeHandler1;
+        this.storeHandler = StoreHandler.storeHandler();
         
-        this.listeners = listeners1;
+        this.listeners = Listeners.getList();
         initComponents();
         setSize(60, 60);
         setText();
@@ -84,8 +84,8 @@ private Listeners listeners;
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-//        storeHandler.SetDateToCalender(calendar);
-        listeners.notifyListeners("Calendar");
+        storeHandler.SetDateToCalender(calendar);
+        listeners.notifyListeners("Update Cal");
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
