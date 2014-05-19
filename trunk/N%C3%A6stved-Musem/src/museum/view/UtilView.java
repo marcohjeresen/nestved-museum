@@ -143,13 +143,10 @@ public class UtilView extends javax.swing.JPanel implements ActionListener  {
     
     public void getStock(){
         
-       
-        
         int count = 0;
         int y = 0;
         int x = 0;
 //        jScrollPane2.setVisible(true);
-        
         for (StockLine stockLine : stockHandler.getStockList()) {
             StockViewPanel st = new StockViewPanel(stockLine);
             y = ((count * st.getHeight()) + (10 * count));
@@ -161,11 +158,7 @@ public class UtilView extends javax.swing.JPanel implements ActionListener  {
             jP_StockView.setPreferredSize(new Dimension(jP_stock.getWidth()-70, y));
             jP_StockView.revalidate();
             count++;
-            
-            
         }
-//       jScrollPane2.repaint();
-//       jScrollPane2.revalidate();
     }
     
     
