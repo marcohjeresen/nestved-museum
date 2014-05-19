@@ -49,15 +49,7 @@ public class MainPanel extends javax.swing.JPanel implements ActionListener {
         cl.addLayoutComponent(jP_Sale, "Sale");
         cl.addLayoutComponent(jP_Util, "Util");
         cl.show(this, "Logon");
-
-        try {
-            db = new DBConnection();
-        } catch (SQLException ex) {
-
-            System.out.println("Could not connect: ");
-        } catch (ClassNotFoundException ex) {
-            System.out.println("No driver found");
-        }
+        db = new DBConnection();
         if (db.isConnected()) {
             try {
                 logon = new Logon();
@@ -67,10 +59,10 @@ public class MainPanel extends javax.swing.JPanel implements ActionListener {
                 jP_Sale.add(sv);
                 sv.setVisible(true);
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+//                Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
                 System.out.println("død");
             } catch (SQLException ex) {
-                Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+//                Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             

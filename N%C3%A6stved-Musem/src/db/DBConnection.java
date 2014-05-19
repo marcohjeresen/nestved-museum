@@ -35,7 +35,7 @@ public class DBConnection {
     /**
      * Constructor, creates a new object of the class.
      */
-    public DBConnection() throws ClassNotFoundException, SQLException {
+    public DBConnection() {
 
         String filename = "DbLogInfo.txt";
         Scanner textScan;
@@ -43,9 +43,9 @@ public class DBConnection {
             File file = new File(filename);
             textScan = new Scanner(file);
             while (textScan.hasNext()) {
-                switch (textScan.next()){
+                switch (textScan.next()) {
                     case "Host:":
-                         host = textScan.next();
+                        host = textScan.next();
                         break;
                     case "Port:":
                         port = textScan.next();
@@ -59,7 +59,7 @@ public class DBConnection {
                     case "PassWord:":
                         pass = textScan.next();
                         break;
-                    
+
                 }
             }
             textScan.close();
@@ -70,59 +70,35 @@ public class DBConnection {
         db = "jdbc:mysql://" + host + ":" + port + "/" + dbNavn;
         isConnected = false;
         connection();
-//        gggg();
+
     }
-    
-    public void connect() throws ClassNotFoundException, SQLException{
+
+    public void connect() throws ClassNotFoundException, SQLException {
         isConnected = false;
-         connection();
+        connection();
     }
-    
-    public void gggg(){
-        try {
-            String filename = "DbLogInfo.txt";
-            File file = new File(filename);
-            PrintWriter pw = new PrintWriter(file);
-            pw.println("Host:");
-            pw.println("localhost");
-            pw.println("Port:");
-            pw.println("33061");
-            pw.println("DbNavn:");
-            pw.println("museumsydøstdanmark");
-            pw.println("User:");
-            pw.println("root");
-            pw.println("PassWord:");
-            pw.println("Root");
-            pw.close();
-        } catch (IOException ex) {
-            System.out.println("Det var ikke muligt at skrive til filen: " + ex.getMessage());
-        }
-    }
-    
-    
 
     /**
      * Makes a connection to the specified database.
      *
      * @return a boolean based on connection - true if connected, false if not.
      */
-    private boolean connection()  {
-        try {        
+    private boolean connection() {
+        try {
             Class.forName("com.mysql.jdbc.Driver");
             connect = (Connection) DriverManager.getConnection(db, user, pass);
             state = (Statement) connect.createStatement();
             isConnected = true;
-            
-            
-            
+
         } catch (ClassNotFoundException ex) {
             System.out.println("problemmer");
         } catch (SQLException ex) {
-             System.out.println("problemmer");
+            System.out.println("problemmer");
         }
         return isConnected;
     }
-    public boolean isConnected(){
+
+    public boolean isConnected() {
         return isConnected;
     }
 
@@ -132,15 +108,9 @@ public class DBConnection {
      *
      * @return an instance of this class
      */
-    public static DBConnection getInstance(){
+    public static DBConnection getInstance() {
         if (connection == null) {
-            try {
-                connection = new DBConnection();
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            connection = new DBConnection();
         }
         return connection;
     }

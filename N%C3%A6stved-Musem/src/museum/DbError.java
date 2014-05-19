@@ -16,9 +16,10 @@ import java.io.PrintWriter;
  * @author markh_000
  */
 public class DbError extends javax.swing.JPanel {
-private Listeners listeners;
+private final Listeners listeners;
     /**
      * Creates new form DbError
+     * @param listeners1
      */
     public DbError(Listeners listeners1) {
         listeners = listeners1;
