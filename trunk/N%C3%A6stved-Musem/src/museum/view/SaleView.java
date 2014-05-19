@@ -1152,23 +1152,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
 
     private void jB_showUtilSideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_showUtilSideActionPerformed
         
-
-        String filename = "test2.txt";
-
-        Scanner textScan;
-        try {
-            File file = new File(filename);
-            textScan = new Scanner(file);
-            while (textScan.hasNext()) {
-               String inp = textScan.nextLine();
-               System.out.println("hej");
-
-            }
-            textScan.close();
-        } catch (FileNotFoundException ex) {
-            System.out.println("kunne ikke finde" + ex.getMessage());
-        }
-
+listeners.notifyListeners("Show Util");
         
     }//GEN-LAST:event_jB_showUtilSideActionPerformed
 

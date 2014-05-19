@@ -152,6 +152,45 @@ public class StoreController {
         return eventTypesList;
     }
 
+    public String getDayEvent(String date) {
+        String dayEvent = "";
+        DBConnection db = new DBConnection();
+        try {
+            ResultSet rs = db.getResult("SELECT * from eventline where eventline_date like '" + date + "_________'");
+            while (rs.next()) {
+                for (EventType eventType : eventTypesList) {
+                    if (rs.getInt("eventline_eventtype_id") == eventType.getId()) {
+                        dayEvent = dayEvent + "Sted: " + rs.getString("eventLine_place") + 
+                                "\nType: " + eventType.getType() + "\nKundeNummer: "+rs.getInt("eventline_customer_phone")+
+                                "\nAntal Personer: "+ rs.getInt("eventline_quantities")+"\n\n";
+                    }
+                }
+
+            }
+        }catch(SQLException ex){
+            
+        }
+
+        return dayEvent;
+    }
+    
+    public Boolean arThereEvent(String date) throws SQLException{
+        boolean isthere = false;
+        DBConnection db = new DBConnection();
+
+        try {
+            ResultSet rs = db.getResult("SELECT * from eventline where eventline_date like '" + date + "_________'");
+            while (rs.next()) {
+                isthere = true;
+            }
+        }catch(SQLException ex){
+            
+        }
+        db.close();
+        return isthere;
+        
+    }
+
     public void alterProductQuantities(ArrayList<ProductLine> saleProductList) throws SQLException, ClassNotFoundException {
         DBConnection db = new DBConnection();
         int quantities = 0;

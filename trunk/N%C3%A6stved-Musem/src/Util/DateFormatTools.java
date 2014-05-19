@@ -86,6 +86,28 @@ public class DateFormatTools {
 //        }
         return c;
     }
+    
+    public String getShortDateFromCal(Calendar c){
+        String year = "" + c.get(Calendar.YEAR);
+        String month = "";
+        String day = "";
+        
+        if ((c.get(Calendar.MONTH) + 1) < 10) {
+             month = "0" + (c.get(Calendar.MONTH) + 1);
+        }else{
+            month = "" + (c.get(Calendar.MONTH) + 1);
+        }
+        if (c.get(Calendar.DAY_OF_MONTH) < 10) {
+            day = "0" + c.get(Calendar.DAY_OF_MONTH);
+        }else{
+            day = "" + c.get(Calendar.DAY_OF_MONTH);
+        }
+        
+
+
+        String date = "" + year + "-" + month + "-" + day;
+        return date;
+    }
 
     public Calendar getDateFromString(String date) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
