@@ -33,7 +33,7 @@ public class MoneyController {
         return moneyController;
     }
 
-    public int getIdFromData() {
+    public int getIdFromData() throws ClassNotFoundException, SQLException {
         DBConnection db = new DBConnection();
         int id = 0;
         try {
@@ -49,7 +49,7 @@ public class MoneyController {
         return id;
     }
 
-    public void addStartingCashToDataBase(CashRegister register) {
+    public void addStartingCashToDataBase(CashRegister register) throws ClassNotFoundException, SQLException {
         DBConnection db = new DBConnection();
         try {
             db.execute("insert into cashregistercontent values (" + register.getId() + ",'" + register.getDate() + "'," + register.getAmountDk() + "," + register.getAmountEuro() + "," + register.getEmployee().getCpr() + ")");
@@ -60,7 +60,7 @@ public class MoneyController {
         }
     }
     
-    public void addEndCashToDatabase(DifferanceRegistre dif){
+    public void addEndCashToDatabase(DifferanceRegistre dif) throws ClassNotFoundException, SQLException{
         DBConnection db = new DBConnection();
         try {
             db.execute("insert into differance values ('"+dif.getId()+"',"+dif.getEmployee().getCpr()+""

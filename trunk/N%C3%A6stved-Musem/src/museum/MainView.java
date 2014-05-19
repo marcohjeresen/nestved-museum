@@ -3,10 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package museum;
 
+import Util.Listeners;
+import db.DBConnection;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,23 +18,25 @@ import java.util.logging.Logger;
  *
  * @author MarcoPc
  */
+public class MainView extends javax.swing.JFrame{
 
-public class MainView extends javax.swing.JFrame {
-
-
+    private Listeners listeners;
 
     /**
      * Creates new form MainView
      */
-    public MainView() throws SQLException {
-        
+    public MainView(){
         initComponents();
         setSize(new Dimension(1024, 730));
-        
         MainPanel mp = new MainPanel();
         add(mp);
         mp.setVisible(true);
     }
+
+
+   
+
+  
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -89,11 +94,7 @@ public class MainView extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                try {
-                    new MainView().setVisible(true);
-                } catch (SQLException ex) {
-                    Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                new MainView().setVisible(true);
             }
         });
     }

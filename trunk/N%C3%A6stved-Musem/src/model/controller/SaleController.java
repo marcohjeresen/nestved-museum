@@ -44,7 +44,7 @@ public class SaleController {
         return saleController;
     }
 
-    public void getPaymentData() {
+    public void getPaymentData() throws ClassNotFoundException, SQLException {
         DBConnection db = new DBConnection();
         try {
             ResultSet rs = db.getResult("SELECT * FROM paymenttype");
@@ -59,7 +59,7 @@ public class SaleController {
         }
     }
 
-    public void endSale(Sale sale1, boolean discount) {
+    public void endSale(Sale sale1, boolean discount) throws ClassNotFoundException, SQLException {
         DBConnection db = new DBConnection();
         int invoiceId = 0;
         int saleId = 0;

@@ -1,0 +1,10 @@
+Host:
+localhost
+Port:
+3306
+DbNavn:
+museumsydøstdanmark
+User:
+root
+PassWord:
+Root

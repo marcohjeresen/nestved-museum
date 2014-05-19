@@ -25,7 +25,7 @@ public class GroupsPanel extends javax.swing.JPanel {
     /**
      * Creates new form Groups
      */
-    public GroupsPanel(String productGroup, TicketType ticketType, EventType eventType) {
+    public GroupsPanel(String productGroup, TicketType ticketType, EventType eventType){
         this.productGroup = productGroup;
         this.ticketType = ticketType;
         this.eventType = eventType;

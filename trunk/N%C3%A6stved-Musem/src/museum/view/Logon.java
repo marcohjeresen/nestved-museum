@@ -19,6 +19,8 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import print.PrintHandler;
 
 public class Logon extends javax.swing.JPanel implements ActionListener {
@@ -38,7 +40,7 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
     /**
      * Creates new form Logon
      */
-    public Logon() throws SQLException {
+    public Logon() throws SQLException, ClassNotFoundException {
         storeHandler = StoreHandler.storeHandler();
         moneyHandler = MoneyHandler.getMoneyHandler();
         listeners = Listeners.getList();
@@ -107,7 +109,7 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
         }
     }
 
-    public void endReg() throws ParseException {
+    public void endReg() throws ParseException, ClassNotFoundException, SQLException {
 
         if (dkcash) {
             if (dkc != 0) {
@@ -794,6 +796,10 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
             setEndText();
         } catch (ParseException ex) {
             System.out.println("he");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Logon.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Logon.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton_endActionPerformed
 
@@ -802,6 +808,10 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
             endReg();
         } catch (ParseException ex) {
             System.out.println("he");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Logon.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Logon.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton14ActionPerformed
 

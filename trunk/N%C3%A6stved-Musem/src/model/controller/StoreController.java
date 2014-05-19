@@ -31,7 +31,7 @@ public class StoreController {
     private ArrayList<EventType> eventTypesList;
     private ArrayList<Employee> employeesList;
 
-    public StoreController() throws SQLException {
+    public StoreController() throws SQLException, ClassNotFoundException {
 
         productsList = new ArrayList<>();
         ticketTypesList = new ArrayList<>();
@@ -44,14 +44,14 @@ public class StoreController {
 
     }
 
-    public static StoreController getStoreController() throws SQLException {
+    public static StoreController getStoreController() throws SQLException, ClassNotFoundException {
         if (storeController == null) {
             storeController = new StoreController();
         }
         return storeController;
     }
 
-    private void getProductData() throws SQLException {
+    private void getProductData() throws SQLException, ClassNotFoundException {
         DBConnection db = new DBConnection();
         try {
             ResultSet rse = db.getResult("select product_numberid, product_name, product_supplier, \n"
@@ -76,7 +76,7 @@ public class StoreController {
         db.close();
     }
 
-    public void getTicketData() throws SQLException {
+    public void getTicketData() throws SQLException, ClassNotFoundException {
         DBConnection db = new DBConnection();
         try {
             ResultSet rs = db.getResult("SELECT * FROM tickettype");
@@ -91,7 +91,7 @@ public class StoreController {
         }
     }
 
-    public void getEventData() throws SQLException {
+    public void getEventData() throws SQLException, ClassNotFoundException {
         DBConnection db = new DBConnection();
         try {
             ResultSet rs = db.getResult("SELECT * FROM eventtype order by eventtype_type");
@@ -108,7 +108,7 @@ public class StoreController {
 
     }
 
-    public void getEmployeeData() throws SQLException {
+    public void getEmployeeData() throws SQLException, ClassNotFoundException {
         DBConnection db = new DBConnection();
         try {
             ResultSet rs = db.getResult("SELECT * FROM employee");
@@ -152,7 +152,7 @@ public class StoreController {
         return eventTypesList;
     }
 
-    public void alterProductQuantities(ArrayList<ProductLine> saleProductList) throws SQLException {
+    public void alterProductQuantities(ArrayList<ProductLine> saleProductList) throws SQLException, ClassNotFoundException {
         DBConnection db = new DBConnection();
         int quantities = 0;
         for (ProductLine salePL : saleProductList) {
