@@ -184,7 +184,6 @@ public class UtilView extends javax.swing.JPanel implements ActionListener {
     public void ShowStat() throws ParseException {
         String date = parsDate();
         if (date != "") {
-            System.out.println("ja");
             statestikView.setStat(statistikHandler.getWeekStat(date), date);
             statestikView.setVisible(true);
             jP_statView.add(statestikView);

@@ -48,7 +48,6 @@ public class StatistikHandler {
                 fromDate = dateFormat.getNextday(dateFormat.getDateFromString(date), i);
             }
             String datefrom = dateFormat.getShortDateFromCal(fromDate);
-            System.out.println(datefrom);
             DBConnection db = new DBConnection();
             try {
                 ResultSet rse = db.getResult("select ticketline_quantities, tickettype_type,sale_date, sale_id "

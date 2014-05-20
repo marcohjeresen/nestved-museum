@@ -38,12 +38,10 @@ private Listeners listeners;
         if (productLine != null) {
             jLabel_title.setText(productLine.getProduct().getName());
             jLabel_quantities.setText("Antal: " + productLine.getQuantities());
-            
             double priceDk = (productLine.getProduct().getPriceDk() * productLine.getQuantities());
             priceDk = priceDk / 100;
             double priceEuro = (productLine.getProduct().getPriceEuro() * productLine.getQuantities());
             priceEuro = priceEuro /100;
-            
             jLabel_dk.setText("Pris Dk: " + priceDk);
             jLabel_euro.setText("Pris Euro: " + priceEuro);
         }else if (eventLine != null) {
