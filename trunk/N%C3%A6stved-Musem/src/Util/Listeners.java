@@ -21,7 +21,6 @@ public class Listeners {
 
     private Listeners() {
         listenersList = new ArrayList<>();
-
     }
     
     public static Listeners getList(){
@@ -39,13 +38,7 @@ public class Listeners {
     public void notifyListeners(String event) {
         for (int i = 0; i < listenersList.size(); i++) {
              listenersList.get(i).actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, event));
-            
         }
-//        for (ActionListener actionListener : listenersList) {
-//            actionListener.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, event));
-//        }
-
     }
-    
     
 }

@@ -5,13 +5,11 @@
  */
 package museum.view;
 
-//import model.handler.SaleHandler;
-//import model.handler.StoreHandler;
 import java.awt.Dimension;
 import model.*;
 import model.Handler.SaleHandler;
 import model.Handler.StoreHandler;
-//import model.handler.*;
+
 
 /**
  *
@@ -57,7 +55,6 @@ public class EventView extends javax.swing.JPanel {
     public void setPlace() {
         if (eventType.getId() == 3 || eventType.getId() == 4 || eventType.getId() == 7) {
             jTextField_sted.setText("");
-
         } else {
             jTextField_sted.setText("På museumet");
             jTextField_sted.setEditable(false);
@@ -66,7 +63,6 @@ public class EventView extends javax.swing.JPanel {
 
     public void setText(String tal) {
         jButton_ok.setEnabled(false);
-        
         tallet = tallet + tal;
         if (kunde) {
             jTextField_kundenummer.setText(tallet);
@@ -82,7 +78,6 @@ public class EventView extends javax.swing.JPanel {
                 måned = true;
                 tallet = "";
             }
-
         } else if (måned) {
             jTextField_måned.setText(tallet);
             if (tallet.length() == 2) {
@@ -119,11 +114,9 @@ public class EventView extends javax.swing.JPanel {
         } else if (antalBørn) {
             jTextField_antalBørn.setText(tallet);
             jButton11.setEnabled(true);
-            
             if (vidre) {
                 antalBørn = false;
                 tallet = "";
-                
                 vidre = false;
             }
         }
@@ -169,11 +162,8 @@ public class EventView extends javax.swing.JPanel {
             case "Antalbørn":
                 antalBørn = true;
                 setText("");
-
                 break;
-                
         }
-//        setOkbuttom();
     }
     public void setOkbuttom(){
         if (!jTextField_sted.getText().equals("") && !jTextField_kundenummer.getText().equals("")) {

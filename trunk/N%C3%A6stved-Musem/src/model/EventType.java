@@ -6,8 +6,6 @@
 
 package model;
 
-import java.sql.Time;
-
 /**
  *
  * @author markh_000
@@ -18,13 +16,11 @@ public class EventType {
     private int priceDk;
     private int priceEuro;
 
-
     public EventType(int id, String type, int priceDk, int priceEuro) {
         this.id = id;
         this.type = type;
         this.priceDk = priceDk;
         this.priceEuro = priceEuro;
-
     }
 
     public int getId() {

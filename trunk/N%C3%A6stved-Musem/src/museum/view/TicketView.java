@@ -7,9 +7,7 @@ package museum.view;
 
 //import model.handler.SaleHandler;
 import java.awt.Dimension;
-import javax.swing.JButton;
 import model.*;
-import java.util.Calendar;
 import model.Handler.SaleHandler;
 //import model.handler.*;
 
@@ -37,7 +35,6 @@ public class TicketView extends javax.swing.JPanel {
     }
 
     public void settext() {
-
         if (plusAntal == 1) {
             jButton1.setText("+1");
             plusAntal = 1;
@@ -48,13 +45,10 @@ public class TicketView extends javax.swing.JPanel {
             jButton1.setText("+10");
             plusAntal = 10;
         }
-
     }
 
     public void addticket() {
-   
         saleHandler.getCurrentSale().addTicketLine(ticketType, plusAntal);
-
     }
 
     /**

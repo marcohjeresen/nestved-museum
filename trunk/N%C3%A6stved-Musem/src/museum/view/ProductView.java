@@ -8,8 +8,6 @@ package museum.view;
 
 import java.awt.Dimension;
 import model.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import model.Handler.SaleHandler;
 import model.Handler.StoreHandler;
 
@@ -19,7 +17,6 @@ import model.Handler.StoreHandler;
  * @author markh_000
  */
 public class ProductView extends javax.swing.JPanel {
-
     private Product product;
     private SaleHandler saleHandler;
     private StoreHandler storeHandler;
@@ -28,8 +25,6 @@ public class ProductView extends javax.swing.JPanel {
     /**
      * Creates new form ProductView
      * @param product
-     * @param saleHandler1
-     * @param storeHandler
 
      */
     public ProductView(Product product) {
@@ -38,10 +33,7 @@ public class ProductView extends javax.swing.JPanel {
         this.saleHandler = SaleHandler.getSaleHandler();
         this.product = product;
         this.storeHandler = StoreHandler.storeHandler();
-        
-        
         initComponents();
-        
         addName();
     }
     public void addName(){
@@ -50,10 +42,7 @@ public class ProductView extends javax.swing.JPanel {
     }
 
     public void addProduct() {
-       
             saleHandler.getCurrentSale().addProduct(product);
-        
-        
     }
 
     /**

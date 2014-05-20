@@ -2,17 +2,12 @@ package db;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.file.FileSystems;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -59,18 +54,15 @@ public class DBConnection {
                     case "PassWord:":
                         pass = textScan.next();
                         break;
-
                 }
             }
             textScan.close();
         } catch (FileNotFoundException ex) {
             System.out.println("kunne ikke finde" + ex.getMessage());
         }
-
         db = "jdbc:mysql://" + host + ":" + port + "/" + dbNavn;
         isConnected = false;
         connection();
-
     }
 
     public void connect() throws ClassNotFoundException, SQLException {

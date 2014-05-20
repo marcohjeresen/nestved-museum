@@ -4,10 +4,6 @@
  */
 package Util;
 
-import java.util.Calendar;
-import model.Sale;
-import model.TicketType;
-
 /**
  *
  * @author davs
@@ -24,18 +20,13 @@ public class Line {
     private int day;
     private int sum;
     private int id;
-    
-    
     private int tkAdultQu;
     private int tkKidsQu;
     private int tkFreeQu;
     private int tkAGroupQu;
     private int evQuantities;
     private int evSold;
-    
-    
     private String ticketDate;
-    
 
     public Line(String text, int priceDk, int priceEuro) {
         this.text = text;
@@ -94,8 +85,6 @@ public class Line {
     public String getText() {
         return text;
     }
-
-   
 
     public int getId() {
         return id;
@@ -206,9 +195,6 @@ public class Line {
         return text;
     }
 
-    int getPrice() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     
 }

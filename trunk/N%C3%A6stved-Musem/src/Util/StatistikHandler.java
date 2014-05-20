@@ -8,20 +8,11 @@ package Util;
 import db.DBConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.EventLine;
-import model.EventType;
-import model.ProductGroup;
-import model.TicketLine;
 import model.Handler.SaleHandler;
-import model.Product;
 import museum.MainView;
 
 /**
@@ -29,14 +20,12 @@ import museum.MainView;
  * @author MarcoPc
  */
 public class StatistikHandler {
-
     private static StatistikHandler statistikHandler;
     private ArrayList<Line> lineList;
     private DateFormatTools dateFormat;
     private SaleHandler saleHandler;
 
     private StatistikHandler() throws SQLException {
-
         lineList = new ArrayList<>();
         dateFormat = new DateFormatTools();
         saleHandler = SaleHandler.getSaleHandler();
@@ -57,7 +46,6 @@ public class StatistikHandler {
         for (int i = 0; i < count; i++) {
             if (i != 0) {
                 fromDate = dateFormat.getNextday(dateFormat.getDateFromString(date), i);
-                
             }
             String datefrom = dateFormat.getShortDateFromCal(fromDate);
             System.out.println(datefrom);
@@ -71,7 +59,6 @@ public class StatistikHandler {
                     boolean erder = false;
                     if (!lineList.isEmpty()) {
                         for (int j = 0; j < lineList.size(); j++) {
-                            
                             if (lineList.get(j).getTicketDate() == datefrom) {
                                 erder = false;
                                 switch (rse.getString("tickettype_type")) {
@@ -193,13 +180,7 @@ public class StatistikHandler {
                 Logger.getLogger(StatistikHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-//        show();
         return lineList;
     }
-
-    public void show() {
-        for (Line line : lineList) {
-            System.out.println(line.getText() + " " + line.getTicketDate() + " a " + line.getTkAdultQu() + " g " + line.getTkAGroupQu() + " f " + line.getTkFreeQu() + " k " + line.getTkKidsQu() + " event " + line.getEvQuantities());
-        }
-    }
+    
 }

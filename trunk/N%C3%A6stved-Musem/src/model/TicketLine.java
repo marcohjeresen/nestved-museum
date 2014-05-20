@@ -6,10 +6,6 @@
 
 package model;
 
-
-import java.util.ArrayList;
-import java.util.Date;
-
 /**
  *
  * @author markh_000
@@ -67,10 +63,7 @@ public class TicketLine {
     @Override
     public String toString() {
         String ticketLine = "";
-
             ticketLine = ticketLine + ticketType.toString();
-        
-        
         return ticketLine + "Quantities: " + quantities ;
     }
     

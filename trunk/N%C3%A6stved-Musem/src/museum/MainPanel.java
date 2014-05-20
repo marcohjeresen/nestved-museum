@@ -68,10 +68,8 @@ public class MainPanel extends javax.swing.JPanel implements ActionListener {
 //                Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            
             DbError dbError = new DbError(listeners);
             jP_Log.add(dbError);
-
             dbError.setVisible(true);
         }
     }

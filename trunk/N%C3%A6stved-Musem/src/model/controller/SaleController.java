@@ -10,12 +10,10 @@ import db.DBConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.EventLine;
 import model.Invoice;
-import model.InvoiceStatus;
 import model.PaymentType;
 import model.ProductLine;
 import model.Sale;
@@ -66,7 +64,6 @@ public class SaleController {
         int productLineId = 0;
         int eventLineId = 0;
         int ticketLineId = 0;
-
         ResultSet rs;
         try {
             rs = db.getResult("select max(sale_id) from sale;");
@@ -94,7 +91,6 @@ public class SaleController {
                 ticketLineId = rs.getInt("max(ticketline_id)");
             }
 
-//            db.close();
         } catch (SQLException ex) {
             Logger.getLogger(SaleController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -104,13 +100,11 @@ public class SaleController {
         Invoice invoice = new Invoice(invoiceId, dato, sale1.getEndpriceDk(discount), sale1.getEndpriceEuro(discount), 1);
 
         sale1.setInvoice(invoice);
-
         sale1.setDate();
         saleId = saleId + 1;
         try {
             int count = 1;
             db.execute("insert into sale values(" + saleId + "," + "1" + "," + sale1.getEmployee().getCpr() + ",'" + sale1.getDate() + "')");
-           
             if (!sale1.getProductLine().isEmpty()) {
                 for (ProductLine productLine : sale1.getProductLine()) {
                     productLineId = productLineId + count;
@@ -143,5 +137,4 @@ public class SaleController {
             System.out.println("SaleController: endSale: fejl: " + ex.getLocalizedMessage());
         }
     }
-
 }

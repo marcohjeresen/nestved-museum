@@ -6,8 +6,6 @@
 
 package model;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author markh_000
