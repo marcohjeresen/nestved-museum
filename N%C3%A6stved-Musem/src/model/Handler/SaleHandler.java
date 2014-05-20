@@ -6,15 +6,7 @@
 
 package model.Handler;
 
-import db.DBConnection;
-import java.sql.SQLException;
-import java.util.Calendar;
-import model.EventLine;
-import model.Invoice;
-import model.InvoiceStatus;
-import model.ProductLine;
 import model.Sale;
-import model.TicketLine;
 
 /**
  *
@@ -26,7 +18,6 @@ public class SaleHandler {
 
     public SaleHandler() {
         currentSale = new Sale(0, null, null, null);
-        
     }
     
     public static SaleHandler getSaleHandler(){

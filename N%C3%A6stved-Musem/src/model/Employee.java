@@ -18,7 +18,6 @@ public class Employee {
     private String adresse;
     private int postZip;
     private String city;
-
     private int password;
     private int phone;
     private ArrayList phoneList;

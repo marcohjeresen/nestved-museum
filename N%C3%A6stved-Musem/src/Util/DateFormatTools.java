@@ -34,10 +34,8 @@ public class DateFormatTools {
         String hour = "" + c.get(Calendar.HOUR_OF_DAY);
         String minut = "" + c.get(Calendar.MINUTE);
         String second = "" + c.get(Calendar.SECOND);
-
         String date = "" + year + "-" + month + "-" + day + " " + hour + ":" + minut + ":" + second;
         return date;
-
     }
     
     public String getDateNowShortString(){
@@ -62,28 +60,14 @@ public class DateFormatTools {
         String hour = "" + calendar.get(Calendar.HOUR_OF_DAY);
         String minut = "" + calendar.get(Calendar.MINUTE);
         String second = "" + calendar.get(Calendar.SECOND);
-
         String date = "" + year + "-" + month + "-" + day + " " + hour + ":" + minut + ":" + second;
         return date;
     }
 
     public Calendar getShortDate(String date) throws ParseException {
-
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-
         Calendar c = Calendar.getInstance();
         c.setTime(format1.parse(date));
-
-//        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-//        Calendar dateCal = Calendar.getInstance();
-//        Date d = null;
-//        try {
-//            d = formatter.parse(date);
-//            dateCal.setTime(d);
-//        } catch (ParseException ex) {
-//            System.out.println("Date parse error");
-//            System.out.println(ex.getLocalizedMessage());
-//        }
         return c;
     }
     
@@ -91,7 +75,6 @@ public class DateFormatTools {
         String year = "" + c.get(Calendar.YEAR);
         String month = "";
         String day = "";
-        
         if ((c.get(Calendar.MONTH) + 1) < 10) {
              month = "0" + (c.get(Calendar.MONTH) + 1);
         }else{
@@ -102,9 +85,6 @@ public class DateFormatTools {
         }else{
             day = "" + c.get(Calendar.DAY_OF_MONTH);
         }
-        
-
-
         String date = "" + year + "-" + month + "-" + day;
         return date;
     }
@@ -123,9 +103,7 @@ public class DateFormatTools {
     }
 
     public Calendar getNextday(Calendar calendar, int days) {
-        
         calendar.roll(Calendar.DAY_OF_YEAR, days);
-
         return calendar;
     }
 
@@ -168,11 +146,9 @@ public class DateFormatTools {
             Date d = formatter.parse(date);
             Calendar fromDate = Calendar.getInstance();
             fromDate.setTime(d);
-
             SimpleDateFormat format = new SimpleDateFormat("EEEE dd MMM");
             theDate = format.format(fromDate.getTime());
             theDate = theDate.substring(0, 1).toUpperCase() + theDate.substring(1);
-
         } catch (ParseException ex) {
             Logger.getLogger(DateFormatTools.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -186,15 +162,12 @@ public class DateFormatTools {
             Date d = formatter.parse(date);
             Calendar fromDate = Calendar.getInstance();
             fromDate.setTime(d);
-
             SimpleDateFormat format = new SimpleDateFormat("EEEE dd");
             theDate = format.format(fromDate.getTime());
             theDate = theDate.substring(0, 1).toUpperCase() + theDate.substring(1);
-
         } catch (ParseException ex) {
             Logger.getLogger(DateFormatTools.class.getName()).log(Level.SEVERE, null, ex);
         }
         return theDate;
     }
-
 }

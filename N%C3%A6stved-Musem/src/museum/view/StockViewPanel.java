@@ -21,18 +21,16 @@ public class StockViewPanel extends javax.swing.JPanel {
     public StockViewPanel(StockLine stockLine) {
         initComponents();
         setSize(790, 16);
-        if (stockLine.getProducBuyPrice() != "KøbsPris") {
+        if (stockLine.getProducBuyPrice().equals("KøbsPris")) {
             int priceeee = Integer.parseInt(stockLine.getProducBuyPrice());
             double price = priceeee / 100;
             jLabel_buyp.setText(price + "");
         }else{
             jLabel_buyp.setText(stockLine.getProducBuyPrice());
         }
-
         jLabel_numb.setText(stockLine.getProducNumber());
         jLabel_title.setText(stockLine.getProducName());
         jLabel_sup.setText(stockLine.getProducSuppl());
-
         jLabel_qun.setText(stockLine.getProducQuantitis());
     }
 

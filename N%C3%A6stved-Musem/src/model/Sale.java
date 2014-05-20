@@ -8,8 +8,6 @@ package model;
 import Util.DateFormatTools;
 import Util.Listeners;
 import java.util.ArrayList;
-import java.util.Date;
-import sun.security.ssl.SSLContextImpl;
 
 /**
  *
@@ -18,7 +16,6 @@ import sun.security.ssl.SSLContextImpl;
 public class Sale {
 
     private Listeners listeners;
-
     private DateFormatTools dateTools;
     private int id;
     private PaymentType paymentType;

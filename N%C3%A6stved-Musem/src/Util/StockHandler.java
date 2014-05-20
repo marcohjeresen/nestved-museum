@@ -9,9 +9,6 @@ import db.DBConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import model.*;
 import model.Handler.*;
 
 /**
@@ -19,10 +16,8 @@ import model.Handler.*;
  * @author markh_000
  */
 public class StockHandler {
-
     private static StockHandler StockHandler;
     private StoreHandler storeHandler;
-
     private ArrayList<StockLine> StockList;
 
     private StockHandler() {
@@ -35,10 +30,6 @@ public class StockHandler {
             StockHandler = new StockHandler();
         }
         return StockHandler;
-    }
-
-    public void setvalgte(String type, String typeNavn) {
-
     }
 
     public ArrayList<StockLine> getStockList() {
@@ -55,11 +46,6 @@ public class StockHandler {
         } catch (SQLException ex) {
 
         }
-
         return StockList;
-    }
-
-    public void print() {
-
     }
 }

@@ -5,23 +5,18 @@
  */
 package museum.view;
 
-
 import print.StatistikPrintHandler;
 import Util.*;
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.EventLine;
 import model.Handler.*;
-import model.controller.*;
 
 /**
  *
@@ -47,21 +42,16 @@ public class UtilView extends javax.swing.JPanel implements ActionListener {
         stockHandler = StockHandler.getStockHandler();
         try {
             statistikHandler = StatistikHandler.getStatistikHandler();
+            statestikView = StatestikView.getStatView();
         } catch (SQLException ex) {
+            Logger.getLogger(UtilView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
             Logger.getLogger(UtilView.class.getName()).log(Level.SEVERE, null, ex);
         }
         initComponents();
         jB_printStat.setEnabled(false);
-        try {
-            statestikView = StatestikView.getStatView();
-        } catch (ParseException ex) {
-            Logger.getLogger(UtilView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
         listeners.addListener(this);
-
         setSize(new Dimension(1008, 691));
-
         jP_Calender.setVisible(true);
         cal = Calendar.getInstance();
     }
@@ -81,7 +71,6 @@ public class UtilView extends javax.swing.JPanel implements ActionListener {
             jP_stock.setVisible(true);
             getStockView();
         }
-
     }
 
     public void getDaysOfMounthCalendar(int mounht) {
@@ -95,9 +84,7 @@ public class UtilView extends javax.swing.JPanel implements ActionListener {
         for (int i = 0; i < cal.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
             int days = i + 1;
             cal.set(Calendar.DAY_OF_MONTH, days);
-
             if (storeHandler.dayHaveEvent(cal)) {
-
                 CalenderView calenderView = new CalenderView(days, mounht, 2014, "x");
                 if (count == 6) {
                     x = 10;
@@ -157,17 +144,14 @@ public class UtilView extends javax.swing.JPanel implements ActionListener {
     }
 
     public void getStockView() {
-
         int count = 0;
         int y = 0;
         int x = 0;
-
         for (StockLine stockLine : stockHandler.getStockList()) {
             StockViewPanel st = new StockViewPanel(stockLine);
             y = ((count * st.getHeight()) + (10 * count));
             x = 7;
             st.setLocation(x, y);
-
             jP_StockView.add(st);
             st.setVisible(true);
             jP_StockView.setPreferredSize(new Dimension(jP_stock.getWidth() - 70, y));
@@ -784,12 +768,12 @@ public class UtilView extends javax.swing.JPanel implements ActionListener {
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jB_showStatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_showStatActionPerformed
- try {
+        try {
             ShowStat();
             jB_printStat.setEnabled(true);
         } catch (ParseException ex) {
-            
-        }    
+
+        }
     }//GEN-LAST:event_jB_showStatActionPerformed
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed

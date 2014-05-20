@@ -16,8 +16,6 @@ import java.util.logging.Logger;
 import model.Employee;
 import model.EventType;
 import model.Product;
-import model.ProductLine;
-import model.TicketLine;
 import model.TicketType;
 import model.controller.StoreController;
 
@@ -33,7 +31,6 @@ public class StoreHandler {
     private boolean search;
     private Listeners listeners;
     private ArrayList<Product> choosenProduct;
-
     private TicketType choosenTicket;
     private EventType choosenEvent;
     private String event;
@@ -86,8 +83,8 @@ public class StoreHandler {
         }
         return ProductGroups;
     }
-    
-    public ArrayList<Product> getProductList(){
+
+    public ArrayList<Product> getProductList() {
         return controller.getProductsList();
     }
 
@@ -154,29 +151,25 @@ public class StoreHandler {
     public EventType getChoosenEventType() {
         return choosenEvent;
     }
-    
-    
-    public Boolean dayHaveEvent(Calendar c){
+
+    public Boolean dayHaveEvent(Calendar c) {
         boolean isthere = false;
-        
         try {
             DateFormatTools dft = new DateFormatTools();
             String date = dft.getShortDateFromCal(c);
-           isthere = controller.arThereEvent(date);
-            
-            
+            isthere = controller.arThereEvent(date);
         } catch (SQLException ex) {
             Logger.getLogger(StoreHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
         return isthere;
     }
-    
-    public void SetDateToCalender(Calendar c){
+
+    public void SetDateToCalender(Calendar c) {
         DateFormatTools dft = new DateFormatTools();
         event = controller.getDayEvent(dft.getShortDateFromCal(c));
     }
-    
-    public String getDayEvent(){
+
+    public String getDayEvent() {
         return event;
     }
 

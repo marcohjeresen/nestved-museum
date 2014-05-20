@@ -6,15 +6,12 @@
 
 package model;
 
-import java.util.Date;
-
 /**
  *
  * @author markh_000
  */
 public class Invoice {
     private int id;
-    
     private String date;
     private int priceDk;
     private int priceEuro;

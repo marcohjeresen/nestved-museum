@@ -12,15 +12,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.EventLine;
-import model.ProductLine;
-import model.TicketLine;
 
 
 /**
@@ -49,7 +44,6 @@ public class StatestikView extends javax.swing.JPanel {
         initComponents();
         setSize(780, 480);
         xCord = 10;
-
     }
 
     public static StatestikView getStatView() throws ParseException {
@@ -63,8 +57,6 @@ public class StatestikView extends javax.swing.JPanel {
         this.lines = lineList;
         this.date = date;
         statestikView.repaint();
-        
-        
     }
 
     public void drawLines(Graphics g, int page) {
@@ -98,10 +90,8 @@ public class StatestikView extends javax.swing.JPanel {
         g.drawString("Omvisninger", 15, 250);
         g.drawString("Omvisninger i pers", 15, 300);
         g.drawString("Antal i Alt", 15, 360);
-        
 
         for (int i = 0; i < lines.size(); i++) {
-           
             g.drawString(dateTools.getDayLetter(lines.get(i).getTicketDate()), (140 + (i * 90)), 40);
             int number = lines.get(i).getTkAdultQu() + lines.get(i).getTkAGroupQu();
             g.drawString("" + number, (170 + (i * 90)), 100);
@@ -111,9 +101,7 @@ public class StatestikView extends javax.swing.JPanel {
             g.drawString("" + lines.get(i).getEvQuantities(), (170 + (i * 90)), 300);
             int total = number + lines.get(i).getTkKidsQu() + lines.get(i).getTkFreeQu() + lines.get(i).getEvQuantities();
             g.drawString("" + total, (170 + (i * 90)), 360);
-
         }
-
     }
 
     /**

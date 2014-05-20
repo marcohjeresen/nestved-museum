@@ -8,7 +8,6 @@ package museum.view;
 import java.awt.CardLayout;
 import java.text.ParseException;
 import model.Handler.*;
-import Util.*;
 
 /**
  *
@@ -60,9 +59,7 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
         cl.addLayoutComponent(jP_CashRegistre, "CashReg");
         cl.show(this, "Logon");
         kode = "1421";
-        
         settextfield();
-       
     }
 
     public void showPage(String page) {
@@ -110,38 +107,31 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
     }
 
     public void endReg() throws ParseException, ClassNotFoundException, SQLException {
-
         if (dkcash) {
             if (dkc != 0) {
-               dkcash = false;
-            setText(); 
+                dkcash = false;
+                setText();
             }
-            
         } else if (!dkcash && eurocash) {
             if (euc != 0) {
-                
-            
-            int dkMoney = (int) (dkc * 100);
-            int euroMoney = (int) (euc * 100);
-            setEndText();
-            if (!openOrClose()) {
-                dkMoney = (int) (dkc * 100);
-                euroMoney = (int) (euc * 100);
-                moneyHandler.setCashRegistre(dkMoney, euroMoney);
-                listeners.notifyListeners("LogAndCashOk");
-            } else {
-
-                moneyHandler.endCashregister(dkMoney, euroMoney, storeHandler.getLogEmployee());
-
-                if (jCheckBox_kvit.isSelected()) {
-                    printHandler.cashReport();
+                int dkMoney = (int) (dkc * 100);
+                int euroMoney = (int) (euc * 100);
+                setEndText();
+                if (!openOrClose()) {
+                    dkMoney = (int) (dkc * 100);
+                    euroMoney = (int) (euc * 100);
+                    moneyHandler.setCashRegistre(dkMoney, euroMoney);
+                    listeners.notifyListeners("LogAndCashOk");
+                } else {
+                    moneyHandler.endCashregister(dkMoney, euroMoney, storeHandler.getLogEmployee());
+                    if (jCheckBox_kvit.isSelected()) {
+                        printHandler.cashReport();
+                    }
+                    storeHandler.logOutEmployee();
+                    listeners.notifyListeners("LogOut");
                 }
-                storeHandler.logOutEmployee();
-
-                listeners.notifyListeners("LogOut");
             }
         }
-}
     }
 
     public void setEndText() {
@@ -169,7 +159,6 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
             jTextField_diffEuro.setEnabled(false);;
             jCheckBox_kvit.setEnabled(false);
         }
-
     }
 
     public void clearCashPage() {
@@ -726,22 +715,18 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton_LogonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_LogonActionPerformed
-
         int talkode = Integer.parseInt(kode);
         kode = "0";
         settextfield();
         clearCashPage();
-
         if (storeHandler.employeeLogin(talkode)) {
             if (!moneyHandler.cashRegistre()) {
                 showPage("CashReg");
                 setText();
-
             } else {
                 listeners.notifyListeners("LogAndCashOk");
             }
-
-        }else{
+        } else {
             jTextField_kode.setText("Forkert Kode!!");
         }
     }//GEN-LAST:event_jButton_LogonActionPerformed

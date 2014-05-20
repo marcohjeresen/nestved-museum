@@ -32,14 +32,12 @@ public class GroupsPanel extends javax.swing.JPanel {
        listners = Listeners.getList();
        storeHandler = StoreHandler.storeHandler();
         int x = 0;
-        
         if (productGroup != null) {
             x = 192;
         } else  {
             x = 240;
         }
         setSize(new Dimension(x, 40));
-
         initComponents();
         setText();
     }
@@ -57,13 +55,10 @@ public class GroupsPanel extends javax.swing.JPanel {
     public void setGroupType(){
         if (productGroup != null) {
             storeHandler.setChoosenProduct(productGroup);
-            
         } else if (ticketType != null) {
             storeHandler.setChoosenTicket(ticketType.getType());
-             
         } else if (eventType != null) {
             storeHandler.setChoosenEvent(eventType.getType());
-
         }
     }
 

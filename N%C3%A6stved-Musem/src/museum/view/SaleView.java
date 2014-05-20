@@ -10,17 +10,13 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Timer;
 import model.*;
 import model.Handler.*;
-
 import model.controller.*;
 import print.PrintHandler;
 
@@ -48,6 +44,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
 
     /**
      * Creates new form SaleView
+     *
      * @throws java.sql.SQLException
      * @throws java.lang.ClassNotFoundException
      */
@@ -78,7 +75,6 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         setPrice();
 
         timer = new Timer(5000, new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent ae) {
                 clearAll();
@@ -90,7 +86,6 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
             }
         });
     }
-    
 
     public void showPage(String page) {
         CardLayout cl = (CardLayout) getLayout();
@@ -180,7 +175,6 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
     public void setSearchPanel() {
         jP_product.removeAll();
         jP_product.repaint();
-
         SearchPanel sp = new SearchPanel();
         sp.setLocation(60, 35);
         jP_product.add(sp);
@@ -198,7 +192,6 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
             case "Product":
                 jP_product.removeAll();
                 if (search) {
-
                 } else {
                     for (Product product : storeHandler.getChoosenProduct()) {
                         ProductView pw = new ProductView(product);
@@ -282,7 +275,6 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
             }
         }
         jP_basketf.setPreferredSize(new Dimension(HEIGHT, y));
-
     }
 
     public void setPrice() {
@@ -305,7 +297,6 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
     }
 
     public void setPaymentAmount() {
-
         if (jToggleButton_dk.isSelected()) {
             double priceDk = numberFormatTools.getDoubleValue(saleHandler.getCurrentSale().getEndpriceDk(discount));
             jTextField_endprice.setText("DK: " + priceDk);
@@ -317,7 +308,6 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         } else {
             jTextField_endprice.setText("" + 0);
         }
-
     }
 
     public void setModtagetBeløb() {
@@ -328,7 +318,6 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
                 jButton_saleEnd.setEnabled(true);
             }
         }
-
         jTextField_payamount.setText(modtaget);
     }
 
@@ -345,7 +334,6 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         setModtagetBeløb();
         jTextField_payback.setText("");
         repaint();
-
     }
 
     public void endSale() throws SQLException, ClassNotFoundException {
@@ -378,29 +366,22 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
                 if (!jToggleButton_noKvit.isSelected()) {
                     printHandler.kvitteringPrint(saleHandler.getCurrentSale(), discount);
                 }
-                
                 saleController.endSale(saleHandler.getCurrentSale(), discount);
-
                 jLabel_endError.setText("Betaling Godkendt:");
                 int money = (int) (penge * 100);
                 moneyHandler.addCashAmount("+", dkOrEuro, money);
-
                 listeners.notifyListeners("End Sale");
                 jButton_saleEnd.setEnabled(false);
-
-                
                 saleHandler.newSale();
                 timer.start();
             } else {
                 jLabel_endError.setText("Beløb Ikke Nok!!");
             }
-
         } catch (NumberFormatException ex) {
             jLabel_endError.setText("Tjek indtastede beløb");
         }
         revalidate();
         repaint();
-
     }
 
     /**
@@ -1147,7 +1128,6 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
     }//GEN-LAST:event_jB_logOutActionPerformed
 
     private void jB_closeRegisstreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_closeRegisstreActionPerformed
-
         listeners.notifyListeners("EndCashAndDay");
     }//GEN-LAST:event_jB_closeRegisstreActionPerformed
 
@@ -1156,9 +1136,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
     }//GEN-LAST:event_jB_seachProduktActionPerformed
 
     private void jB_showUtilSideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_showUtilSideActionPerformed
-        
-listeners.notifyListeners("Show Util");
-        
+        listeners.notifyListeners("Show Util");
     }//GEN-LAST:event_jB_showUtilSideActionPerformed
 
 

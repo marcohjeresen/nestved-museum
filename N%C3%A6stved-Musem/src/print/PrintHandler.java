@@ -6,6 +6,7 @@
 package print;
 
 import Util.DateFormatTools;
+import Util.Line;
 import db.DBConnection;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -18,11 +19,8 @@ import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.EventLine;
@@ -85,7 +83,6 @@ public class PrintHandler implements Printable {
             for (ProductLine productLine : sale.getProductLine()) {
                 priceDk = productLine.getProduct().getPriceDk() * productLine.getQuantities();
                 priceEuro = productLine.getProduct().getPriceEuro() * productLine.getQuantities();
-
                 Line product = new Line(productLine.getProduct().getName() + "", 0, 0);
                 Line productPrice = new Line("Antal: " + productLine.getQuantities(), priceDk, priceEuro);
                 lines.add(product);
@@ -100,7 +97,6 @@ public class PrintHandler implements Printable {
             for (EventLine eventLine : sale.getEventLine()) {
                 priceDk = eventLine.getEventlinePriceDk();
                 priceEuro = eventLine.getEventlineEuro();
-
                 Line eventLineText = new Line(eventLine.getEventtype().getType() + "", 0, 0);
                 Line eventLinePlace = new Line(eventLine.getPlace() + "", 0, 0);
                 Line eventLinePrice = new Line("Antal: " + eventLine.getQuantities(), priceDk, priceEuro);
@@ -117,7 +113,6 @@ public class PrintHandler implements Printable {
             for (TicketLine ticketLine : sale.getTicketLine()) {
                 priceDk = ticketLine.getTicketType().getPriceDk() * ticketLine.getQuantities();
                 priceEuro = ticketLine.getTicketType().getPriceEuro() * ticketLine.getQuantities();
-
                 Line ticketLineText = new Line(ticketLine.getTicketType().getType(), 0, 0);
                 Line ticketPrice = new Line("Antal: " + ticketLine.getQuantities(), priceDk, priceEuro);
                 lines.add(ticketLineText);
@@ -134,7 +129,7 @@ public class PrintHandler implements Printable {
         lines.add(employ2);
         lines.add(end);
 
-//        doPrint("Kvit");
+        doPrint();
     }
 
     public void cashReport() throws ClassNotFoundException, SQLException {
@@ -153,7 +148,6 @@ public class PrintHandler implements Printable {
                 System.out.println(rs.getInt("sale_id"));
                 idList.add(rs.getInt("sale_id"));
             }
-
             for (Integer integer : idList) {
                 rs = db.getResult("select * from productline where productline_sale_id = " + integer + "");
                 while (rs.next()) {
@@ -223,7 +217,6 @@ public class PrintHandler implements Printable {
         }
 
         lines.removeAll(lines);
-//        
         Line pro = new Line("Produkter: ", 0, -1);
         lines.add(pro);
         int totalProd = 0;
@@ -266,7 +259,6 @@ public class PrintHandler implements Printable {
         Line cash = new Line("Kasse Opgørelse:", 0, -1);
         lines.add(cash);
         db = new DBConnection();
-
         try {
             ResultSet rs = db.getResult("select *  from cashregistercontent , differance "
                     + "where starting_date like '" + date + "_________' and starting_id = differance_id");
@@ -282,7 +274,7 @@ public class PrintHandler implements Printable {
                     }
                     if (employee.getCpr() == rs.getInt("differance_employeecpr")) {
                         DifferanceRegistre d = new DifferanceRegistre(rs.getInt("differance_id"), employee, rs.getInt("differance_currentcashdk"), rs.getInt("differance_currentcasheuro"),
-                        rs.getInt("differance_expecteddk"), rs.getInt("differance_expectedeuro"), rs.getInt("differance_differancedk"), rs.getInt("differance_differanceeuro"), rs.getString("differance_date"));
+                                rs.getInt("differance_expecteddk"), rs.getInt("differance_expectedeuro"), rs.getInt("differance_differancedk"), rs.getInt("differance_differanceeuro"), rs.getString("differance_date"));
                         Line lll = new Line("Kasse Slut:   Dato: " + d.getDate(), 0, -1);
                         double fDk = d.getExpectedDk() / 100;
                         double fEuro = d.getExpectedEuro() / 100;
@@ -299,37 +291,18 @@ public class PrintHandler implements Printable {
                         lines.add(empty);
                     }
                 }
-
             }
         } catch (SQLException ex) {
             Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-
-        doPrint("Kvit");
-
+        doPrint();
     }
-
-//    public void stockReport(ArrayList<StockLine> stockList) {
-//        for (StockLine stockLine : stockList) {
-//            Line li = new Line("", 1, -2);
-//            li.setProductNumber(stockLine.getProducNumber());
-//            li.setProductTitle(stockLine.getProducName());
-//            li.setProductSupplier(stockLine.getProducSuppl());
-//            li.setProductBuyPrice(stockLine.getProducBuyPrice());
-//            li.setProductQuantities(stockLine.getProducQuantitis());
-//            lines.add(li);
-//        }
-//        doPrint("Kvit");
-//    }
-//    
 
     public void drawLines(Graphics g, int page) {
         g.setColor(new Color(150, 190, 255));
         g.fillRect(5, 10, 10 * xCord, 75);
         g.setColor(new Color(50, 90, 155));
         g.drawRect(5, 10, 10 * xCord, 75);
-
         g.setColor(Color.BLACK);
         Calendar cal = Calendar.getInstance();
         g.drawString(cal.getTime().toString(), 5, 80);
@@ -338,7 +311,6 @@ public class PrintHandler implements Printable {
         for (int i = page * LINES_PER_PAGE; i < (page + 1) * LINES_PER_PAGE; i++) {
             if (i < lines.size()) {
                 int yCoord = 120 + 20 * (i - page * LINES_PER_PAGE);
-
                 if (lines.get(i).getPriceDk() != 0) {
                     if (lines.get(i).getPriceEuro() == -1) {
                         g.drawString(lines.get(i).getText(), 10, yCoord);
@@ -348,7 +320,7 @@ public class PrintHandler implements Printable {
                         g.drawString(lines.get(i).getProductNumber(), 10, yCoord);
                         g.drawString(lines.get(i).getProductTitle(), 70, yCoord);
                         g.drawString(lines.get(i).getProductSupplier(), 260, yCoord);
-                        if (lines.get(i).getProductBuyPrice() != "KøbsPris") {
+                        if (!"KøbsPris".equals(lines.get(i).getProductBuyPrice())) {
                             int priceeee = Integer.parseInt(lines.get(i).getProductBuyPrice());
                             double price = priceeee / 100;
                             g.drawString(price + "", 370, yCoord);
@@ -362,26 +334,9 @@ public class PrintHandler implements Printable {
                     double priceDk = (lines.get(i).getPriceDk() / 100);
                     g.drawString(priceDk + " kr", 9 * xCord, yCoord);
                 }
-
                 lineCount++;
             }
         }
-//        if ((page + 1) * LINES_PER_PAGE >= lines.size()) {
-//            int totalDk = 0;
-//            int totalEuro = 0;
-//            double totalDkend = 0;
-//            double totalEuroEnd = 0;
-//            for (int i = 0; i < lines.size(); i++) {
-//                totalDk = totalDk + lines.get(i).getPriceDk();
-//                totalEuro = totalEuro + lines.get(i).getPriceEuro();
-//            }
-//            totalDkend = (totalDk / 100);
-//            totalEuroEnd = (totalEuro / 100);
-//            g.drawLine(10, lineCount * 20 + 115, 275, lineCount * 20 + 115);
-//            g.drawString("Total", 10, 130 + lineCount * 20);
-//            g.drawString(totalDkend + " kr", 210, 130 + lineCount * 20);
-//            g.drawLine(10, lineCount * 20 + 135, 275, lineCount * 20 + 135);
-//        }
         g.drawString("Side " + (page + 1), 10, 175 + lineCount * 20);
     }
 
@@ -401,26 +356,16 @@ public class PrintHandler implements Printable {
             printResult = PAGE_EXISTS;
         }
         return printResult;
-
     }
 
-    public void doPrint(String type) {
+    public void doPrint() {
         PrinterJob job = PrinterJob.getPrinterJob();
         Printable doc = this;
         job.setPrintable(doc);
         boolean accept = job.printDialog();
         if (accept) {
             try {
-                switch (type) {
-                    case "Kvit":
-                        job.print();
-
-                        break;
-                    case "Stock":
-
-                        break;
-                }
-
+                job.print();
             } catch (PrinterException ex) {
                 System.out.println("printer problemmer");
             }

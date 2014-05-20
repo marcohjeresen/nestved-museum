@@ -28,7 +28,6 @@ public class MoneyHandler {
         dateFormatTools = new DateFormatTools();
         moneyController = MoneyController.getMoneyController();
         storeHandler = StoreHandler.storeHandler();
-        
     }
     
     public static MoneyHandler getMoneyHandler() {
@@ -42,7 +41,6 @@ public class MoneyHandler {
         try {
             String date = dateFormatTools.getDateNowString();
             int id = moneyController.getIdFromData();
-            
             cashRegister = new CashRegister(id,date, dk, euro, storeHandler.getLogEmployee());
             moneyController.addStartingCashToDataBase(cashRegister);
         } catch (ClassNotFoundException ex) {
@@ -63,7 +61,6 @@ public class MoneyHandler {
         }else if (cashRegister != null) {
             isthere = true;
         }
-        
         return isthere;
     }
 
@@ -76,20 +73,26 @@ public class MoneyHandler {
         int amountEuro = cashRegister.getAmountEuro();
         switch (type) {
             case "+":
-                if (curency == "DK") {
-                    cashRegister.setAmountDk(amountDk + amount);
-                }else if (curency == "EURO")
-                    cashRegister.setAmountEuro(amountEuro + amount);
+        switch (curency) {
+            case "DK":
+                cashRegister.setAmountDk(amountDk + amount);
                 break;
-            case "-":
-                if (curency == "Dk") {
-                    cashRegister.setAmountDk(amountDk - amount);
-                }else if (curency == "Euro")
-                    cashRegister.setAmountEuro(amountEuro - amount);
+            case "EURO":
+                cashRegister.setAmountEuro(amountEuro + amount);
                 break;
         }
-        
-      
+                break;
+            case "-":
+        switch (curency) {
+            case "Dk":
+                cashRegister.setAmountDk(amountDk - amount);
+                break;
+            case "Euro":
+                cashRegister.setAmountEuro(amountEuro - amount);
+                break;
+        }
+                break;
+        }
     }
     
      public void endCashregister(int DkIndTheBox, int EuroIndTheBox, Employee employee)  {
@@ -100,14 +103,12 @@ public class MoneyHandler {
             String dato = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DATE) + " " + cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND);
             DifferanceRegistre differanceRegistre = new DifferanceRegistre(cashRegister.getId(), employee, DkIndTheBox, EuroIndTheBox,cashRegister.getAmountDk(), cashRegister.getAmountEuro(),  differanceDk, differanceEuro, dato);
             moneyController.addEndCashToDatabase(differanceRegistre);
-            
             cashRegister = null;
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(MoneyHandler.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(MoneyHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
     
 }

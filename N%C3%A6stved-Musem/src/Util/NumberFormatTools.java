@@ -28,7 +28,6 @@ public class NumberFormatTools {
     public int getIntValue(double price){
         priceDouble = price;
         priceInt = (int) (priceDouble * 100);
-        
         return priceInt;
     }
     
