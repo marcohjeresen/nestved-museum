@@ -22,6 +22,7 @@ import model.*;
 import model.Handler.*;
 
 import model.controller.*;
+import print.PrintHandler;
 
 /**
  *
@@ -36,6 +37,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
     private MoneyHandler moneyHandler;
     private Listeners listeners;
     private NumberFormatTools numberFormatTools;
+    private PrintHandler printHandler;
     private String modtaget;
     private String dkOrEuro;
     private ArrayList<String> modtag;
@@ -55,6 +57,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         saleHandler = SaleHandler.getSaleHandler();
         saleController = SaleController.controller();
         moneyHandler = MoneyHandler.getMoneyHandler();
+        printHandler = new PrintHandler();
         listeners = Listeners.getList();
         numberFormatTools = NumberFormatTools.getTools();
         initComponents();
@@ -372,6 +375,10 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
                 }
                 saleHandler.getCurrentSale().setEmployee(storeHandler.getLogEmployee());
                 storeController.alterProductQuantities(saleHandler.getCurrentSale().getProductLine());
+                if (!jToggleButton_noKvit.isSelected()) {
+                    printHandler.kvitteringPrint(saleHandler.getCurrentSale(), discount);
+                }
+                
                 saleController.endSale(saleHandler.getCurrentSale(), discount);
 
                 jLabel_endError.setText("Betaling Godkendt:");
@@ -381,9 +388,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
                 listeners.notifyListeners("End Sale");
                 jButton_saleEnd.setEnabled(false);
 
-                if (!jToggleButton_noKvit.isSelected()) {
-//                    printHandler.kvitteringPrint(sale, discount);
-                }
+                
                 saleHandler.newSale();
                 timer.start();
             } else {

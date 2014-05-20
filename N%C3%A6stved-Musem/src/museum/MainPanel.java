@@ -149,14 +149,12 @@ public class MainPanel extends javax.swing.JPanel implements ActionListener {
         switch (ae.getActionCommand()) {
             case "LogAndCashOk":
                 showPage("Sale");
-
                 sv.showEmployee();
                 sv.showCashReg();
                 break;
             case "LogOut":
                 showPage("Logon");
                 logon.showPage("Logon");
-
                 break;
             case "EndCashAndDay":
                 showPage("Logon");
@@ -169,6 +167,10 @@ public class MainPanel extends javax.swing.JPanel implements ActionListener {
                 break;
             case "Show Util":
                 showPage("Util");
+                break;
+            case "Show Sale":
+                showPage("Sale");
+                break;
         }
     }
 }
