@@ -80,6 +80,10 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
                 clearAll();
                 showPage("sale");
                 jToggleButton_dk.setSelected(true);
+                jToggleButton_member.setSelected(false);
+                jToggleButton_euro.setSelected(false);
+                jToggleButton_noKvit.setSelected(false);
+                Museumscard();
                 setPaymentAmount();
                 jLabel_endError.setText("");
                 timer.stop();
@@ -131,7 +135,6 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
                 }
                 break;
             case "Ticket":
-
                 for (TicketType ticketType : storeHandler.getTicketType()) {
                     GroupsPanel groupsPanel = new GroupsPanel(null, ticketType, null);
                     if (count == 4) {
@@ -149,7 +152,6 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
                 }
                 break;
             case "Event":
-
                 for (EventType eventType : storeHandler.getEventType()) {
                     GroupsPanel groupsPanel = new GroupsPanel(null, null, eventType);
                     if (count == 4) {

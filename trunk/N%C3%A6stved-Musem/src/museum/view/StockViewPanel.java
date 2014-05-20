@@ -21,7 +21,7 @@ public class StockViewPanel extends javax.swing.JPanel {
     public StockViewPanel(StockLine stockLine) {
         initComponents();
         setSize(790, 16);
-        if (stockLine.getProducBuyPrice().equals("KøbsPris")) {
+        if (!stockLine.getProducBuyPrice().equals("KøbsPris")) {
             int priceeee = Integer.parseInt(stockLine.getProducBuyPrice());
             double price = priceeee / 100;
             jLabel_buyp.setText(price + "");

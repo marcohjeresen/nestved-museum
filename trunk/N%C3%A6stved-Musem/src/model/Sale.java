@@ -57,9 +57,7 @@ public class Sale {
         boolean isthere = false;
 
         if (!ticketLine.isEmpty()) {
-
             for (int i = 0; i < ticketLine.size(); i++) {
-                System.out.println("fsfsdfsfd");
                 if (ticketLine.get(i).getTicketType().equals(tt)) {
                     int amount = ticketLine.get(i).getQuantities();
                     ticketLine.get(i).setQuantities(amount + quantities);
@@ -72,9 +70,7 @@ public class Sale {
                 }
                 TicketLine tl = new TicketLine(0, this, quantities, tt);
                 ticketLine.add(tl);
-
             }
-
         } else {
             if ("Gruppebillet, min. 10 personer".equals(tt.getType())) {
                 quantities = 10;
@@ -82,7 +78,6 @@ public class Sale {
             TicketLine tl = new TicketLine(0, this, quantities, tt);
             ticketLine.add(tl);
         }
-
         listeners.notifyListeners("Basket Change");
     }
 
@@ -93,7 +88,6 @@ public class Sale {
     public void addEventLine(EventType et, int quantities, int customer, String place) {
         boolean isthere = false;
         if (!eventLine.isEmpty()) {
-
             for (int i = 0; i < eventLine.size(); i++) {
                 if (eventLine.get(i).getEventtype().equals(et)) {
                     int amount = eventLine.get(i).getQuantities();
@@ -104,7 +98,6 @@ public class Sale {
             if (!isthere) {
                 EventLine el = new EventLine(0, et, this, quantities, dateTools.getDateNowString(), customer, place);
                 eventLine.add(el);
-
             }
         } else {
             EventLine el = new EventLine(0, et, this, quantities, dateTools.getDateNowString(), customer, place);
@@ -181,7 +174,6 @@ public class Sale {
                         productLine.remove(i);
                     }
                 }
-
             }
         }
         listeners.notifyListeners("Basket Change");
@@ -210,7 +202,6 @@ public class Sale {
         for (int i = 0; i < eventLine.size(); i++) {
             if (eventLine.get(i).getEventtype().equals(et)) {
                 int amount = eventLine.get(i).getQuantities();
-
                 eventLine.get(i).setQuantities(amount + quantities);
                 if (eventLine.get(i).getQuantities() == 0) {
                     eventLine.remove(i);
@@ -261,9 +252,7 @@ public class Sale {
         ticketLine.removeAll(ticketLine);
         eventLine.removeAll(eventLine);
         productLine.removeAll(productLine);
-
         invoice = null;
-
         paymentType = null;
         id = 0;
         listeners.notifyListeners("Basket Change");
@@ -280,11 +269,8 @@ public class Sale {
                     price = price * productline.getProduct().getDiscount();
                     price = price * productline.getQuantities();
                     endpriceDk = (int) (endpriceDk + price);
-
                     price = productline.getProduct().getPriceEuro() * productline.getProduct().getDiscount();
                     price = price / 100;
-//                    price =  
-
                     price = price * productline.getQuantities();
                     endpriceEuro = (int) (endpriceEuro + price);
                 } else {
@@ -311,9 +297,7 @@ public class Sale {
                     endpriceDk = (int) (endpriceDk + price);
                     price = eventLine1.getEventlineEuro();
                     endpriceEuro = (int) (endpriceEuro + price);
-
                 }
-
             }
         }
         if (!ticketLine.isEmpty()) {
@@ -326,25 +310,19 @@ public class Sale {
                     price = ticketLine1.getTicketType().getPriceEuro() * 90;
                     price = price / 100;
                     price = price * ticketLine1.getQuantities();
-
                     endpriceEuro = (int) (endpriceEuro + price);
-
                 } else {
-
                     price = ticketLine1.getTicketType().getPriceDk() * ticketLine1.getQuantities();
                     endpriceDk = (int) (endpriceDk + price);
                     price = ticketLine1.getTicketType().getPriceEuro() * ticketLine1.getQuantities();
                     endpriceEuro = (int) (endpriceEuro + price);
                 }
-
             }
         }
-
     }
 
     public int getEndpriceEuro(boolean discount) {
         setEndprice(discount);
-        System.out.println(endpriceEuro);
         return endpriceEuro;
     }
 
