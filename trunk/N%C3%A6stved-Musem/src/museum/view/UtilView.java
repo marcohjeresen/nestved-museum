@@ -7,15 +7,20 @@ package museum.view;
 
 import Util.DateFormatTools;
 import Util.Listeners;
+import Util.StatistikHandler;
 import Util.StockHandler;
 import Util.StockLine;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.EventLine;
 import model.Handler.StoreHandler;
 import model.controller.StoreController;
@@ -24,52 +29,63 @@ import model.controller.StoreController;
  *
  * @author MarcoPc
  */
-public class UtilView extends javax.swing.JPanel implements ActionListener  {
-    
+public class UtilView extends javax.swing.JPanel implements ActionListener {
+
     private StoreHandler storeHandler;
     private Listeners listeners;
     private DateFormatTools dateFormatTools;
     private Calendar cal;
     private StockHandler stockHandler;
+    private StatistikHandler statistikHandler;
+    private StatestikView statestikView;
 
     /**
      * Creates new form UtilView
      */
     public UtilView() {
         storeHandler = StoreHandler.storeHandler();
-       listeners = Listeners.getList();
+        listeners = Listeners.getList();
         dateFormatTools = new DateFormatTools();
         stockHandler = StockHandler.getStockHandler();
+        try {
+            statistikHandler = StatistikHandler.getStatistikHandler();
+        } catch (SQLException ex) {
+            Logger.getLogger(UtilView.class.getName()).log(Level.SEVERE, null, ex);
+        }
         initComponents();
-        
+        try {
+            statestikView = StatestikView.getStatView();
+        } catch (ParseException ex) {
+            Logger.getLogger(UtilView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         listeners.addListener(this);
-        
+
         setSize(new Dimension(1008, 691));
-        
+
         jP_Calender.setVisible(true);
         cal = Calendar.getInstance();
     }
-    
+
     public void showPage(String page) {
         if (page == "Cal") {
             jP_Calender.setVisible(true);
             jP_Stat.setVisible(false);
             jP_stock.setVisible(false);
-        }else if (page == "Stat"){
+        } else if (page == "Stat") {
             jP_Calender.setVisible(false);
             jP_Stat.setVisible(true);
             jP_stock.setVisible(false);
-        }else if (page == "Stock") {
+        } else if (page == "Stock") {
             jP_Calender.setVisible(false);
             jP_Stat.setVisible(false);
             jP_stock.setVisible(true);
-            getStock();
+            getStockView();
         }
-        
-        
+
     }
-    
-    public void getDaysOfMounth(int mounht) {
+
+    public void getDaysOfMounthCalendar(int mounht) {
         int count = 0;
         int x = 10;
         int y = 25;
@@ -80,9 +96,9 @@ public class UtilView extends javax.swing.JPanel implements ActionListener  {
         for (int i = 0; i < cal.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
             int days = i + 1;
             cal.set(Calendar.DAY_OF_MONTH, days);
-            
+
             if (storeHandler.dayHaveEvent(cal)) {
-                
+
                 CalenderView calenderView = new CalenderView(days, mounht, 2014, "x");
                 if (count == 6) {
                     x = 10;
@@ -107,10 +123,10 @@ public class UtilView extends javax.swing.JPanel implements ActionListener  {
                 calenderView.setVisible(true);
                 height = calenderView.getHeight();
                 width = calenderView.getWidth();
-                
+
             } else {
                 CalenderView calenderView = new CalenderView(days, mounht, 2014, "");
-               if (count == 6) {
+                if (count == 6) {
                     x = 10;
                     y = calenderView.getHeight() + 35;
                 } else if (count == 12) {
@@ -140,9 +156,9 @@ public class UtilView extends javax.swing.JPanel implements ActionListener  {
         jP_Day.repaint();
         repaint();
     }
-    
-    public void getStock(){
-        
+
+    public void getStockView() {
+
         int count = 0;
         int y = 0;
         int x = 0;
@@ -152,17 +168,47 @@ public class UtilView extends javax.swing.JPanel implements ActionListener  {
             y = ((count * st.getHeight()) + (10 * count));
             x = 7;
             st.setLocation(x, y);
-            
+
             jP_StockView.add(st);
             st.setVisible(true);
-            jP_StockView.setPreferredSize(new Dimension(jP_stock.getWidth()-70, y));
+            jP_StockView.setPreferredSize(new Dimension(jP_stock.getWidth() - 70, y));
             jP_StockView.revalidate();
             count++;
         }
     }
-    
-    
-    
+
+    public String parsDate() {
+        String date = "";
+        jB_showStat.setForeground(Color.BLACK);
+        jB_showStat.setText("Vis Statestik");
+        try {
+            int yaer = Integer.parseInt(jT_year.getText());
+            int mounht = Integer.parseInt(jT_mounh.getText());
+            int day = Integer.parseInt(jT_day.getText());
+            if (mounht < 10) {
+                String l = 0 + "" + mounht + "";
+                mounht = Integer.parseInt(l);
+            }
+            date = "" + yaer + "-" + mounht + "-" + day + " 00:00:00";
+        } catch (NumberFormatException ex) {
+            jB_showStat.setForeground(Color.RED);
+            jB_showStat.setForeground(Color.RED);
+            jB_showStat.setText("Fejl: Tjek Dato Og Prøv Igen");
+        }
+        return date;
+    }
+
+    public void ShowStat() throws ParseException {
+        String date = parsDate();
+        if (date != "") {
+            System.out.println("ja");
+//            statestikView.setStat(statistikHandler.getWeekStat(date), date);
+            statestikView.setVisible(true);
+            jP_statView.add(statestikView);
+            jP_statView.revalidate();
+
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -194,6 +240,29 @@ public class UtilView extends javax.swing.JPanel implements ActionListener  {
         jTextArea1 = new javax.swing.JTextArea();
         jP_Day = new javax.swing.JPanel();
         jP_Stat = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jT_year = new javax.swing.JTextField();
+        jT_mounh = new javax.swing.JTextField();
+        jT_day = new javax.swing.JTextField();
+        jButton16 = new javax.swing.JButton();
+        jButton17 = new javax.swing.JButton();
+        jButton18 = new javax.swing.JButton();
+        jButton19 = new javax.swing.JButton();
+        jButton20 = new javax.swing.JButton();
+        jButton21 = new javax.swing.JButton();
+        jButton22 = new javax.swing.JButton();
+        jButton23 = new javax.swing.JButton();
+        jButton24 = new javax.swing.JButton();
+        jButton25 = new javax.swing.JButton();
+        jButton26 = new javax.swing.JButton();
+        jButton27 = new javax.swing.JButton();
+        jButton28 = new javax.swing.JButton();
+        jB_showStat = new javax.swing.JButton();
+        jButton30 = new javax.swing.JButton();
+        jP_statView = new javax.swing.JPanel();
         jP_stock = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jP_StockView = new javax.swing.JPanel();
@@ -406,15 +475,161 @@ public class UtilView extends javax.swing.JPanel implements ActionListener  {
 
         jPanel1.add(jP_Calender, "card2");
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel1.setText("Fra Dato:");
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel2.setText("År:");
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel3.setText("Måned:");
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel4.setText("Dag:");
+
+        jT_year.setText("YYYY");
+
+        jT_mounh.setText("MM");
+
+        jT_day.setText("DD");
+
+        jButton16.setText("Brug Dags Dato:");
+
+        jButton17.setText("1");
+
+        jButton18.setText("2");
+
+        jButton19.setText("3");
+
+        jButton20.setText("4");
+
+        jButton21.setText("5");
+
+        jButton22.setText("6");
+
+        jButton23.setText("7");
+
+        jButton24.setText("8");
+
+        jButton25.setText("9");
+
+        jButton26.setText("0");
+
+        jButton27.setText("<-");
+
+        jButton28.setText("->");
+
+        jB_showStat.setText("Vis Statestik");
+
+        jButton30.setText("Print");
+
+        javax.swing.GroupLayout jP_statViewLayout = new javax.swing.GroupLayout(jP_statView);
+        jP_statView.setLayout(jP_statViewLayout);
+        jP_statViewLayout.setHorizontalGroup(
+            jP_statViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jP_statViewLayout.setVerticalGroup(
+            jP_statViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 507, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout jP_StatLayout = new javax.swing.GroupLayout(jP_Stat);
         jP_Stat.setLayout(jP_StatLayout);
         jP_StatLayout.setHorizontalGroup(
             jP_StatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 810, Short.MAX_VALUE)
+            .addGroup(jP_StatLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jP_StatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jP_StatLayout.createSequentialGroup()
+                        .addGroup(jP_StatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jT_year, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jP_StatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                            .addComponent(jT_mounh))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jP_StatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jT_day)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)))
+                    .addComponent(jButton16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jP_StatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jP_StatLayout.createSequentialGroup()
+                        .addComponent(jButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton18, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton19, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton20, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jP_StatLayout.createSequentialGroup()
+                        .addComponent(jButton21, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton22, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton23, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton24, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jP_StatLayout.createSequentialGroup()
+                        .addComponent(jButton25, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton26, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton27, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton28, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
+                .addGroup(jP_StatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jB_showStat, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton30, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(66, 66, 66))
+            .addComponent(jP_statView, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jP_StatLayout.setVerticalGroup(
             jP_StatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 692, Short.MAX_VALUE)
+            .addGroup(jP_StatLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jP_StatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jP_StatLayout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jP_StatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jP_StatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jT_year, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jT_mounh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jT_day, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(45, 45, 45))
+                    .addGroup(jP_StatLayout.createSequentialGroup()
+                        .addGroup(jP_StatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton18, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton19, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton20, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jB_showStat, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jP_StatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton21, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton22, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton23, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton24, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton30, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jP_StatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton25, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton26, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton27, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton28, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(jP_statView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel1.add(jP_Stat, "card3");
@@ -520,56 +735,57 @@ public class UtilView extends javax.swing.JPanel implements ActionListener  {
     }//GEN-LAST:event_jB_stockActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        getDaysOfMounth(0);
+        getDaysOfMounthCalendar(0);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        getDaysOfMounth(1);
+        getDaysOfMounthCalendar(1);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        getDaysOfMounth(2);
+        getDaysOfMounthCalendar(2);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        getDaysOfMounth(3);
+        getDaysOfMounthCalendar(3);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        getDaysOfMounth(4);
+        getDaysOfMounthCalendar(4);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        getDaysOfMounth(5);
+        getDaysOfMounthCalendar(5);
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        getDaysOfMounth(6);
+        getDaysOfMounthCalendar(6);
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        getDaysOfMounth(7);
+        getDaysOfMounthCalendar(7);
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        getDaysOfMounth(8);
+        getDaysOfMounthCalendar(8);
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        getDaysOfMounth(9);
+        getDaysOfMounthCalendar(9);
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        getDaysOfMounth(10);
+        getDaysOfMounthCalendar(10);
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        getDaysOfMounth(11);
+        getDaysOfMounthCalendar(11);
     }//GEN-LAST:event_jButton13ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jB_cal;
+    private javax.swing.JButton jB_showStat;
     private javax.swing.JButton jB_stat;
     private javax.swing.JButton jB_stock;
     private javax.swing.JButton jButton1;
@@ -579,34 +795,56 @@ public class UtilView extends javax.swing.JPanel implements ActionListener  {
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
+    private javax.swing.JButton jButton16;
+    private javax.swing.JButton jButton17;
+    private javax.swing.JButton jButton18;
+    private javax.swing.JButton jButton19;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton20;
+    private javax.swing.JButton jButton21;
+    private javax.swing.JButton jButton22;
+    private javax.swing.JButton jButton23;
+    private javax.swing.JButton jButton24;
+    private javax.swing.JButton jButton25;
+    private javax.swing.JButton jButton26;
+    private javax.swing.JButton jButton27;
+    private javax.swing.JButton jButton28;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton30;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jP_Calender;
     private javax.swing.JPanel jP_Day;
     private javax.swing.JPanel jP_Stat;
     private javax.swing.JPanel jP_StockView;
+    private javax.swing.JPanel jP_statView;
     private javax.swing.JPanel jP_stock;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField jT_day;
+    private javax.swing.JTextField jT_mounh;
+    private javax.swing.JTextField jT_year;
     private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        switch (ae.getActionCommand()){
+        switch (ae.getActionCommand()) {
             case "Update Cal":
                 jTextArea1.setText(storeHandler.getDayEvent());
                 break;
-                default:
+            default:
         }
     }
 }
