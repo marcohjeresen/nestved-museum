@@ -202,7 +202,7 @@ public class UtilView extends javax.swing.JPanel implements ActionListener {
         String date = parsDate();
         if (date != "") {
             System.out.println("ja");
-//            statestikView.setStat(statistikHandler.getWeekStat(date), date);
+            statestikView.setStat(statistikHandler.getWeekStat(date), date);
             statestikView.setVisible(true);
             jP_statView.add(statestikView);
             jP_statView.revalidate();
@@ -494,6 +494,11 @@ public class UtilView extends javax.swing.JPanel implements ActionListener {
         jT_day.setText("DD");
 
         jButton16.setText("Brug Dags Dato:");
+        jButton16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton16ActionPerformed(evt);
+            }
+        });
 
         jButton17.setText("1");
 
@@ -520,6 +525,11 @@ public class UtilView extends javax.swing.JPanel implements ActionListener {
         jButton28.setText("->");
 
         jB_showStat.setText("Vis Statestik");
+        jB_showStat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_showStatActionPerformed(evt);
+            }
+        });
 
         jButton30.setText("Print");
 
@@ -781,6 +791,21 @@ public class UtilView extends javax.swing.JPanel implements ActionListener {
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         getDaysOfMounthCalendar(11);
     }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void jB_showStatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_showStatActionPerformed
+ try {
+            ShowStat();
+        } catch (ParseException ex) {
+            
+        }    
+    }//GEN-LAST:event_jB_showStatActionPerformed
+
+    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
+        Calendar c = Calendar.getInstance();
+        jT_year.setText(c.get(Calendar.YEAR) + "");
+        jT_mounh.setText((c.get(Calendar.MONTH) + 1) + "");
+        jT_day.setText(c.get(Calendar.DAY_OF_MONTH) + "");
+    }//GEN-LAST:event_jButton16ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -109,7 +109,7 @@ public class StatestikView extends javax.swing.JPanel {
             g.drawString("" + lines.get(i).getTkFreeQu(), (170 + (i * 90)), 200);
             g.drawString("" + lines.get(i).getEvSold(), (170 + (i * 90)), 250);
             g.drawString("" + lines.get(i).getEvQuantities(), (170 + (i * 90)), 300);
-            int total = number + lines.get(i).getTkKidsQu() + lines.get(i).getTkFreeQu() + lines.get(i).getEvSold() + lines.get(i).getEvQuantities();
+            int total = number + lines.get(i).getTkKidsQu() + lines.get(i).getTkFreeQu() + lines.get(i).getEvQuantities();
             g.drawString("" + total, (170 + (i * 90)), 360);
 
         }

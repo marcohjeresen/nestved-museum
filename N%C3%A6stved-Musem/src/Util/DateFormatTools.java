@@ -110,7 +110,7 @@ public class DateFormatTools {
     }
 
     public Calendar getDateFromString(String date) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Calendar dateCal = Calendar.getInstance();
         try {
             Date d = formatter.parse(date);
@@ -182,7 +182,7 @@ public class DateFormatTools {
     public String getDayLetter(String date) {
         String theDate = "";
         try {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date d = formatter.parse(date);
             Calendar fromDate = Calendar.getInstance();
             fromDate.setTime(d);
