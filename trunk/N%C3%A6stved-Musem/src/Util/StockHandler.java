@@ -14,22 +14,22 @@ import java.util.logging.Logger;
 import model.*;
 import model.Handler.*;
 
-
 /**
  *
  * @author markh_000
  */
 public class StockHandler {
-private static StockHandler StockHandler;
+
+    private static StockHandler StockHandler;
     private StoreHandler storeHandler;
 
     private ArrayList<StockLine> StockList;
 
-    private StockHandler()  {
+    private StockHandler() {
         storeHandler = StoreHandler.storeHandler();
         StockList = new ArrayList<>();
     }
-    
+
     public static StockHandler getStockHandler() {
         if (StockHandler == null) {
             StockHandler = new StockHandler();
@@ -43,28 +43,23 @@ private static StockHandler StockHandler;
 
     public ArrayList<StockLine> getStockList() {
         StockList.removeAll(StockList);
-        StockLine st= new StockLine("Nummer", "Navn", "Suplier", "KøbsPris", "Antal");
+        StockLine st = new StockLine("Nummer", "Navn", "Suplier", "KøbsPris", "Antal");
         StockList.add(st);
         DBConnection db = new DBConnection();
-            try {
-                ResultSet rse = db.getResult("SELECT * FROM product order by product_quantities");
-                while (rse.next()) {
-                    for (ProductGroup group : storeHandler.getProductList()) {
-                        if (group.getGroupId() == rse.getInt("product_groupid")) {
-                            StockLine l = new StockLine(""+rse.getInt("product_numberid"), rse.getString("product_name"), rse.getString("product_supplier"), ""+rse.getInt("product_buyprice"), ""+rse.getInt("product_quantities"));
-
-                            StockList.add(l);
-                        }
-                    }
-                }
-            } catch (SQLException ex) {
-               
+        try {
+            ResultSet rse = db.getResult("SELECT * FROM product order by product_quantities");
+            while (rse.next()) {
+                StockLine l = new StockLine("" + rse.getInt("product_numberid"), rse.getString("product_name"), rse.getString("product_supplier"), "" + rse.getInt("product_buyprice"), "" + rse.getInt("product_quantities"));
+                StockList.add(l);
             }
-        
+        } catch (SQLException ex) {
+
+        }
+
         return StockList;
     }
-    
-    public void print(){
-        
+
+    public void print() {
+
     }
 }

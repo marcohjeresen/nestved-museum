@@ -71,7 +71,7 @@ public class UtilView extends javax.swing.JPanel implements ActionListener  {
     
     public void getDaysOfMounth(int mounht) {
         int count = 0;
-        int x = 15;
+        int x = 10;
         int y = 25;
         int height = 0;
         int width = 0;
@@ -85,19 +85,19 @@ public class UtilView extends javax.swing.JPanel implements ActionListener  {
                 
                 CalenderView calenderView = new CalenderView(days, mounht, 2014, "x");
                 if (count == 6) {
-                    x = 15;
+                    x = 10;
                     y = calenderView.getHeight() + 35;
                 } else if (count == 12) {
-                    x = 15;
+                    x = 10;
                     y = 2 * calenderView.getHeight() + 45;
                 } else if (count == 18) {
-                    x = 15;
+                    x = 10;
                     y = 3 * calenderView.getHeight() + 55;
                 } else if (count == 24) {
-                    x = 15;
+                    x = 10;
                     y = 4 * calenderView.getHeight() + 65;
                 } else if (count == 30) {
-                    x = 15;
+                    x = 10;
                     y = 5 * calenderView.getHeight() + 75;
                 }
                 calenderView.setLocation(x, y);
@@ -111,19 +111,19 @@ public class UtilView extends javax.swing.JPanel implements ActionListener  {
             } else {
                 CalenderView calenderView = new CalenderView(days, mounht, 2014, "");
                if (count == 6) {
-                    x = 15;
+                    x = 10;
                     y = calenderView.getHeight() + 35;
                 } else if (count == 12) {
-                    x = 15;
+                    x = 10;
                     y = 2 * calenderView.getHeight() + 45;
                 } else if (count == 18) {
-                    x = 15;
+                    x = 10;
                     y = 3 * calenderView.getHeight() + 55;
                 } else if (count == 24) {
-                    x = 15;
+                    x = 10;
                     y = 4 * calenderView.getHeight() + 65;
                 } else if (count == 30) {
-                    x = 15;
+                    x = 10;
                     y = 5 * calenderView.getHeight() + 75;
                 }
                 calenderView.setLocation(x, y);
@@ -146,7 +146,7 @@ public class UtilView extends javax.swing.JPanel implements ActionListener  {
         int count = 0;
         int y = 0;
         int x = 0;
-//        jScrollPane2.setVisible(true);
+
         for (StockLine stockLine : stockHandler.getStockList()) {
             StockViewPanel st = new StockViewPanel(stockLine);
             y = ((count * st.getHeight()) + (10 * count));
