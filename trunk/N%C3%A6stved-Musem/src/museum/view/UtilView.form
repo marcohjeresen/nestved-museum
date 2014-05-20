@@ -518,6 +518,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Brug Dags Dato:"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton16ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButton17">
               <Properties>
@@ -583,6 +586,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Vis Statestik"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jB_showStatActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButton30">
               <Properties>
