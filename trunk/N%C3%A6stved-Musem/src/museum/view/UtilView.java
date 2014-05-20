@@ -5,11 +5,9 @@
  */
 package museum.view;
 
-import Util.DateFormatTools;
-import Util.Listeners;
-import Util.StatistikHandler;
-import Util.StockHandler;
-import Util.StockLine;
+
+import print.StatistikPrintHandler;
+import Util.*;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -22,8 +20,8 @@ import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.EventLine;
-import model.Handler.StoreHandler;
-import model.controller.StoreController;
+import model.Handler.*;
+import model.controller.*;
 
 /**
  *
@@ -53,6 +51,7 @@ public class UtilView extends javax.swing.JPanel implements ActionListener {
             Logger.getLogger(UtilView.class.getName()).log(Level.SEVERE, null, ex);
         }
         initComponents();
+        jB_printStat.setEnabled(false);
         try {
             statestikView = StatestikView.getStatView();
         } catch (ParseException ex) {
@@ -261,13 +260,11 @@ public class UtilView extends javax.swing.JPanel implements ActionListener {
         jButton27 = new javax.swing.JButton();
         jButton28 = new javax.swing.JButton();
         jB_showStat = new javax.swing.JButton();
-        jButton30 = new javax.swing.JButton();
+        jB_printStat = new javax.swing.JButton();
         jP_statView = new javax.swing.JPanel();
         jP_stock = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jP_StockView = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton14 = new javax.swing.JButton();
         jB_stat = new javax.swing.JButton();
         jB_stock = new javax.swing.JButton();
         jButton15 = new javax.swing.JButton();
@@ -531,7 +528,12 @@ public class UtilView extends javax.swing.JPanel implements ActionListener {
             }
         });
 
-        jButton30.setText("Print");
+        jB_printStat.setText("Print");
+        jB_printStat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_printStatActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jP_statViewLayout = new javax.swing.GroupLayout(jP_statView);
         jP_statView.setLayout(jP_statViewLayout);
@@ -594,7 +596,7 @@ public class UtilView extends javax.swing.JPanel implements ActionListener {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
                 .addGroup(jP_StatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jB_showStat, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton30, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jB_printStat, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(66, 66, 66))
             .addComponent(jP_statView, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -631,7 +633,7 @@ public class UtilView extends javax.swing.JPanel implements ActionListener {
                             .addComponent(jButton22, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton23, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton24, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton30, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jB_printStat, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jP_StatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton25, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -652,36 +654,20 @@ public class UtilView extends javax.swing.JPanel implements ActionListener {
         );
         jP_StockViewLayout.setVerticalGroup(
             jP_StockViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 619, Short.MAX_VALUE)
+            .addGap(0, 691, Short.MAX_VALUE)
         );
 
         jScrollPane2.setViewportView(jP_StockView);
-
-        jButton1.setText("jButton1");
-
-        jButton14.setText("jButton14");
 
         javax.swing.GroupLayout jP_stockLayout = new javax.swing.GroupLayout(jP_stock);
         jP_stock.setLayout(jP_stockLayout);
         jP_stockLayout.setHorizontalGroup(
             jP_stockLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane2)
-            .addGroup(jP_stockLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jP_stockLayout.setVerticalGroup(
             jP_stockLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jP_stockLayout.createSequentialGroup()
-                .addComponent(jScrollPane2)
-                .addGap(20, 20, 20)
-                .addGroup(jP_stockLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                    .addComponent(jButton14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 693, Short.MAX_VALUE)
         );
 
         jPanel1.add(jP_stock, "card4");
@@ -701,6 +687,11 @@ public class UtilView extends javax.swing.JPanel implements ActionListener {
         });
 
         jButton15.setText("Tilbage");
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton15ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -795,6 +786,7 @@ public class UtilView extends javax.swing.JPanel implements ActionListener {
     private void jB_showStatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_showStatActionPerformed
  try {
             ShowStat();
+            jB_printStat.setEnabled(true);
         } catch (ParseException ex) {
             
         }    
@@ -807,18 +799,26 @@ public class UtilView extends javax.swing.JPanel implements ActionListener {
         jT_day.setText(c.get(Calendar.DAY_OF_MONTH) + "");
     }//GEN-LAST:event_jButton16ActionPerformed
 
+    private void jB_printStatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_printStatActionPerformed
+        StatistikPrintHandler sp = new StatistikPrintHandler(statestikView);
+        sp.doPrint();
+    }//GEN-LAST:event_jB_printStatActionPerformed
+
+    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+        listeners.notifyListeners("Show Sale");
+    }//GEN-LAST:event_jButton15ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jB_cal;
+    private javax.swing.JButton jB_printStat;
     private javax.swing.JButton jB_showStat;
     private javax.swing.JButton jB_stat;
     private javax.swing.JButton jB_stock;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton17;
@@ -835,7 +835,6 @@ public class UtilView extends javax.swing.JPanel implements ActionListener {
     private javax.swing.JButton jButton27;
     private javax.swing.JButton jButton28;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton30;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
