@@ -34,7 +34,7 @@ public class StockHandler {
 
     public ArrayList<StockLine> getStockList() {
         StockList.removeAll(StockList);
-        StockLine st = new StockLine("Nummer", "Navn", "Suplier", "KøbsPris", "Antal");
+        StockLine st = new StockLine("Nummer", "Navn", "Leverandør ", "KøbsPris", "Antal");
         StockList.add(st);
         DBConnection db = new DBConnection();
         try {
