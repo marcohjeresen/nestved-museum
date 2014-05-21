@@ -155,10 +155,10 @@ public class StatistikHandler {
                     boolean erder = false;
                     for (int j = 0; j < lineList.size(); j++) {
                         if (lineList.get(j).getTicketDate() == datefrom) {
-                            int sold = lineList.get(i).getEvSold();
-                            int quintities = lineList.get(i).getEvQuantities();
-                            lineList.get(i).setEvQuantities(quintities + rs.getInt("eventline_quantities"));
-                            lineList.get(i).setEvSold(sold + 1);
+                            int sold = lineList.get(j).getEvSold();
+                            int quintities = lineList.get(j).getEvQuantities();
+                            lineList.get(j).setEvQuantities(quintities + rs.getInt("eventline_quantities"));
+                            lineList.get(j).setEvSold(sold + 1);
                             erder = true;
                         }
                     }
