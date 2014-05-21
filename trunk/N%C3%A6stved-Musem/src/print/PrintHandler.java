@@ -135,7 +135,6 @@ public class PrintHandler implements Printable {
     public void cashReport() throws ClassNotFoundException, SQLException {
         Line empty = new Line("", 0, -1);
         String date = dateFormatTools.getDateNowShortString();
-        System.out.println(date);
         DBConnection db = new DBConnection();
         ArrayList<Integer> idList = new ArrayList<>();
         ArrayList<ProductLine> prodLineList = new ArrayList<>();
