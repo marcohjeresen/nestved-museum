@@ -151,7 +151,7 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
             jCheckBox_kvit.setEnabled(true);
         } else {
             jLabel_overskrift.setText("Godmorgen :-)");
-            jButton_end.setText("Open Kassen");
+            jButton_end.setText("Åben Kassen");
             jCheckBox_kvit.setSelected(false);
             jTextField_dkRegistre.setEnabled(false);;
             jTextField_EuroRegistre.setEnabled(false);;
@@ -310,7 +310,7 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
             }
         });
 
-        jButton1.setText("Clear Feld");
+        jButton1.setText("Ryd Felt");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
