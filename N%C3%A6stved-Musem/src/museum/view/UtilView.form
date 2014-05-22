@@ -377,37 +377,7 @@
                           </Group>
                           <Component id="jButton16" alignment="0" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="jButton17" min="-2" pref="50" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton18" min="-2" pref="50" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton19" min="-2" pref="50" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton20" min="-2" pref="50" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="jButton21" min="-2" pref="50" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton22" min="-2" pref="50" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton23" min="-2" pref="50" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton24" min="-2" pref="50" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="jButton25" min="-2" pref="50" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton26" min="-2" pref="50" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton27" min="-2" pref="50" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton28" min="-2" pref="50" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <EmptySpace pref="95" max="32767" attributes="0"/>
+                      <EmptySpace pref="331" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jB_showStat" min="-2" pref="160" max="-2" attributes="0"/>
                           <Component id="jB_printStat" min="-2" pref="160" max="-2" attributes="0"/>
@@ -441,28 +411,9 @@
                               <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jButton17" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
-                                  <Component id="jButton18" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
-                                  <Component id="jButton19" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
-                                  <Component id="jButton20" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
-                                  <Component id="jB_showStat" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jB_showStat" min="-2" pref="50" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jButton21" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
-                                  <Component id="jButton22" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
-                                  <Component id="jButton23" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
-                                  <Component id="jButton24" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
-                                  <Component id="jB_printStat" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jButton25" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
-                                  <Component id="jButton26" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
-                                  <Component id="jButton27" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
-                                  <Component id="jButton28" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jB_printStat" min="-2" pref="50" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -526,66 +477,6 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton16ActionPerformed"/>
               </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton17">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="1"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton18">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="2"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton19">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="3"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton20">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="4"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton21">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="5"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton22">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="6"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton23">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="7"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton24">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="8"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton25">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="9"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton26">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="0"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton27">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="&lt;-"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton28">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="-&gt;"/>
-              </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="jB_showStat">
               <Properties>
