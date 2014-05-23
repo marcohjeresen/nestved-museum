@@ -5,7 +5,9 @@
  */
 package museum.view;
 
-import util.DateFormatTools;
+import utility.StatistikHandler;
+import utility.Line;
+import utility.DateFormatTools;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -15,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import util.*;
 
 
 /**

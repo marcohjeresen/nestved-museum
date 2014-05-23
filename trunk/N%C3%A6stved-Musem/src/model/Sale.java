@@ -5,8 +5,8 @@
  */
 package model;
 
-import util.DateFormatTools;
-import util.Listeners;
+import utility.DateFormatTools;
+import utility.Listeners;
 import java.util.ArrayList;
 
 /**

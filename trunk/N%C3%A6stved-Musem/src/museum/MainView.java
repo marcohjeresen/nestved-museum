@@ -5,7 +5,7 @@
  */
 package museum;
 
-import util.Listeners;
+import utility.Listeners;
 import java.awt.Dimension;
 
 /**

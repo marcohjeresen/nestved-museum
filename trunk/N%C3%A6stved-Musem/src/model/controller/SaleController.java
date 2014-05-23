@@ -5,7 +5,7 @@
  */
 package model.controller;
 
-import util.DateFormatTools;
+import utility.DateFormatTools;
 import db.DBConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;

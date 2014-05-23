@@ -5,7 +5,7 @@
  */
 package model.Handler;
 
-import util.DateFormatTools;
+import utility.DateFormatTools;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import model.EventType;
 import model.Product;
 import model.TicketType;
 import model.controller.StoreController;
-import util.Listeners;
+import utility.Listeners;
 
 /**
  *
