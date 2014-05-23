@@ -5,7 +5,7 @@
  */
 package museum.view;
 
-import util.StockLine;
+import utility.StockLine;
 
 
 

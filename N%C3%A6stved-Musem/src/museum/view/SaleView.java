@@ -5,8 +5,8 @@
  */
 package museum.view;
 
-import util.NumberFormatTools;
-import util.Listeners;
+import utility.NumberFormatTools;
+import utility.Listeners;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;

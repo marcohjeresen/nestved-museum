@@ -13,7 +13,7 @@ import model.Handler.*;
  *
  * @author MarcoPc
  */
-import util.Listeners;
+import utility.Listeners;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

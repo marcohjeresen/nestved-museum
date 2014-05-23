@@ -9,7 +9,7 @@ package museum.view;
 import model.*;
 import java.awt.Dimension;
 import model.Handler.*;
-import util.Listeners;
+import utility.Listeners;
 /**
  *
  * @author markh_000

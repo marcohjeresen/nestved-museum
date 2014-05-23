@@ -5,7 +5,7 @@
  */
 package museum;
 
-import util.Listeners;
+import utility.Listeners;
 import db.DBConnection;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
