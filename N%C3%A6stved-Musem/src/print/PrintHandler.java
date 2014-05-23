@@ -5,8 +5,8 @@
  */
 package print;
 
-import Util.DateFormatTools;
-import Util.Line;
+import util.DateFormatTools;
+
 import db.DBConnection;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -32,6 +32,7 @@ import model.Handler.SaleHandler;
 import model.Handler.StoreHandler;
 import model.controller.StoreController;
 import museum.MainView;
+import util.Line;
 
 /**
  *
