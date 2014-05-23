@@ -5,12 +5,15 @@
  */
 
 package model.Handler;
-import model.*;
-import Util.*;
+
+import util.*;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.CashRegister;
+import model.DifferanceRegistre;
+import model.Employee;
 import model.controller.MoneyController;
 
 /**

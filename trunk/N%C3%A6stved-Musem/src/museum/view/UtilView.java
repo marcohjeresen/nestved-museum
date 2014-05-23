@@ -5,8 +5,10 @@
  */
 package museum.view;
 
+import util.StatistikHandler;
+
 import print.StatistikPrintHandler;
-import Util.*;
+import util.*;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
