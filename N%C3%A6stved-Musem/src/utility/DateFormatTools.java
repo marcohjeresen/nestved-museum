@@ -11,7 +11,6 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
  *
  * @author markh_000
@@ -37,17 +36,17 @@ public class DateFormatTools {
         String date = "" + year + "-" + month + "-" + day + " " + hour + ":" + minut + ":" + second;
         return date;
     }
-    
-    public String getDateNowShortString(){
+
+    public String getDateNowShortString() {
         Calendar c = Calendar.getInstance();
         String year = "" + c.get(Calendar.YEAR);
         String month = "" + (c.get(Calendar.MONTH) + 1);
         String day = "" + c.get(Calendar.DAY_OF_MONTH);
         if (month.length() == 1) {
-            month = "0"+month;
+            month = "0" + month;
         }
         if (day.length() == 1) {
-            day = "0"+day;
+            day = "0" + day;
         }
         String date = "" + year + "-" + month + "-" + day;
         return date;
@@ -70,19 +69,19 @@ public class DateFormatTools {
         c.setTime(format1.parse(date));
         return c;
     }
-    
-    public String getShortDateFromCal(Calendar c){
+
+    public String getShortDateFromCal(Calendar c) {
         String year = "" + c.get(Calendar.YEAR);
         String month = "";
         String day = "";
         if ((c.get(Calendar.MONTH) + 1) < 10) {
-             month = "0" + (c.get(Calendar.MONTH) + 1);
-        }else{
+            month = "0" + (c.get(Calendar.MONTH) + 1);
+        } else {
             month = "" + (c.get(Calendar.MONTH) + 1);
         }
         if (c.get(Calendar.DAY_OF_MONTH) < 10) {
             day = "0" + c.get(Calendar.DAY_OF_MONTH);
-        }else{
+        } else {
             day = "" + c.get(Calendar.DAY_OF_MONTH);
         }
         String date = "" + year + "-" + month + "-" + day;
@@ -96,8 +95,7 @@ public class DateFormatTools {
             Date d = formatter.parse(date);
             dateCal.setTime(d);
         } catch (ParseException ex) {
-            System.out.println("Date parse error");
-            System.out.println(ex.getLocalizedMessage());
+            System.out.println("utility - DateFormatTools - getDateFromString(): Date parse error" + ex.getLocalizedMessage());
         }
         return dateCal;
     }
@@ -114,8 +112,7 @@ public class DateFormatTools {
             Date d = formatter.parse(date);
             dateCal.setTime(d);
         } catch (ParseException ex) {
-            System.out.println("Date parse error");
-            System.out.println(ex.getLocalizedMessage());
+            System.out.println("utility - DateFormatTools - getStartDateFromString(): Date parse error" + ex.getLocalizedMessage());
         }
         dateCal.set(Calendar.HOUR_OF_DAY, 00);
         dateCal.set(Calendar.MINUTE, 00);
@@ -130,8 +127,7 @@ public class DateFormatTools {
             Date d = formatter.parse(date);
             dateCal.setTime(d);
         } catch (ParseException ex) {
-            System.out.println("Date parse error");
-            System.out.println(ex.getLocalizedMessage());
+            System.out.println("utility - DateFormatTools - getEndDateFromString(): Date parse error" + ex.getLocalizedMessage());
         }
         dateCal.set(Calendar.HOUR_OF_DAY, 23);
         dateCal.set(Calendar.MINUTE, 59);
@@ -150,11 +146,11 @@ public class DateFormatTools {
             theDate = format.format(fromDate.getTime());
             theDate = theDate.substring(0, 1).toUpperCase() + theDate.substring(1);
         } catch (ParseException ex) {
-            Logger.getLogger(DateFormatTools.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("utility - DateFormatTools - getDay(): Date parse error" + ex.getLocalizedMessage());
         }
         return theDate;
     }
-    
+
     public String getDayLetter(String date) {
         String theDate = "";
         try {
@@ -166,7 +162,7 @@ public class DateFormatTools {
             theDate = format.format(fromDate.getTime());
             theDate = theDate.substring(0, 1).toUpperCase() + theDate.substring(1);
         } catch (ParseException ex) {
-            Logger.getLogger(DateFormatTools.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("utility - DateFormatTools - getDayLetter(): Date parse error" + ex.getLocalizedMessage());
         }
         return theDate;
     }

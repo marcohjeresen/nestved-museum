@@ -37,18 +37,12 @@ public class StoreHandler {
     private String event;
 
     public StoreHandler() {
-        try {
-            controller = StoreController.getStoreController();
-            listeners = Listeners.getList();
-            search = false;
-            choosenProduct = new ArrayList<>();
-            choosenTicket = null;
-            choosenEvent = null;
-        } catch (SQLException ex) {
-            Logger.getLogger(StoreHandler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(StoreHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        controller = StoreController.getStoreController();
+        listeners = Listeners.getList();
+        search = false;
+        choosenProduct = new ArrayList<>();
+        choosenTicket = null;
+        choosenEvent = null;
     }
 
     public static StoreHandler storeHandler() {
@@ -155,13 +149,9 @@ public class StoreHandler {
 
     public Boolean dayHaveEvent(Calendar c) {
         boolean isthere = false;
-        try {
-            DateFormatTools dft = new DateFormatTools();
-            String date = dft.getShortDateFromCal(c);
-            isthere = controller.arThereEvent(date);
-        } catch (SQLException ex) {
-            Logger.getLogger(StoreHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        DateFormatTools dft = new DateFormatTools();
+        String date = dft.getShortDateFromCal(c);
+        isthere = controller.arThereEvent(date);
         return isthere;
     }
 

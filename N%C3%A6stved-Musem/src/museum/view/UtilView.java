@@ -45,14 +45,8 @@ public class UtilView extends javax.swing.JPanel implements ActionListener {
         listeners = Listeners.getList();
         dateFormatTools = new DateFormatTools();
         stockHandler = StockHandler.getStockHandler();
-        try {
-            statistikHandler = StatistikHandler.getStatistikHandler();
-            statestikView = StatestikView.getStatView();
-        } catch (SQLException ex) {
-            Logger.getLogger(UtilView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(UtilView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        statistikHandler = StatistikHandler.getStatistikHandler();
+        statestikView = StatestikView.getStatView();
         initComponents();
         jB_printStat.setEnabled(false);
         listeners.addListener(this);
@@ -186,9 +180,9 @@ public class UtilView extends javax.swing.JPanel implements ActionListener {
         return date;
     }
 
-    public void ShowStat() throws ParseException {
+    public void ShowStat() {
         String date = parsDate();
-        if (date != "") {
+        if (!"".equals(date)) {
             statestikView.setStat(statistikHandler.getWeekStat(date), date);
             statestikView.setVisible(true);
             jP_statView.add(statestikView);
@@ -708,12 +702,10 @@ public class UtilView extends javax.swing.JPanel implements ActionListener {
     }//GEN-LAST:event_jB_printStatActionPerformed
 
     private void jB_showStatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_showStatActionPerformed
-        try {
-            ShowStat();
-            jB_printStat.setEnabled(true);
-        } catch (ParseException ex) {
 
-        }
+        ShowStat();
+        jB_printStat.setEnabled(true);
+
     }//GEN-LAST:event_jB_showStatActionPerformed
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed

@@ -18,7 +18,6 @@ import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
  *
  * @author MarcoPc
@@ -36,18 +35,15 @@ public class StatestikView extends javax.swing.JPanel {
     /**
      * Creates new form StatestikView
      */
-    private StatestikView() throws ParseException {
-        try {
-            statistikHandler = StatistikHandler.getStatistikHandler();
-        } catch (SQLException ex) {
-            Logger.getLogger(StatestikView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    private StatestikView() {
+
+        statistikHandler = StatistikHandler.getStatistikHandler();
         initComponents();
         setSize(780, 480);
         xCord = 10;
     }
 
-    public static StatestikView getStatView() throws ParseException {
+    public static StatestikView getStatView(){
         if (statestikView == null) {
             statestikView = new StatestikView();
         }

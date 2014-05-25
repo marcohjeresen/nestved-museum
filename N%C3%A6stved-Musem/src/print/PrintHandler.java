@@ -52,7 +52,7 @@ public class PrintHandler implements Printable {
     private MoneyHandler moneyHandler;
     private DateFormatTools dateFormatTools;
 
-    public PrintHandler() throws SQLException, ClassNotFoundException {
+    public PrintHandler() {
         saleHandler = SaleHandler.getSaleHandler();
         storeHandler = StoreHandler.storeHandler();
         moneyHandler = MoneyHandler.getMoneyHandler();
@@ -133,7 +133,7 @@ public class PrintHandler implements Printable {
         doPrint();
     }
 
-    public void cashReport() throws ClassNotFoundException, SQLException {
+    public void cashReport() {
         Line empty = new Line("", 0, -1);
         String date = dateFormatTools.getDateNowShortString();
         DBConnection db = new DBConnection();
@@ -145,7 +145,6 @@ public class PrintHandler implements Printable {
         try {
             ResultSet rs = db.getResult("SELECT sale_id from sale where sale_date like '" + date + "_________'");
             while (rs.next()) {
-                System.out.println(rs.getInt("sale_id"));
                 idList.add(rs.getInt("sale_id"));
             }
             for (Integer integer : idList) {
@@ -213,7 +212,7 @@ public class PrintHandler implements Printable {
 
             db.close();
         } catch (SQLException ex) {
-            Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("print - PrintHandler - cashReport(): sql Error :" + ex.getLocalizedMessage());
         }
 
         lines.removeAll(lines);
@@ -293,7 +292,7 @@ public class PrintHandler implements Printable {
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("print - PrintHandler - cashReport(): sql Error :" + ex.getLocalizedMessage());
         }
         doPrint();
     }
@@ -346,8 +345,7 @@ public class PrintHandler implements Printable {
         if (page > lines.size() / LINES_PER_PAGE) {
             printResult = NO_SUCH_PAGE;
         } else {
-            // Find øverste venstre hjørne i det printbare område
-            // Forskyd g2d, så (0,0) svarer til øverste venstre hjørne
+
             Graphics2D g2d = (Graphics2D) g;
             double x0 = pf.getImageableX();
             double y0 = pf.getImageableY();
@@ -367,10 +365,9 @@ public class PrintHandler implements Printable {
             try {
                 job.print();
             } catch (PrinterException ex) {
-                System.out.println("printer problemmer");
+               System.out.println("print - PrintHandler - doPrint(): Printer Error :" + ex.getLocalizedMessage());
             }
         }
     }
 }
-//    
 

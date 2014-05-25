@@ -16,6 +16,7 @@ import model.Handler.*;
  * @author markh_000
  */
 public class StockHandler {
+
     private static StockHandler StockHandler;
     private StoreHandler storeHandler;
     private ArrayList<StockLine> StockList;
@@ -44,7 +45,7 @@ public class StockHandler {
                 StockList.add(l);
             }
         } catch (SQLException ex) {
-
+            System.out.println("utility - StockHandler - getStockList(): sql Error :" + ex.getLocalizedMessage());
         }
         return StockList;
     }

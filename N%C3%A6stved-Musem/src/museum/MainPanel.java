@@ -36,7 +36,6 @@ public class MainPanel extends javax.swing.JPanel implements ActionListener {
         initComponents();
         listeners.addListener(this);
         setSize(new Dimension(1008, 691));
-
         connect();
     }
 
@@ -51,22 +50,15 @@ public class MainPanel extends javax.swing.JPanel implements ActionListener {
         cl.show(this, "Logon");
         db = new DBConnection();
         if (db.isConnected()) {
-            try {
-                logon = new Logon();
-                jP_Log.add(logon);
-                logon.setVisible(true);
-                sv = new SaleView();
-                jP_Sale.add(sv);
-                sv.setVisible(true);
-                utilView = new UtilView();
-                jP_Util.add(utilView);
-                utilView.setVisible(true);
-            } catch (ClassNotFoundException ex) {
-//                Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-                System.out.println("død");
-            } catch (SQLException ex) {
-//                Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            logon = new Logon();
+            jP_Log.add(logon);
+            logon.setVisible(true);
+            sv = new SaleView();
+            jP_Sale.add(sv);
+            sv.setVisible(true);
+            utilView = new UtilView();
+            jP_Util.add(utilView);
+            utilView.setVisible(true);
         } else {
             DbError dbError = new DbError(listeners);
             jP_Log.add(dbError);

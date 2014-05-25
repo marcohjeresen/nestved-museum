@@ -147,7 +147,7 @@ private final Listeners listeners;
             pw.println(jT_pass.getText());
             pw.close();
         } catch (IOException ex) {
-            System.out.println("Det var ikke muligt at skrive til filen: " + ex.getMessage());
+            System.out.println("museum - DbError - JButton1ActionPerformed() Det var ikke muligt at skrive til filen: " + ex.getMessage());
         }
         listeners.notifyListeners("Database Retry");
         

@@ -43,8 +43,6 @@ public class ProductLine {
         return product;
     }
 
-    
-
     public Sale getSale() {
         return sale;
     }

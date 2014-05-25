@@ -25,7 +25,6 @@ public class Product extends ProductGroup{
         super(groupId, groupType);
         this.productNumber = productNumber;
         this.name = name;
-
         this.supplier = supplier;
         this.buyPrice = buyPrice;
         this.priceDk = priceDk;

@@ -38,19 +38,17 @@ public class StatistikPrintHandler implements Printable {
             try {
                 job.print();
             } catch (PrinterException ex) {
-                System.out.println("exeption: StatestikPringHandler.doPrint() ");
-                System.out.println(ex.getLocalizedMessage());
+                System.out.println("print - StatistikPrintHandler - doPrint(): Printer Error :" + ex.getLocalizedMessage());
             }
         } else {
-            System.out.println("diden priunt");
+                System.out.println("print - StatistikPrintHandler - doPrint(): Printer didnt print:");
         }
     }
 
     @Override
     public int print(Graphics g, PageFormat pf, int page) throws PrinterException {
         int printResult;
-        // Find øverste venstre hjørne i det printbare område
-        // Forskyd g2d, så (0,0) svarer til øverste venstre hjørne
+
         if (page == 0) {
             Graphics2D g2d = (Graphics2D) g;
             double x0 = pf.getImageableX();

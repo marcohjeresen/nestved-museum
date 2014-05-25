@@ -278,7 +278,6 @@ public class Sale {
                     endpriceDk = (int) (endpriceDk + price);
                     price = productline.getProduct().getPriceEuro() * productline.getQuantities();
                     endpriceEuro = (int) (endpriceEuro + price);
-
                 }
             }
         }

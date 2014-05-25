@@ -25,13 +25,13 @@ public class StatistikHandler {
     private DateFormatTools dateFormat;
     
 
-    private StatistikHandler() throws SQLException {
+    private StatistikHandler() {
         lineList = new ArrayList<>();
         dateFormat = new DateFormatTools();
         
     }
 
-    public static StatistikHandler getStatistikHandler() throws SQLException {
+    public static StatistikHandler getStatistikHandler() {
         if (statistikHandler == null) {
             statistikHandler = new StatistikHandler();
         }
@@ -144,8 +144,7 @@ public class StatistikHandler {
                     }
                 }
             } catch (SQLException ex) {
-                System.out.println("Database connec: getProductDate() fejl");
-                Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("utility - StatistikHandler - getWeekStat(): sql Error :"+ ex.getLocalizedMessage());
             }
             try {
                 ResultSet rs = db.getResult("select eventline_quantities, eventline_sale_id, sale_date "
@@ -171,13 +170,9 @@ public class StatistikHandler {
                     }
                 }
             } catch (SQLException ex) {
-
+                System.out.println("utility - StatistikHandler - getWeekStat(): sql Error :"+ ex.getLocalizedMessage());
             }
-            try {
-                db.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(StatistikHandler.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            db.close();
         }
         return lineList;
     }
