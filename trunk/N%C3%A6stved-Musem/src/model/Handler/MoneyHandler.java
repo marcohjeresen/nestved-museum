@@ -41,16 +41,10 @@ public class MoneyHandler {
     }
     
     public void setCashRegistre(int dk, int euro) {
-        try {
-            String date = dateFormatTools.getDateNowString();
-            int id = moneyController.getIdFromData();
-            cashRegister = new CashRegister(id,date, dk, euro, storeHandler.getLogEmployee());
-            moneyController.addStartingCashToDataBase(cashRegister);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MoneyHandler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(MoneyHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        String date = dateFormatTools.getDateNowString();
+        int id = moneyController.getIdFromData();
+        cashRegister = new CashRegister(id,date, dk, euro, storeHandler.getLogEmployee());
+        moneyController.addStartingCashToDataBase(cashRegister);
         
     }
     public void endRegistre(){
@@ -99,19 +93,13 @@ public class MoneyHandler {
     }
     
      public void endCashregister(int DkIndTheBox, int EuroIndTheBox, Employee employee)  {
-        try {
-            int differanceDk =  DkIndTheBox - cashRegister.getAmountDk();
-            int differanceEuro = EuroIndTheBox - cashRegister.getAmountEuro() ;
-            Calendar cal = Calendar.getInstance();
-            String dato = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DATE) + " " + cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND);
-            DifferanceRegistre differanceRegistre = new DifferanceRegistre(cashRegister.getId(), employee, DkIndTheBox, EuroIndTheBox,cashRegister.getAmountDk(), cashRegister.getAmountEuro(),  differanceDk, differanceEuro, dato);
-            moneyController.addEndCashToDatabase(differanceRegistre);
-            cashRegister = null;
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MoneyHandler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(MoneyHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+         int differanceDk =  DkIndTheBox - cashRegister.getAmountDk();
+        int differanceEuro = EuroIndTheBox - cashRegister.getAmountEuro() ;
+        Calendar cal = Calendar.getInstance();
+        String dato = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DATE) + " " + cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND);
+        DifferanceRegistre differanceRegistre = new DifferanceRegistre(cashRegister.getId(), employee, DkIndTheBox, EuroIndTheBox,cashRegister.getAmountDk(), cashRegister.getAmountEuro(),  differanceDk, differanceEuro, dato);
+        moneyController.addEndCashToDatabase(differanceRegistre);
+        cashRegister = null;
     }
     
 }

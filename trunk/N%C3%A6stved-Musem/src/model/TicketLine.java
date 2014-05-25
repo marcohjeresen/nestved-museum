@@ -16,7 +16,6 @@ public class TicketLine {
     private Sale sale;
     private int quantities;
 
-
     public TicketLine(int id, Sale sale, int quantities,TicketType ticketType) {
         this.id = id;
         this.sale = sale;
@@ -41,8 +40,6 @@ public class TicketLine {
         this.ticketType = ticketType;
     }
 
-    
-
     public Sale getSale() {
         return sale;
     }
@@ -66,7 +63,5 @@ public class TicketLine {
             ticketLine = ticketLine + ticketType.toString();
         return ticketLine + "Quantities: " + quantities ;
     }
-    
-    
     
 }

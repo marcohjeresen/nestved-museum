@@ -32,7 +32,7 @@ public class MoneyController {
         return moneyController;
     }
 
-    public int getIdFromData() throws ClassNotFoundException, SQLException {
+    public int getIdFromData() {
         DBConnection db = new DBConnection();
         int id = 0;
         try {
@@ -42,32 +42,24 @@ public class MoneyController {
             }
             db.close();
         } catch (SQLException ex) {
-            Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("model.controller - MoneyController - getIdFromDate(): sql problems " + ex.getLocalizedMessage());
         }
         id = id + 1;
         return id;
     }
 
-    public void addStartingCashToDataBase(CashRegister register) throws ClassNotFoundException, SQLException {
+    public void addStartingCashToDataBase(CashRegister register) {
         DBConnection db = new DBConnection();
-        try {
-            db.execute("insert into cashregistercontent values (" + register.getId() + ",'" + register.getDate() + "'," + register.getAmountDk() + "," + register.getAmountEuro() + "," + register.getEmployee().getCpr() + ")");
-            db.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        db.execute("insert into cashregistercontent values (" + register.getId() + ",'" + register.getDate() + "'," + register.getAmountDk() + "," + register.getAmountEuro() + "," + register.getEmployee().getCpr() + ")");
+        db.close();
     }
     
-    public void addEndCashToDatabase(DifferanceRegistre dif) throws ClassNotFoundException, SQLException{
+    public void addEndCashToDatabase(DifferanceRegistre dif) {
         DBConnection db = new DBConnection();
-        try {
-            db.execute("insert into differance values ('"+dif.getId()+"',"+dif.getEmployee().getCpr()+""
-                    + ","+dif.getCurrentCashDk()+","+dif.getCurrentCahsEuro()+","+dif.getExpectedDk()+","+dif.getExpectedEuro()+""
-                    + ","+dif.getDifferanceDk()+","+dif.getDifferanceEuro()+",'"+dif.getDate()+"')");
-            db.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        db.execute("insert into differance values ('"+dif.getId()+"',"+dif.getEmployee().getCpr()+""
+                + ","+dif.getCurrentCashDk()+","+dif.getCurrentCahsEuro()+","+dif.getExpectedDk()+","+dif.getExpectedEuro()+""
+                + ","+dif.getDifferanceDk()+","+dif.getDifferanceEuro()+",'"+dif.getDate()+"')");
+        db.close();
     }
 
 }

@@ -1,7 +1,7 @@
-﻿Host:
+Host:
 localhost
 Port:
-33061
+3306
 DbNavn:
 museumsydøstdanmark
 User:

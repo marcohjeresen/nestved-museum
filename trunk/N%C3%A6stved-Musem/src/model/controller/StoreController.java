@@ -31,7 +31,7 @@ public class StoreController {
     private ArrayList<EventType> eventTypesList;
     private ArrayList<Employee> employeesList;
 
-    public StoreController() throws SQLException, ClassNotFoundException {
+    public StoreController() {
 
         productsList = new ArrayList<>();
         ticketTypesList = new ArrayList<>();
@@ -44,14 +44,14 @@ public class StoreController {
 
     }
 
-    public static StoreController getStoreController() throws SQLException, ClassNotFoundException {
+    public static StoreController getStoreController() {
         if (storeController == null) {
             storeController = new StoreController();
         }
         return storeController;
     }
 
-    private void getProductData() throws SQLException, ClassNotFoundException {
+    private void getProductData() {
         DBConnection db = new DBConnection();
         try {
             ResultSet rse = db.getResult("select product_numberid, product_name, product_supplier, \n"
@@ -70,13 +70,12 @@ public class StoreController {
                 productsList.add(pd);
             }
         } catch (SQLException ex) {
-            System.out.println("Database connec: getProductDate() fejl");
-            Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("model.controller - StoreController - getProductData() error" + ex.getLocalizedMessage());
         }
         db.close();
     }
 
-    public void getTicketData() throws SQLException, ClassNotFoundException {
+    public void getTicketData() {
         DBConnection db = new DBConnection();
         try {
             ResultSet rs = db.getResult("SELECT * FROM tickettype");
@@ -86,12 +85,12 @@ public class StoreController {
             }
             db.close();
         } catch (SQLException ex) {
-            System.out.println("Database connec: getTicketDate() fejl");
+            System.out.println("model.controller - StoreController - getTicketData() error" + ex.getLocalizedMessage());
             Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void getEventData() throws SQLException, ClassNotFoundException {
+    public void getEventData() {
         DBConnection db = new DBConnection();
         try {
             ResultSet rs = db.getResult("SELECT * FROM eventtype order by eventtype_type");
@@ -102,13 +101,12 @@ public class StoreController {
             }
             db.close();
         } catch (SQLException ex) {
-            System.out.println("Database connec: getEventDate() fejl");
-            Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("model.controller - StoreController - getEventData() error" + ex.getLocalizedMessage());
         }
 
     }
 
-    public void getEmployeeData() throws SQLException, ClassNotFoundException {
+    public void getEmployeeData() {
         DBConnection db = new DBConnection();
         try {
             ResultSet rs = db.getResult("SELECT * FROM employee");
@@ -132,7 +130,7 @@ public class StoreController {
             }
             db.close();
         } catch (SQLException ex) {
-            Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("model.controller - StoreController - getEmployeeData() error" + ex.getLocalizedMessage());
         }
     }
 
@@ -168,13 +166,13 @@ public class StoreController {
 
             }
         }catch(SQLException ex){
-            
+             System.out.println("model.controller - StoreController - getDayEvent() error" + ex.getLocalizedMessage());
         }
 
         return dayEvent;
     }
     
-    public Boolean arThereEvent(String date) throws SQLException{
+    public Boolean arThereEvent(String date) {
         boolean isthere = false;
         DBConnection db = new DBConnection();
 
@@ -184,14 +182,14 @@ public class StoreController {
                 isthere = true;
             }
         }catch(SQLException ex){
-            
+            System.out.println("model.controller - StoreController - arThereEvent() error" + ex.getLocalizedMessage());
         }
         db.close();
         return isthere;
         
     }
 
-    public void alterProductQuantities(ArrayList<ProductLine> saleProductList) throws SQLException, ClassNotFoundException {
+    public void alterProductQuantities(ArrayList<ProductLine> saleProductList) {
         DBConnection db = new DBConnection();
         int quantities = 0;
         for (ProductLine salePL : saleProductList) {
@@ -199,7 +197,6 @@ public class StoreController {
                 if (salePL.getProduct().equals(productsList.get(i))) {
                     quantities = productsList.get(i).getQuantities() - salePL.getQuantities();
                     productsList.get(i).setQuantities(quantities);
-
                     db.execute("update product set product_quantities = " + quantities + " where product_numberid = " + productsList.get(i).getProductNumber() + ";");
                 }
             }

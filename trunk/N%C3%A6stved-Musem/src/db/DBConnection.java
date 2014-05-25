@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -58,7 +60,7 @@ public class DBConnection {
             }
             textScan.close();
         } catch (FileNotFoundException ex) {
-            System.out.println("kunne ikke finde" + ex.getMessage());
+            System.out.println("db.DBConnection - DBConnection(): kunne ikke finde dbLogInfo." + ex.getMessage());
         }
         db = "jdbc:mysql://" + host + ":" + port + "/" + dbNavn;
         isConnected = false;
@@ -83,9 +85,9 @@ public class DBConnection {
             isConnected = true;
 
         } catch (ClassNotFoundException ex) {
-            System.out.println("problemmer");
+            System.out.println("db.DBConnection - connection(): Database Not Found!!" + ex.getLocalizedMessage());
         } catch (SQLException ex) {
-            System.out.println("problemmer");
+            System.out.println("db.DBConnection - connection(): Connect Failed:" + ex.getLocalizedMessage());
         }
         return isConnected;
     }
@@ -112,16 +114,29 @@ public class DBConnection {
      * @param sql a String containing the sql command
      * @throws SQLException
      */
-    public void execute(String sql) throws SQLException {
-        state.execute(sql);
+    public void execute(String sql){
+        try {
+            state.execute(sql);
+        } catch (SQLException ex) {
+            System.out.println("db.DBConnection - DBConnection - execute(): Connect Failed:" + ex.getLocalizedMessage());
+        }
     }
 
-    public ResultSet getResult(String sql) throws SQLException {
-        ResultSet rs = state.executeQuery(sql);
+    public ResultSet getResult(String sql) {
+        ResultSet rs = null;
+        try {
+            rs = state.executeQuery(sql);
+        } catch (SQLException ex) {
+            System.out.println("db.DBConnection - DBConnection - getResult(): Connect Failed:" + ex.getLocalizedMessage());
+        }
         return rs;
     }
 
-    public void close() throws SQLException {
-        connect.close();
+    public void close()  {
+        try {
+            connect.close();
+        } catch (SQLException ex) {
+            System.out.println("db.DBConnection - DBConnection - close(): Connect Failed:" + ex.getLocalizedMessage());
+        }
     }
 }

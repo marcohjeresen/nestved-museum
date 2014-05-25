@@ -49,7 +49,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
      * @throws java.sql.SQLException
      * @throws java.lang.ClassNotFoundException
      */
-    public SaleView() throws SQLException, ClassNotFoundException {
+    public SaleView() {
         storeHandler = StoreHandler.storeHandler();
         storeController = StoreController.getStoreController();
         saleHandler = SaleHandler.getSaleHandler();
@@ -339,7 +339,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         repaint();
     }
 
-    public void endSale() throws SQLException, ClassNotFoundException {
+    public void endSale() {
         boolean beløbGodkent = false;
         double modtagetTilBetaling;
         double retur = 0;
@@ -1112,13 +1112,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton_saleEndActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_saleEndActionPerformed
-        try {
-            endSale();
-        } catch (SQLException ex) {
-            Logger.getLogger(SaleView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SaleView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        endSale();
     }//GEN-LAST:event_jButton_saleEndActionPerformed
 
     private void jTextField_payamountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_payamountActionPerformed

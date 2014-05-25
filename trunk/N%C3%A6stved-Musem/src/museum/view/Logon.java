@@ -39,7 +39,7 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
     /**
      * Creates new form Logon
      */
-    public Logon() throws SQLException, ClassNotFoundException {
+    public Logon() {
         storeHandler = StoreHandler.storeHandler();
         moneyHandler = MoneyHandler.getMoneyHandler();
         listeners = Listeners.getList();
@@ -106,7 +106,7 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
         }
     }
 
-    public void endReg() throws ParseException, ClassNotFoundException, SQLException {
+    public void endReg() {
         if (dkcash) {
             if (dkc != 0) {
                 dkcash = false;
@@ -776,28 +776,12 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton_endActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_endActionPerformed
-        try {
-            endReg();
-            setEndText();
-        } catch (ParseException ex) {
-            System.out.println("he");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Logon.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Logon.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        endReg();
+        setEndText();
     }//GEN-LAST:event_jButton_endActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        try {
-            endReg();
-        } catch (ParseException ex) {
-            System.out.println("he");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Logon.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Logon.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        endReg();
     }//GEN-LAST:event_jButton14ActionPerformed
 
     private void jTextField_kodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_kodeActionPerformed
