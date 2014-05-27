@@ -13,7 +13,6 @@ package model;
 public class Product extends ProductGroup{
     private int productNumber;
     private String name;
-
     private String supplier;
     private int buyPrice;
     private int priceDk;

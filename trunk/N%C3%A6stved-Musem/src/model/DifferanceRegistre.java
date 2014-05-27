@@ -14,7 +14,7 @@ public class DifferanceRegistre {
     private int id;
     private Employee employee;
     private int currentCashDk;
-    private int currentCahsEuro;
+    private int currentCashEuro;
     private int expectedDk;
     private int expectedEuro;
     private int differanceDk;
@@ -25,7 +25,7 @@ public class DifferanceRegistre {
         this.id = id;
         this.employee = employee;
         this.currentCashDk = currentCashDk;
-        this.currentCahsEuro = currentCahsEuro;
+        this.currentCashEuro = currentCahsEuro;
         this.expectedDk = expectedDk;
         this.expectedEuro = expectedEuro;
         this.differanceDk = differanceDk;
@@ -57,12 +57,12 @@ public class DifferanceRegistre {
         this.currentCashDk = currentCashDk;
     }
 
-    public int getCurrentCahsEuro() {
-        return currentCahsEuro;
+    public int getCurrentCashEuro() {
+        return currentCashEuro;
     }
 
-    public void setCurrentCahsEuro(int currentCahsEuro) {
-        this.currentCahsEuro = currentCahsEuro;
+    public void setCurrentCashEuro(int currentCashEuro) {
+        this.currentCashEuro = currentCashEuro;
     }
 
     public int getExpectedDk() {
@@ -107,7 +107,7 @@ public class DifferanceRegistre {
 
     @Override
     public String toString() {
-        return "DifferanceRegistre{" + "id=" + id + ", employee=" + employee + ", currentCashDk=" + currentCashDk + ", currentCahsEuro=" + currentCahsEuro + ", expectedDk=" + expectedDk + ", expectedEuro=" + expectedEuro + ", differanceDk=" + differanceDk + ", differanceEuro=" + differanceEuro + ", date=" + date + '}';
+        return "DifferanceRegistre{" + "id=" + id + ", employee=" + employee + ", currentCashDk=" + currentCashDk + ", currentCahsEuro=" + currentCashEuro + ", expectedDk=" + expectedDk + ", expectedEuro=" + expectedEuro + ", differanceDk=" + differanceDk + ", differanceEuro=" + differanceEuro + ", date=" + date + '}';
     }
     
 

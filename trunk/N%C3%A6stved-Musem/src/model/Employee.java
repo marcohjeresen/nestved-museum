@@ -15,17 +15,17 @@ import java.util.ArrayList;
 public class Employee {
     private int cpr;
     private String name;
-    private String adresse;
+    private String address;
     private int postZip;
     private String city;
     private int password;
     private int phone;
     private ArrayList phoneList;
 
-    public Employee(int cpr, String name, String adresse, int postZip, String city, int password) {
+    public Employee(int cpr, String name, String address, int postZip, String city, int password) {
         this.cpr = cpr;
         this.name = name;
-        this.adresse = adresse;
+        this.address = address;
         this.postZip = postZip;
         this.city = city;
 
@@ -33,7 +33,6 @@ public class Employee {
         phoneList = new ArrayList();
     }
     public void setPhoneList(int number){
-        
         phoneList.add(number);
     }
 
@@ -57,12 +56,12 @@ public class Employee {
         this.name = name;
     }
 
-    public String getAdresse() {
-        return adresse;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public int getPostZip() {
@@ -92,7 +91,7 @@ public class Employee {
 
     @Override
     public String toString() {
-        String employee = "cpr: " + cpr + " name: " + name + " adresse: " + adresse + " postZip: " + postZip + " city: " 
+        String employee = "cpr: " + cpr + " name: " + name + " address: " + address + " postZip: " + postZip + " city: " 
                 + city + " phoneList: ";
         for (Object number : phoneList) {
             employee = employee + number+" - ";

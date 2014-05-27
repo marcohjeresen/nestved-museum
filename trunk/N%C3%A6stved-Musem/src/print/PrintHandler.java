@@ -21,8 +21,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.EventLine;
 import model.ProductLine;
 import model.*;
@@ -31,7 +29,6 @@ import model.Handler.MoneyHandler;
 import model.Handler.SaleHandler;
 import model.Handler.StoreHandler;
 import model.controller.StoreController;
-import museum.MainView;
 import utility.Line;
 
 /**
@@ -121,7 +118,7 @@ public class PrintHandler implements Printable {
             }
             lines.add(emty);
         }
-        Line totelPrice = new Line("Total Pris: ", sale.getEndpriceDk(discount), sale.getEndpriceEuro(discount));
+        Line totelPrice = new Line("Total Pris: ", sale.getEndPriceDk(discount), sale.getEndPriceEuro(discount));
         lines.add(totelPrice);
         Line employ = new Line("Du Bliv Betjent Af:", 0, 0);
         Line employ2 = new Line(sale.getEmployee().getName(), 0, 0);
@@ -278,7 +275,7 @@ public class PrintHandler implements Printable {
                         double fDk = d.getExpectedDk() / 100;
                         double fEuro = d.getExpectedEuro() / 100;
                         double SDk = d.getCurrentCashDk() / 100;
-                        double sEuro = d.getCurrentCahsEuro() / 100;
+                        double sEuro = d.getCurrentCashEuro() / 100;
                         Line llll = new Line("" + d.getEmployee().getName() + "  ForvDk: " + fDk + " ForvEuro: " + fEuro
                                 + " SlutDk: " + SDk + " SlutEuro: " + sEuro, 0, -1);
                         double DDk = d.getDifferanceDk() / 100;

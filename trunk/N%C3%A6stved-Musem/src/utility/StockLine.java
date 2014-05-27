@@ -11,57 +11,59 @@ package utility;
  * @author MarcoPc
  */
 public class StockLine {
-private String producNumber;
-private String producName;
-private String producSuppl;
-private String producBuyPrice;
-private String producQuantitis;
+private String productNumber;
+private String productName;
+private String productSupply;
+private String productBuyPrice;
+private String productQuantities;
 
     public StockLine(String producNumber, String producName, String producSuppl, String producBuyPrice, String producQuantitis) {
-        this.producNumber = producNumber;
-        this.producName = producName;
-        this.producSuppl = producSuppl;
-        this.producBuyPrice = producBuyPrice;
-        this.producQuantitis = producQuantitis;
+        this.productNumber = producNumber;
+        this.productName = producName;
+        this.productSupply = producSuppl;
+        this.productBuyPrice = producBuyPrice;
+        this.productQuantities = producQuantitis;
     }
 
-    public String getProducNumber() {
-        return producNumber;
+    public String getProductNumber() {
+        return productNumber;
     }
 
-    public void setProducNumber(String producNumber) {
-        this.producNumber = producNumber;
+    public void setProductNumber(String productNumber) {
+        this.productNumber = productNumber;
     }
 
-    public String getProducName() {
-        return producName;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setProducName(String producName) {
-        this.producName = producName;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public String getProducSuppl() {
-        return producSuppl;
+    public String getProductSupply() {
+        return productSupply;
     }
 
-    public void setProducSuppl(String producSuppl) {
-        this.producSuppl = producSuppl;
+    public void setProductSupply(String productSupply) {
+        this.productSupply = productSupply;
     }
 
-    public String getProducBuyPrice() {
-        return producBuyPrice;
+    public String getProductBuyPrice() {
+        return productBuyPrice;
     }
 
-    public void setProducBuyPrice(String producBuyPrice) {
-        this.producBuyPrice = producBuyPrice;
+    public void setProductBuyPrice(String productBuyPrice) {
+        this.productBuyPrice = productBuyPrice;
     }
 
-    public String getProducQuantitis() {
-        return producQuantitis;
+    public String getProductQuantities() {
+        return productQuantities;
     }
 
-    public void setProducQuantitis(String producQuantitis) {
-        this.producQuantitis = producQuantitis;
+    public void setProductQuantities(String productQuantities) {
+        this.productQuantities = productQuantities;
     }
+
+
 }

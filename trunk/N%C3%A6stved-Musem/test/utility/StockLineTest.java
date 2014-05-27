@@ -26,7 +26,7 @@ public class StockLineTest {
         System.out.println("getProducNumber");
         StockLine instance = null;
         String expResult = "";
-        String result = instance.getProducNumber();
+        String result = instance.getProductNumber();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -40,7 +40,7 @@ public class StockLineTest {
         System.out.println("setProducNumber");
         String producNumber = "";
         StockLine instance = null;
-        instance.setProducNumber(producNumber);
+        instance.setProductNumber(producNumber);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -53,7 +53,7 @@ public class StockLineTest {
         System.out.println("getProducName");
         StockLine instance = null;
         String expResult = "";
-        String result = instance.getProducName();
+        String result = instance.getProductName();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -67,7 +67,7 @@ public class StockLineTest {
         System.out.println("setProducName");
         String producName = "";
         StockLine instance = null;
-        instance.setProducName(producName);
+        instance.setProductName(producName);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -80,7 +80,7 @@ public class StockLineTest {
         System.out.println("getProducSuppl");
         StockLine instance = null;
         String expResult = "";
-        String result = instance.getProducSuppl();
+        String result = instance.getProductSupply();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -94,7 +94,7 @@ public class StockLineTest {
         System.out.println("setProducSuppl");
         String producSuppl = "";
         StockLine instance = null;
-        instance.setProducSuppl(producSuppl);
+        instance.setProductSupply(producSuppl);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -107,7 +107,7 @@ public class StockLineTest {
         System.out.println("getProducBuyPrice");
         StockLine instance = null;
         String expResult = "";
-        String result = instance.getProducBuyPrice();
+        String result = instance.getProductBuyPrice();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -121,7 +121,7 @@ public class StockLineTest {
         System.out.println("setProducBuyPrice");
         String producBuyPrice = "";
         StockLine instance = null;
-        instance.setProducBuyPrice(producBuyPrice);
+        instance.setProductBuyPrice(producBuyPrice);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -134,7 +134,7 @@ public class StockLineTest {
         System.out.println("getProducQuantitis");
         StockLine instance = null;
         String expResult = "";
-        String result = instance.getProducQuantitis();
+        String result = instance.getProductQuantities();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -148,7 +148,7 @@ public class StockLineTest {
         System.out.println("setProducQuantitis");
         String producQuantitis = "";
         StockLine instance = null;
-        instance.setProducQuantitis(producQuantitis);
+        instance.setProductQuantities(producQuantitis);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

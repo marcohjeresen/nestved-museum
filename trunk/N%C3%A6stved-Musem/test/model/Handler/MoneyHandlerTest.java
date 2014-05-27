@@ -54,7 +54,7 @@ public class MoneyHandlerTest {
     public void testEndRegistre() {
         System.out.println("endRegistre");
         MoneyHandler instance = new MoneyHandler();
-        instance.endRegistre();
+        instance.endRegister();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -67,7 +67,7 @@ public class MoneyHandlerTest {
         System.out.println("cashRegistre");
         MoneyHandler instance = new MoneyHandler();
         boolean expResult = false;
-        boolean result = instance.cashRegistre();
+        boolean result = instance.cashRegister();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -112,7 +112,7 @@ public class MoneyHandlerTest {
         int EuroIndTheBox = 0;
         Employee employee = null;
         MoneyHandler instance = new MoneyHandler();
-        instance.endCashregister(DkIndTheBox, EuroIndTheBox, employee);
+        instance.endCashRegister(DkIndTheBox, EuroIndTheBox, employee);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

@@ -153,7 +153,7 @@ public class StoreControllerTest {
         String date = "";
         StoreController instance = new StoreController();
         Boolean expResult = null;
-        Boolean result = instance.arThereEvent(date);
+        Boolean result = instance.areThereEvent(date);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

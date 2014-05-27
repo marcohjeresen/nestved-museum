@@ -20,12 +20,12 @@ public class Line {
     private int day;
     private int sum;
     private int id;
-    private int tkAdultQu;
-    private int tkKidsQu;
-    private int tkFreeQu;
-    private int tkAGroupQu;
-    private int evQuantities;
-    private int evSold;
+    private int ticketAdultQuantities;
+    private int ticketChildenQuantities;
+    private int ticketFreeQuantities;
+    private int ticketGroupQuantities;
+    private int eventQuantities;
+    private int eventSold;
     private String ticketDate;
 
     public Line(String text, int priceDk, int priceEuro) {
@@ -34,80 +34,8 @@ public class Line {
         this.priceEuro = priceEuro;
     }
 
-    public int getTkAdultQu() {
-        return tkAdultQu;
-    }
-
-    public int getEvQuantities() {
-        return evQuantities;
-    }
-
-    public void setEvQuantities(int evQuantities) {
-        this.evQuantities = evQuantities;
-    }
-
-    public int getEvSold() {
-        return evSold;
-    }
-
-    public void setEvSold(int evSold) {
-        this.evSold = evSold;
-    }
-
-    public void setTkAdultQu(int tkAdultQu) {
-        this.tkAdultQu = tkAdultQu;
-    }
-
-    public int getTkKidsQu() {
-        return tkKidsQu;
-    }
-
-    public void setTkKidsQu(int tkKidsQu) {
-        this.tkKidsQu = tkKidsQu;
-    }
-
-    public int getTkFreeQu() {
-        return tkFreeQu;
-    }
-
-    public void setTkFreeQu(int tkFreeQu) {
-        this.tkFreeQu = tkFreeQu;
-    }
-
-    public int getTkAGroupQu() {
-        return tkAGroupQu;
-    }
-
-    public void setTkAGroupQu(int tkAGroupQu) {
-        this.tkAGroupQu = tkAGroupQu;
-    }
-
     public String getText() {
         return text;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getTicketQuantities() {
-        return tkAdultQu;
-    }
-
-    public void setTicketQuantities(int ticketQuantities) {
-        this.tkAdultQu = ticketQuantities;
-    }
-
-    public String getTicketDate() {
-        return ticketDate;
-    }
-
-    public void setTicketDate(String ticketDate) {
-        this.ticketDate = ticketDate;
     }
 
     public void setText(String text) {
@@ -185,6 +113,72 @@ public class Line {
     public void setSum(int sum) {
         this.sum = sum;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getTicketAdultQuantities() {
+        return ticketAdultQuantities;
+    }
+
+    public void setTicketAdultQuantities(int ticketAdultQuantities) {
+        this.ticketAdultQuantities = ticketAdultQuantities;
+    }
+
+    public int getTicketChildenQuantities() {
+        return ticketChildenQuantities;
+    }
+
+    public void setTicketChildenQuantities(int ticketChildenQuantities) {
+        this.ticketChildenQuantities = ticketChildenQuantities;
+    }
+
+    public int getTicketFreeQuantities() {
+        return ticketFreeQuantities;
+    }
+
+    public void setTicketFreeQuantities(int ticketFreeQuantities) {
+        this.ticketFreeQuantities = ticketFreeQuantities;
+    }
+
+    public int getTicketGroupQuantities() {
+        return ticketGroupQuantities;
+    }
+
+    public void setTicketGroupQuantities(int ticketGroupQuantities) {
+        this.ticketGroupQuantities = ticketGroupQuantities;
+    }
+
+    public int getEventQuantities() {
+        return eventQuantities;
+    }
+
+    public void setEventQuantities(int eventQuantities) {
+        this.eventQuantities = eventQuantities;
+    }
+
+    public int getEventSold() {
+        return eventSold;
+    }
+
+    public void setEventSold(int eventSold) {
+        this.eventSold = eventSold;
+    }
+
+    public String getTicketDate() {
+        return ticketDate;
+    }
+
+    public void setTicketDate(String ticketDate) {
+        this.ticketDate = ticketDate;
+    }
+
+
 
     @Override
     public String toString() {

@@ -172,7 +172,7 @@ public class StoreController {
         return dayEvent;
     }
     
-    public Boolean arThereEvent(String date) {
+    public Boolean areThereEvent(String date) {
         boolean isthere = false;
         DBConnection db = new DBConnection();
 

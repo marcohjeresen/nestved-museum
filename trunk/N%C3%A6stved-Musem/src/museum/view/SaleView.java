@@ -11,10 +11,7 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.Timer;
 import model.*;
 import model.Handler.*;
@@ -35,10 +32,10 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
     private Listeners listeners;
     private NumberFormatTools numberFormatTools;
     private PrintHandler printHandler;
-    private String modtaget;
+    private String received;
     private String dkOrEuro;
-    private ArrayList<String> modtag;
-    private double penge;
+    private ArrayList<String> receiveList;
+    private double money;
     private Timer timer;
     private boolean discount;
     private boolean readyBuy;
@@ -69,8 +66,8 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         jButton_saleEnd.setEnabled(false);
         discount = false;
         readyBuy = false;
-        modtaget = "";
-        modtag = new ArrayList<>();
+        received = "";
+        receiveList = new ArrayList<>();
         jLabel_endError.setText("");
         jB_endSale.setEnabled(false);
         setPrice();
@@ -84,7 +81,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
                 jToggleButton_member.setSelected(false);
                 jToggleButton_euro.setSelected(false);
                 jToggleButton_noKvit.setSelected(false);
-                Museumscard();
+                museumsCard();
                 setPaymentAmount();
                 jLabel_endError.setText("");
                 timer.stop();
@@ -98,7 +95,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
     }
 
     public void clearList() {
-        modtag.removeAll(modtag);
+        receiveList.removeAll(receiveList);
     }
 
     public void showEmployee() {
@@ -185,7 +182,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         sp.setVisible(true);
     }
 
-    public void setChoosenType(String type, boolean search) {
+    public void setChosenType(String type, boolean search) {
         jP_product.removeAll();
         jP_product.repaint();
         int count = 0;
@@ -281,8 +278,8 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
     }
 
     public void setPrice() {
-        double moneyDk = numberFormatTools.getDoubleValue(saleHandler.getCurrentSale().getEndpriceDk(false));
-        double moneyEuro = numberFormatTools.getDoubleValue(saleHandler.getCurrentSale().getEndpriceEuro(false));
+        double moneyDk = numberFormatTools.getDoubleValue(saleHandler.getCurrentSale().getEndPriceDk(false));
+        double moneyEuro = numberFormatTools.getDoubleValue(saleHandler.getCurrentSale().getEndPriceEuro(false));
         jL_BasketPriceDk.setText("" + moneyDk);
         jL_BasketPriceEuro.setText("" + moneyEuro);
     }
@@ -294,34 +291,34 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         jL_euroAmount.setText("" + moneyEuro);
     }
 
-    public void Museumscard() {
+    public void museumsCard() {
         discount = jToggleButton_member.isSelected();
         setPaymentAmount();
     }
 
     public void setPaymentAmount() {
         if (jToggleButton_dk.isSelected()) {
-            double priceDk = numberFormatTools.getDoubleValue(saleHandler.getCurrentSale().getEndpriceDk(discount));
+            double priceDk = numberFormatTools.getDoubleValue(saleHandler.getCurrentSale().getEndPriceDk(discount));
             jTextField_endprice.setText("DK: " + priceDk);
-            penge = numberFormatTools.getDoubleValue(saleHandler.getCurrentSale().getEndpriceDk(discount));
+            money = numberFormatTools.getDoubleValue(saleHandler.getCurrentSale().getEndPriceDk(discount));
         } else if (jToggleButton_euro.isSelected()) {
-            double priceEuro = numberFormatTools.getDoubleValue(saleHandler.getCurrentSale().getEndpriceEuro(discount));
+            double priceEuro = numberFormatTools.getDoubleValue(saleHandler.getCurrentSale().getEndPriceEuro(discount));
             jTextField_endprice.setText("EURO: " + priceEuro);
-            penge = numberFormatTools.getDoubleValue(saleHandler.getCurrentSale().getEndpriceEuro(discount));
+            money = numberFormatTools.getDoubleValue(saleHandler.getCurrentSale().getEndPriceEuro(discount));
         } else {
             jTextField_endprice.setText("" + 0);
         }
     }
 
-    public void setModtagetBeløb() {
-        modtaget = "";
-        if (!modtag.isEmpty()) {
-            for (String string : modtag) {
-                modtaget = modtaget + string;
+    public void setReceivedAmount() {
+        received = "";
+        if (!receiveList.isEmpty()) {
+            for (String string : receiveList) {
+                received = received + string;
                 jButton_saleEnd.setEnabled(true);
             }
         }
-        jTextField_payamount.setText(modtaget);
+        jTextField_payamount.setText(received);
     }
 
     public void clearAll() {
@@ -331,34 +328,34 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
         fillBasket();
         jP_product.removeAll();
         jP_type.removeAll();
-        modtag.removeAll(modtag);
-        modtaget = "";
+        receiveList.removeAll(receiveList);
+        received = "";
         jB_endSale.setEnabled(false);
-        setModtagetBeløb();
+        setReceivedAmount();
         jTextField_payback.setText("");
         repaint();
     }
 
     public void endSale() {
-        boolean beløbGodkent = false;
-        double modtagetTilBetaling;
+        boolean paymentAccept = false;
+        double receiveForPayment;
         double retur = 0;
-        int payid = 1;
+        int payId = 1;
         try {
-            modtagetTilBetaling = Double.parseDouble(modtaget);
-            if (penge <= modtagetTilBetaling) {
-                beløbGodkent = true;
+            receiveForPayment = Double.parseDouble(received);
+            if (money <= receiveForPayment) {
+                paymentAccept = true;
                 if (jToggleButton_dk.isSelected()) {
-                    int amount1 = (int) (modtagetTilBetaling * 100);
-                    int amount2 = (int) (penge * 100);
+                    int amount1 = (int) (receiveForPayment * 100);
+                    int amount2 = (int) (money * 100);
                     retur = amount1 - amount2;
                     retur = retur / 100;
                     jTextField_payback.setText("Retur DK: " + retur);
                     dkOrEuro = "DK";
 
                 } else if (jToggleButton_euro.isSelected()) {
-                    int amount1 = (int) (modtagetTilBetaling * 100);
-                    int amount2 = (int) (penge * 100);
+                    int amount1 = (int) (receiveForPayment * 100);
+                    int amount2 = (int) (money * 100);
                     retur = amount1 - amount2;
                     retur = retur / 100;
                     jTextField_payback.setText("Retur Euro: " + retur);
@@ -371,7 +368,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
                 }
                 saleController.endSale(saleHandler.getCurrentSale(), discount);
                 jLabel_endError.setText("Betaling Godkendt:");
-                int money = (int) (penge * 100);
+                int money = (int) (this.money * 100);
                 moneyHandler.addCashAmount("+", dkOrEuro, money);
                 listeners.notifyListeners("End Sale");
                 jButton_saleEnd.setEnabled(false);
@@ -1039,67 +1036,67 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
     }//GEN-LAST:event_jToggleButton_euroActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        modtag.add("1");
-        setModtagetBeløb();
+        receiveList.add("1");
+        setReceivedAmount();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        modtag.add("2");
-        setModtagetBeløb();
+        receiveList.add("2");
+        setReceivedAmount();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        modtag.add("3");
-        setModtagetBeløb();
+        receiveList.add("3");
+        setReceivedAmount();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        modtag.add("4");
-        setModtagetBeløb();
+        receiveList.add("4");
+        setReceivedAmount();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        modtag.add("5");
-        setModtagetBeløb();
+        receiveList.add("5");
+        setReceivedAmount();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        modtag.add("6");
-        setModtagetBeløb();
+        receiveList.add("6");
+        setReceivedAmount();
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        modtag.add("7");
-        setModtagetBeløb();
+        receiveList.add("7");
+        setReceivedAmount();
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        modtag.add("8");
-        setModtagetBeløb();
+        receiveList.add("8");
+        setReceivedAmount();
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        modtag.add("9");
-        setModtagetBeløb();
+        receiveList.add("9");
+        setReceivedAmount();
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        modtag.add("0");
-        setModtagetBeløb();
+        receiveList.add("0");
+        setReceivedAmount();
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        modtag.add(".");
-        setModtagetBeløb();
+        receiveList.add(".");
+        setReceivedAmount();
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        modtag.remove(modtag.size() - 1);
-        setModtagetBeløb();
+        receiveList.remove(receiveList.size() - 1);
+        setReceivedAmount();
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jToggleButton_memberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton_memberActionPerformed
-        Museumscard();
+        museumsCard();
     }//GEN-LAST:event_jToggleButton_memberActionPerformed
 
     private void jToggleButton_dkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton_dkActionPerformed
@@ -1196,14 +1193,14 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent ae) {
         switch (ae.getActionCommand()) {
-            case "Choosen Product":
-                setChoosenType("Product", false);
+            case "Chosen Product":
+                setChosenType("Product", false);
                 break;
-            case "Choosen Ticket":
-                setChoosenType("Ticket", false);
+            case "Chosen Ticket":
+                setChosenType("Ticket", false);
                 break;
-            case "Choosen Event":
-                setChoosenType("Event", false);
+            case "Chosen Event":
+                setChosenType("Event", false);
                 break;
             case "Basket Change":
                 fillBasket();

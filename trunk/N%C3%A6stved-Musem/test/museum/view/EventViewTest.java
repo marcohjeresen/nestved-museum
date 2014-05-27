@@ -51,7 +51,7 @@ public class EventViewTest {
         System.out.println("\u00e6ndreText");
         String textfield = "";
         EventView instance = null;
-        instance.ændreText(textfield);
+        instance.changeText(textfield);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

@@ -7,12 +7,9 @@ package model.Handler;
 
 import utility.DateFormatTools;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Employee;
 import model.EventType;
 import model.Product;
@@ -31,18 +28,18 @@ public class StoreHandler {
     private Employee logEmployee;
     private boolean search;
     private Listeners listeners;
-    private ArrayList<Product> choosenProduct;
-    private TicketType choosenTicket;
-    private EventType choosenEvent;
+    private ArrayList<Product> chosenProduct;
+    private TicketType chosenTicket;
+    private EventType chosenEvent;
     private String event;
 
     public StoreHandler() {
         controller = StoreController.getStoreController();
         listeners = Listeners.getList();
         search = false;
-        choosenProduct = new ArrayList<>();
-        choosenTicket = null;
-        choosenEvent = null;
+        chosenProduct = new ArrayList<>();
+        chosenTicket = null;
+        chosenEvent = null;
     }
 
     public static StoreHandler storeHandler() {
@@ -60,15 +57,15 @@ public class StoreHandler {
         logEmployee = null;
     }
 
-    public boolean employeeLogin(int kode) {
-        boolean logon = false;
+    public boolean employeeLogin(int code) {
+        boolean login = false;
         for (Employee employee : controller.getEmployeesList()) {
-            if (employee.getPassword() == kode) {
+            if (employee.getPassword() == code) {
                 logEmployee = employee;
-                logon = true;
+                login = true;
             }
         }
-        return logon;
+        return login;
     }
 
     public HashSet<String> getProductGroups() {
@@ -96,62 +93,62 @@ public class StoreHandler {
     }
 
     public void setChoosenProduct(String productGroup) {
-        choosenProduct.removeAll(choosenProduct);
+        chosenProduct.removeAll(chosenProduct);
         for (Product product : controller.getProductsList()) {
             if (product.getGroupType().equals(productGroup)) {
-                choosenProduct.add(product);
+                chosenProduct.add(product);
             }
         }
-        listeners.notifyListeners("Choosen Product");
+        listeners.notifyListeners("Chosen Product");
     }
 
     public void setSearchProduct(int productNumber) {
-        choosenProduct.removeAll(choosenProduct);
+        chosenProduct.removeAll(chosenProduct);
         for (Product product : controller.getProductsList()) {
             if (product.getProductNumber() == productNumber) {
-                choosenProduct.add(product);
+                chosenProduct.add(product);
             }
         }
-        listeners.notifyListeners("Choosen Product");
+        listeners.notifyListeners("Chosen Product");
     }
 
     public ArrayList<Product> getChoosenProduct() {
-        return choosenProduct;
+        return chosenProduct;
     }
 
     public void setChoosenTicket(String ticketType) {
-        choosenTicket = null;
+        chosenTicket = null;
         for (TicketType ticketType1 : controller.getTicketTypesList()) {
             if (ticketType1.getType().equals(ticketType)) {
-                choosenTicket = ticketType1;
+                chosenTicket = ticketType1;
             }
         }
-        listeners.notifyListeners("Choosen Ticket");
+        listeners.notifyListeners("Chosen Ticket");
     }
 
     public TicketType getChoosenTicket() {
-        return choosenTicket;
+        return chosenTicket;
     }
 
     public void setChoosenEvent(String eventType) {
-        choosenEvent = null;
+        chosenEvent = null;
         for (EventType eventType1 : controller.getEventTypesList()) {
             if (eventType1.getType().equals(eventType)) {
-                choosenEvent = eventType1;
+                chosenEvent = eventType1;
             }
         }
-        listeners.notifyListeners("Choosen Event");
+        listeners.notifyListeners("Chosen Event");
     }
 
     public EventType getChoosenEventType() {
-        return choosenEvent;
+        return chosenEvent;
     }
 
     public Boolean dayHaveEvent(Calendar c) {
         boolean isthere = false;
         DateFormatTools dft = new DateFormatTools();
         String date = dft.getShortDateFromCal(c);
-        isthere = controller.arThereEvent(date);
+        isthere = controller.areThereEvent(date);
         return isthere;
     }
 

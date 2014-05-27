@@ -10,10 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import model.Handler.SaleHandler;
-import museum.MainView;
 
 /**
  *
@@ -55,60 +51,60 @@ public class StatistikHandler {
                         + "where sale_date like '" + datefrom + "_________' and ticketline_sale_id = sale_id "
                         + "and ticketline_tickettype_id = tickettype_id");
                 while (rse.next()) {
-                    boolean erder = false;
+                    boolean isThere = false;
                     if (!lineList.isEmpty()) {
                         for (int j = 0; j < lineList.size(); j++) {
-                            if (lineList.get(j).getTicketDate() == datefrom) {
-                                erder = false;
+                            if (lineList.get(j).getTicketDate().equals(datefrom)) {
+                                isThere = false;
                                 switch (rse.getString("tickettype_type")) {
                                     case "Voksenbillet, over 18 år": {
-                                        erder = true;
-                                        int quantities = lineList.get(j).getTkAdultQu();
-                                        lineList.get(j).setTkAdultQu(quantities + rse.getInt("ticketline_quantities"));
+                                        isThere = true;
+                                        int quantities = lineList.get(j).getTicketAdultQuantities();
+                                        lineList.get(j).setTicketAdultQuantities(quantities + rse.getInt("ticketline_quantities"));
                                         break;
                                     }
                                     case "Børnebillet, under 18 år": {
-                                        erder = true;
-                                        int quantities = lineList.get(j).getTkKidsQu();
-                                        lineList.get(j).setTkKidsQu(quantities + rse.getInt("ticketline_quantities"));
+                                        isThere = true;
+                                        int quantities = lineList.get(j).getTicketChildenQuantities();
+                                        lineList.get(j).setTicketChildenQuantities(quantities + rse.getInt("ticketline_quantities"));
                                         break;
                                     }
                                     case "Gruppebillet, min. 10 personer": {
-                                        erder = true;
-                                        int quantities = lineList.get(j).getTkAGroupQu();
-                                        lineList.get(j).setTkAGroupQu(quantities + rse.getInt("ticketline_quantities"));
+                                        isThere = true;
+                                        int quantities = lineList.get(j).getTicketGroupQuantities();
+                                        lineList.get(j).setTicketGroupQuantities(quantities + rse.getInt("ticketline_quantities"));
                                         break;
                                     }
                                     case "Gratister (Museumskort, foregning, ovs)": {
-                                        erder = true;
-                                        int quantities = lineList.get(j).getTkFreeQu();
-                                        lineList.get(j).setTkFreeQu(quantities + rse.getInt("ticketline_quantities"));
+                                        isThere = true;
+                                        int quantities = lineList.get(j).getTicketFreeQuantities();
+                                        lineList.get(j).setTicketFreeQuantities(quantities + rse.getInt("ticketline_quantities"));
                                         break;
                                     }
                                 }
                             }
                         }
-                        if (!erder) {
+                        if (!isThere) {
                             Line l = new Line("", 0, 0);
                             switch (rse.getString("tickettype_type")) {
                                 case "Voksenbillet, over 18 år": {
                                     int quantities = rse.getInt("ticketline_quantities");
-                                    l.setTkAdultQu(quantities);
+                                    l.setTicketAdultQuantities(quantities);
                                     break;
                                 }
                                 case "Børnebillet, under 18 år": {
                                     int quantities = rse.getInt("ticketline_quantities");
-                                    l.setTkKidsQu(quantities);
+                                    l.setTicketChildenQuantities(quantities);
                                     break;
                                 }
                                 case "Gruppebillet, min. 10 personer": {
                                     int quantities = rse.getInt("ticketline_quantities");
-                                    l.setTkAGroupQu(quantities);
+                                    l.setTicketGroupQuantities(quantities);
                                     break;
                                 }
                                 case "Gratister (Museumskort, foregning, ovs)": {
                                     int quantities = rse.getInt("ticketline_quantities");
-                                    l.setTkFreeQu(quantities);
+                                    l.setTicketFreeQuantities(quantities);
                                     break;
                                 }
                             }
@@ -120,22 +116,22 @@ public class StatistikHandler {
                         switch (rse.getString("tickettype_type")) {
                             case "Voksenbillet, over 18 år": {
                                 int quantities = rse.getInt("ticketline_quantities");
-                                l.setTkAdultQu(quantities);
+                                l.setTicketAdultQuantities(quantities);
                                 break;
                             }
                             case "Børnebillet, under 18 år": {
                                 int quantities = rse.getInt("ticketline_quantities");
-                                l.setTkKidsQu(quantities);
+                                l.setTicketChildenQuantities(quantities);
                                 break;
                             }
                             case "Gruppebillet, min. 10 personer": {
                                 int quantities = rse.getInt("ticketline_quantities");
-                                l.setTkAGroupQu(quantities);
+                                l.setTicketGroupQuantities(quantities);
                                 break;
                             }
                             case "Gratister (Museumskort, foregning, ovs)": {
                                 int quantities = rse.getInt("ticketline_quantities");
-                                l.setTkFreeQu(quantities);
+                                l.setTicketFreeQuantities(quantities);
                                 break;
                             }
                         }
@@ -153,18 +149,18 @@ public class StatistikHandler {
                 while (rs.next()) {
                     boolean erder = false;
                     for (int j = 0; j < lineList.size(); j++) {
-                        if (lineList.get(j).getTicketDate() == datefrom) {
-                            int sold = lineList.get(j).getEvSold();
-                            int quintities = lineList.get(j).getEvQuantities();
-                            lineList.get(j).setEvQuantities(quintities + rs.getInt("eventline_quantities"));
-                            lineList.get(j).setEvSold(sold + 1);
+                        if (lineList.get(j).getTicketDate().equals(datefrom)) {
+                            int sold = lineList.get(j).getEventSold();
+                            int quintities = lineList.get(j).getEventQuantities();
+                            lineList.get(j).setEventQuantities(quintities + rs.getInt("eventline_quantities"));
+                            lineList.get(j).setEventSold(sold + 1);
                             erder = true;
                         }
                     }
                     if (!erder) {
                         Line l = new Line("", 0, 0);
-                        l.setEvQuantities(rs.getInt("eventline_quantities"));
-                        l.setEvSold(1);
+                        l.setEventQuantities(rs.getInt("eventline_quantities"));
+                        l.setEventSold(1);
                         l.setTicketDate(datefrom);
                         lineList.add(l);
                     }
