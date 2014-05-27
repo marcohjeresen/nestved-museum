@@ -3,119 +3,57 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package model;
 
 import java.util.ArrayList;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import utility.NumberFormatTools;
 
 /**
  *
  * @author Dennis
  */
 public class SaleTest {
-    
+
     public SaleTest() {
-    }
-
-    /**
-     * Test of getId method, of class Sale.
-     */
-    @Test
-    public void testGetId() {
-        System.out.println("getId");
-        Sale instance = null;
-        int expResult = 0;
-        int result = instance.getId();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setId method, of class Sale.
-     */
-    @Test
-    public void testSetId() {
-        System.out.println("setId");
-        int id = 0;
-        Sale instance = null;
-        instance.setId(id);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getTicketLine method, of class Sale.
-     */
-    @Test
-    public void testGetTicketLine() {
-        System.out.println("getTicketLine");
-        Sale instance = null;
-        ArrayList<TicketLine> expResult = null;
-        ArrayList<TicketLine> result = instance.getTicketLine();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of addTicketLine method, of class Sale.
-     */
-    @Test
-    public void testAddTicketLine() {
-        System.out.println("addTicketLine");
-        TicketType tt = null;
-        int quantities = 0;
-        Sale instance = null;
-        instance.addTicketLine(tt, quantities);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
      * Test of getEventLine method, of class Sale.
      */
     @Test
-    public void testGetEventLine() {
+    public void testAddEvent() {
         System.out.println("getEventLine");
-        Sale instance = null;
-        ArrayList<EventLine> expResult = null;
-        ArrayList<EventLine> result = instance.getEventLine();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        EventType et = new EventType(1, "Foredrag", 50, 10);
+        PaymentType pt = new PaymentType(1, "Kontant", 0);
+        Employee employee = new Employee(1234561234, "Karl", "Parkvej 105", 4700, "Næstved", 1435);
+        Sale sale1 = new Sale(1, pt, employee, "2014-05-27 12:22:00");
+        sale1.addEventLine(et, 1, 88888888, "På museumet");
+        EventType saleevent = null;
+        for (EventLine eventLine : sale1.getEventLine()) {
+            saleevent = eventLine.getEventtype();
+        }
+
+        assertEquals("Fejlede at adde event til listen", et, saleevent);
     }
 
     /**
-     * Test of addEventLine method, of class Sale.
+     * Test of addProduct method, of class Sale.
      */
     @Test
-    public void testAddEventLine() {
-        System.out.println("addEventLine");
-        EventType et = null;
-        int quantities = 0;
-        int customer = 0;
-        String place = "";
-        Sale instance = null;
-        instance.addEventLine(et, quantities, customer, place);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getProductLine method, of class Sale.
-     */
-    @Test
-    public void testGetProductLine() {
-        System.out.println("getProductLine");
-        Sale instance = null;
-        ArrayList<ProductLine> expResult = null;
-        ArrayList<ProductLine> result = instance.getProductLine();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testAddTicket() {
+        System.out.println("getTicketLine");
+        TicketType tt = new TicketType(1, "Voksen", 50, 10);
+        PaymentType pt = new PaymentType(1, "Kontant", 0);
+        Employee employee = new Employee(1234561234, "Karl", "Parkvej 105", 4700, "Næstved", 1435);
+        Sale sale1 = new Sale(1, pt, employee, "2014-05-27 12:22:00");
+        sale1.addTicketLine(tt, 1);
+        TicketType saleticket = null;
+        for (TicketLine ticketLine : sale1.getTicketLine()) {
+            saleticket = ticketLine.getTicketType();
+        }
+        assertEquals("Fejlede at adde ticket til listen", tt, saleticket);
     }
 
     /**
@@ -124,268 +62,115 @@ public class SaleTest {
     @Test
     public void testAddProduct() {
         System.out.println("addProduct");
-        Product p = null;
-        Sale instance = null;
-        instance.addProduct(p);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+        Product p = new Product(1, "En is", "Frisco", 50, 50, 50, 90, 25, 1, "Guf");
+        PaymentType pt = new PaymentType(1, "Kontant", 0);
+        Employee employee = new Employee(1234561234, "Karl", "Parkvej 105", 4700, "Næstved", 1435);
+        Sale sale1 = new Sale(1, pt, employee, "2014-05-27 12:22:00");
+        sale1.addProduct(p);
+        Product saleproduct = null;
+        for (ProductLine productLine : sale1.getProductLine()) {
+            saleproduct = productLine.getProduct();
+        }
+        assertEquals("Fejlede at adde product til listen", saleproduct, p);
 
-    /**
-     * Test of removeProductLine method, of class Sale.
-     */
-    @Test
-    public void testRemoveProductLine() {
-        System.out.println("removeProductLine");
-        Product p = null;
-        Sale instance = null;
-        instance.removeProductLine(p);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of removeEventLine method, of class Sale.
-     */
-    @Test
-    public void testRemoveEventLine() {
-        System.out.println("removeEventLine");
-        EventType et = null;
-        Sale instance = null;
-        instance.removeEventLine(et);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of removeTicketLine method, of class Sale.
-     */
-    @Test
-    public void testRemoveTicketLine() {
-        System.out.println("removeTicketLine");
-        TicketType t = null;
-        Sale instance = null;
-        instance.removeTicketLine(t);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of addRemoveProductLineQuantities method, of class Sale.
-     */
-    @Test
-    public void testAddRemoveProductLineQuantities() {
-        System.out.println("addRemoveProductLineQuantities");
-        Product p = null;
-        int quantities = 0;
-        Sale instance = null;
-        instance.addRemoveProductLineQuantities(p, quantities);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of addRemoveTicketLineQuantities method, of class Sale.
-     */
-    @Test
-    public void testAddRemoveTicketLineQuantities() {
-        System.out.println("addRemoveTicketLineQuantities");
-        TicketType tt = null;
-        int quantities = 0;
-        Sale instance = null;
-        instance.addRemoveTicketLineQuantities(tt, quantities);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of addRemoveEventLineQuantities method, of class Sale.
-     */
-    @Test
-    public void testAddRemoveEventLineQuantities() {
-        System.out.println("addRemoveEventLineQuantities");
-        EventType et = null;
-        int quantities = 0;
-        Sale instance = null;
-        instance.addRemoveEventLineQuantities(et, quantities);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getPaymentType method, of class Sale.
-     */
-    @Test
-    public void testGetPaymentType() {
-        System.out.println("getPaymentType");
-        Sale instance = null;
-        PaymentType expResult = null;
-        PaymentType result = instance.getPaymentType();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setPaymentType method, of class Sale.
-     */
-    @Test
-    public void testSetPaymentType() {
-        System.out.println("setPaymentType");
-        PaymentType paymentType = null;
-        Sale instance = null;
-        instance.setPaymentType(paymentType);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getEmployee method, of class Sale.
-     */
-    @Test
-    public void testGetEmployee() {
-        System.out.println("getEmployee");
-        Sale instance = null;
-        Employee expResult = null;
-        Employee result = instance.getEmployee();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setEmployee method, of class Sale.
-     */
-    @Test
-    public void testSetEmployee() {
-        System.out.println("setEmployee");
-        Employee employee = null;
-        Sale instance = null;
-        instance.setEmployee(employee);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getDate method, of class Sale.
-     */
-    @Test
-    public void testGetDate() {
-        System.out.println("getDate");
-        Sale instance = null;
-        String expResult = "";
-        String result = instance.getDate();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setDate method, of class Sale.
-     */
-    @Test
-    public void testSetDate() {
-        System.out.println("setDate");
-        Sale instance = null;
-        instance.setDate();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getInvoice method, of class Sale.
-     */
-    @Test
-    public void testGetInvoice() {
-        System.out.println("getInvoice");
-        Sale instance = null;
-        Invoice expResult = null;
-        Invoice result = instance.getInvoice();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setInvoice method, of class Sale.
-     */
-    @Test
-    public void testSetInvoice() {
-        System.out.println("setInvoice");
-        Invoice invoice = null;
-        Sale instance = null;
-        instance.setInvoice(invoice);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
      * Test of getEndpriceDk method, of class Sale.
      */
     @Test
-    public void testGetEndpriceDk() {
-        System.out.println("getEndpriceDk");
+    public void testGetEndpriceDkWithoutDiscount() {
+        System.out.println("getEndpriceDkWithoutDiscount");
+        NumberFormatTools nft = new NumberFormatTools();
+        Product p = new Product(1, "En is", "Frisco", 50, 5000, 50, 90, 25, 1, "Guf");
+        EventType et = new EventType(1, "Foredrag", 5000, 10);
+        TicketType tt = new TicketType(1, "Voksen", 5000, 10);
+        PaymentType pt = new PaymentType(1, "Kontant", 0);
+        Employee employee = new Employee(1234561234, "Karl", "Parkvej 105", 4700, "Næstved", 1435);
+        Sale sale1 = new Sale(1, pt, employee, "2014-05-27 12:22:00");
+        sale1.addProduct(p);
+        sale1.addEventLine(et, 1, 88888888, "På museumet");
+        sale1.addTicketLine(tt, 1);
+
         boolean discount = false;
-        Sale instance = null;
-        int expResult = 0;
-        int result = instance.getEndPriceDk(discount);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        double expResult = nft.getDoubleValue(15000);
+        double result = nft.getDoubleValue(sale1.getEndPriceDk(discount));
+
+        assertEquals("Fejlede at hente prisen i danske kroner uden rabat", expResult, result, 0.0);
+
     }
 
     /**
-     * Test of clearSale method, of class Sale.
+     * Test of getEndpriceDk method, of class Sale.
      */
     @Test
-    public void testClearSale() {
-        System.out.println("clearSale");
-        Sale instance = null;
-        instance.clearSale();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+    public void testGetEndpriceDkWithDiscount() {
+        System.out.println("getEndpriceDkWithDiscount");
+        NumberFormatTools nft = new NumberFormatTools();
+        Product p = new Product(1, "En is", "Frisco", 50, 5000, 50, 90, 1, 1, "Guf");
+        EventType et = new EventType(1, "Foredrag", 5000, 10);
+        TicketType tt = new TicketType(1, "Voksen", 5000, 10);
+        PaymentType pt = new PaymentType(1, "Kontant", 0);
+        Employee employee = new Employee(1234561234, "Karl", "Parkvej 105", 4700, "Næstved", 1435);
+        Sale sale1 = new Sale(1, pt, employee, "2014-05-27 12:22:00");
+        sale1.addProduct(p);
+        sale1.addEventLine(et, 1, 88888888, "På museumet");
+        sale1.addTicketLine(tt, 1);
 
-    /**
-     * Test of setEndprice method, of class Sale.
-     */
-    @Test
-    public void testSetEndprice() {
-        System.out.println("setEndprice");
-        boolean discount = false;
-        Sale instance = null;
-        instance.setEndPrice(discount);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        boolean discount = true;
+        double expResult = nft.getDoubleValue(13500);
+        double result = nft.getDoubleValue(sale1.getEndPriceDk(discount));
+
+        assertEquals("Fejlede at hente prisen i danske kroner med rabat", expResult, result, 0.0);
+
     }
 
     /**
      * Test of getEndpriceEuro method, of class Sale.
      */
     @Test
-    public void testGetEndpriceEuro() {
-        System.out.println("getEndpriceEuro");
+    public void testGetEndpriceEuroWithoutDiscount() {
+        System.out.println("getEndpriceEuroWithoutDiscount");
+        NumberFormatTools nft = new NumberFormatTools();
+        Product p = new Product(1, "En is", "Frisco", 50, 5000, 5000, 90, 1, 1, "Guf");
+        EventType et = new EventType(1, "Foredrag", 5000, 1000);
+        TicketType tt = new TicketType(1, "Voksen", 5000, 1000);
+        PaymentType pt = new PaymentType(1, "Kontant", 0);
+        Employee employee = new Employee(1234561234, "Karl", "Parkvej 105", 4700, "Næstved", 1435);
+        Sale sale1 = new Sale(1, pt, employee, "2014-05-27 12:22:00");
+        sale1.addProduct(p);
+        sale1.addEventLine(et, 1, 88888888, "På museumet");
+        sale1.addTicketLine(tt, 1);
+
         boolean discount = false;
-        Sale instance = null;
-        int expResult = 0;
-        int result = instance.getEndPriceEuro(discount);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        double expResult = nft.getDoubleValue(7000);
+        double result = nft.getDoubleValue(sale1.getEndPriceEuro(discount));
+
+        assertEquals("Fejlede at hente prisen i euro uden rabat", expResult, result, 0.0);
     }
 
-    /**
-     * Test of toString method, of class Sale.
+    
+        /**
+     * Test of getEndpriceEuro method, of class Sale.
      */
     @Test
-    public void testToString() {
-        System.out.println("toString");
-        Sale instance = null;
-        String expResult = "";
-        String result = instance.toString();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testGetEndpriceEuroWithDiscount() {
+        System.out.println("getEndpriceEuroWithDiscount");
+        NumberFormatTools nft = new NumberFormatTools();
+        Product p = new Product(1, "En is", "Frisco", 50, 5000, 5000, 90, 1, 1, "Guf");
+        EventType et = new EventType(1, "Foredrag", 5000, 1000);
+        TicketType tt = new TicketType(1, "Voksen", 5000, 1000);
+        PaymentType pt = new PaymentType(1, "Kontant", 0);
+        Employee employee = new Employee(1234561234, "Karl", "Parkvej 105", 4700, "Næstved", 1435);
+        Sale sale1 = new Sale(1, pt, employee, "2014-05-27 12:22:00");
+        sale1.addProduct(p);
+        sale1.addEventLine(et, 1, 88888888, "På museumet");
+        sale1.addTicketLine(tt, 1);
+
+        boolean discount = true;
+        double expResult = nft.getDoubleValue(6300);
+        double result = nft.getDoubleValue(sale1.getEndPriceEuro(discount));
+
+        assertEquals("Fejlede at hente prisen i euro uden rabat", expResult, result, 0.0);
     }
-    
 }

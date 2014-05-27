@@ -193,7 +193,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
                 jP_product.removeAll();
                 if (search) {
                 } else {
-                    for (Product product : storeHandler.getChoosenProduct()) {
+                    for (Product product : storeHandler.getChosenProduct()) {
                         ProductView pw = new ProductView(product);
                         pw.setLocation(x, y);
                         jP_product.add(pw);
@@ -205,9 +205,9 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
                 break;
             case "Ticket":
                 jP_product.removeAll();
-                TicketView tv1 = new TicketView(storeHandler.getChoosenTicket(), 1);
-                TicketView tv2 = new TicketView(storeHandler.getChoosenTicket(), 2);
-                TicketView tv3 = new TicketView(storeHandler.getChoosenTicket(), 3);
+                TicketView tv1 = new TicketView(storeHandler.getChosenTicket(), 1);
+                TicketView tv2 = new TicketView(storeHandler.getChosenTicket(), 2);
+                TicketView tv3 = new TicketView(storeHandler.getChosenTicket(), 3);
                 tv1.setLocation(x, y);
                 y += tv1.getHeight() + 5;
                 tv2.setLocation(x, y);
@@ -220,7 +220,7 @@ public class SaleView extends javax.swing.JPanel implements ActionListener {
                 break;
             case "Event":
                 jP_product.removeAll();
-                EventView ev = new EventView(storeHandler.getChoosenEventType());
+                EventView ev = new EventView(storeHandler.getChosenEventType());
                 x = 65;
                 y = 50;
                 ev.setLocation(x, y);

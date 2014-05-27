@@ -92,7 +92,7 @@ public class StoreHandler {
         return search;
     }
 
-    public void setChoosenProduct(String productGroup) {
+    public void setChosenProduct(String productGroup) {
         chosenProduct.removeAll(chosenProduct);
         for (Product product : controller.getProductsList()) {
             if (product.getGroupType().equals(productGroup)) {
@@ -112,11 +112,11 @@ public class StoreHandler {
         listeners.notifyListeners("Chosen Product");
     }
 
-    public ArrayList<Product> getChoosenProduct() {
+    public ArrayList<Product> getChosenProduct() {
         return chosenProduct;
     }
 
-    public void setChoosenTicket(String ticketType) {
+    public void setChosenTicket(String ticketType) {
         chosenTicket = null;
         for (TicketType ticketType1 : controller.getTicketTypesList()) {
             if (ticketType1.getType().equals(ticketType)) {
@@ -126,11 +126,11 @@ public class StoreHandler {
         listeners.notifyListeners("Chosen Ticket");
     }
 
-    public TicketType getChoosenTicket() {
+    public TicketType getChosenTicket() {
         return chosenTicket;
     }
 
-    public void setChoosenEvent(String eventType) {
+    public void setChosenEvent(String eventType) {
         chosenEvent = null;
         for (EventType eventType1 : controller.getEventTypesList()) {
             if (eventType1.getType().equals(eventType)) {
@@ -140,7 +140,7 @@ public class StoreHandler {
         listeners.notifyListeners("Chosen Event");
     }
 
-    public EventType getChoosenEventType() {
+    public EventType getChosenEventType() {
         return chosenEvent;
     }
 

@@ -259,7 +259,7 @@ public class SearchPanel extends javax.swing.JPanel {
 
     private void jButton_godkendtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_godkendtActionPerformed
         storeHandler.setSearchProduct(Integer.parseInt(search));
-        if (storeHandler.getChoosenProduct() == null) {
+        if (storeHandler.getChosenProduct() == null) {
             jTextField_number.setText("Ingen machende producter");
             search = "0";
         }else{

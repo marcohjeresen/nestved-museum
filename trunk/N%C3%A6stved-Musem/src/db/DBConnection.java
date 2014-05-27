@@ -8,8 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -22,7 +20,6 @@ public class DBConnection {
     private boolean isConnected;
     private static DBConnection connection;
     private String host;
-//    private final String host;
     private String port;
     private String dbNavn;
     private String user;

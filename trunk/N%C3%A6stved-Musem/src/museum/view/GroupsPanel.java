@@ -55,11 +55,11 @@ public class GroupsPanel extends javax.swing.JPanel {
     
     public void setGroupType(){
         if (productGroup != null) {
-            storeHandler.setChoosenProduct(productGroup);
+            storeHandler.setChosenProduct(productGroup);
         } else if (ticketType != null) {
-            storeHandler.setChoosenTicket(ticketType.getType());
+            storeHandler.setChosenTicket(ticketType.getType());
         } else if (eventType != null) {
-            storeHandler.setChoosenEvent(eventType.getType());
+            storeHandler.setChosenEvent(eventType.getType());
         }
     }
 
