@@ -18,17 +18,7 @@ public class BasketViewTest {
     public BasketViewTest() {
     }
 
-    /**
-     * Test of setLabel method, of class BasketView.
-     */
-    @Test
-    public void testSetLabel() {
-        System.out.println("setLabel");
-        BasketView instance = null;
-        instance.setLabel();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+
 
     /**
      * Test of addQuantities method, of class BasketView.
@@ -53,17 +43,4 @@ public class BasketViewTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-
-    /**
-     * Test of clearLine method, of class BasketView.
-     */
-    @Test
-    public void testClearLine() {
-        System.out.println("clearLine");
-        BasketView instance = null;
-        instance.clearLine();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
 }

@@ -63,7 +63,7 @@ public class NumberFormatToolsTest {
         int intPrice = 230;
         double doublePrice = 50.0;
 
-        double expResult = 52.0;
+        double expResult = 52.3;
         double result = instance.getDoubleSum(intPrice, doublePrice);
         assertEquals("testGetDoubleSum har regnet forkert!",expResult, result, 0.0);
     }

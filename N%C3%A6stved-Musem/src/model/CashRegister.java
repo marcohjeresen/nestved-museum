@@ -1,15 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package model;
 
-/**
- *
- * @author markh_000
- */
+/*
+*Cashregister klassen indeholde de nødvendige data som man skal bruge for at kunne åbne kassen.
+*/ 
+
 public class CashRegister {
     private int id;
     private String date;
@@ -17,6 +12,10 @@ public class CashRegister {
     private int amountEuro;
     private Employee employee;
 
+    /*
+    *Vores constructor oprettes med de nødvendige data som skal bruges til at bruge et object af klassen.
+    */
+    
     public CashRegister(int id,String date, int amountDk, int amountEuro, Employee employee) {
         this.id = id;
         this.date = date;

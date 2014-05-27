@@ -204,4 +204,8 @@ public class StoreController {
         db.close();
     }
 
+    public void setEmployeesList(ArrayList<Employee> employeesList) {
+        this.employeesList = employeesList;
+    }
+
 }
