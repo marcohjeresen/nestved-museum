@@ -16,11 +16,10 @@ public class TicketLine {
     private Sale sale;
     private int quantities;
 
-    public TicketLine(int id, Sale sale, int quantities,TicketType ticketType) {
+    public TicketLine(int id, Sale sale, int quantities, TicketType ticketType) {
         this.id = id;
         this.sale = sale;
         this.quantities = quantities;
-
         this.ticketType = ticketType;
     }
 

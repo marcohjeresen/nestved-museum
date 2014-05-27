@@ -328,7 +328,7 @@ public class SaleTest {
         boolean discount = false;
         Sale instance = null;
         int expResult = 0;
-        int result = instance.getEndpriceDk(discount);
+        int result = instance.getEndPriceDk(discount);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -354,7 +354,7 @@ public class SaleTest {
         System.out.println("setEndprice");
         boolean discount = false;
         Sale instance = null;
-        instance.setEndprice(discount);
+        instance.setEndPrice(discount);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -368,7 +368,7 @@ public class SaleTest {
         boolean discount = false;
         Sale instance = null;
         int expResult = 0;
-        int result = instance.getEndpriceEuro(discount);
+        int result = instance.getEndPriceEuro(discount);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

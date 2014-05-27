@@ -6,24 +6,16 @@
 
 package museum.view;
 
-//import model.handler.KurvHandler;
 
 import model.Handler.StoreHandler;
+;
 
-//import model.handler.ProductHandler;
-//import veiw.Guie2;
 
-/**
- *
- * @author MarcoPc
- */
 public class SearchPanel extends javax.swing.JPanel {
     private String search;
     private StoreHandler storeHandler;
     
-    /**
-     * Creates new form SearchPanel
-     */
+
     public SearchPanel() {
         storeHandler = StoreHandler.storeHandler();
         initComponents();

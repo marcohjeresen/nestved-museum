@@ -20,15 +20,15 @@ public class EventView extends javax.swing.JPanel {
     private EventType eventType;
     private StoreHandler storeHandler;
     private SaleHandler saleHandler;
-    private boolean kunde;
-    private boolean dag;
-    private boolean måned;
-    private boolean år;
-    private boolean tid;
-    private boolean antalWoksne;
-    private boolean antalBørn;
-    private boolean vidre;
-    private String tallet;
+    private boolean customer;
+    private boolean day;
+    private boolean month;
+    private boolean year;
+    private boolean time;
+    private boolean numberOfAdults;
+    private boolean numberOfChildren;
+    private boolean next;
+    private String theNumber;
 
     /**
      * Creates new form EventView
@@ -38,15 +38,15 @@ public class EventView extends javax.swing.JPanel {
         saleHandler = SaleHandler.getSaleHandler();
         setSize(new Dimension(238,410));
         initComponents();
-        tallet = "";
-        kunde = true;
-        dag = false;
-        måned = false;
-        år = false;
-        tid = false;
-        antalWoksne = false;
-        antalBørn = false;
-        vidre = false;
+        theNumber = "";
+        customer = true;
+        day = false;
+        month = false;
+        year = false;
+        time = false;
+        numberOfAdults = false;
+        numberOfChildren = false;
+        next = false;
         jButton11.setEnabled(false);
         jButton_ok.setEnabled(false);
         setPlace();
@@ -63,104 +63,104 @@ public class EventView extends javax.swing.JPanel {
 
     public void setText(String tal) {
         jButton_ok.setEnabled(false);
-        tallet = tallet + tal;
-        if (kunde) {
-            jTextField_kundenummer.setText(tallet);
-            if (tallet.length() == 8) {
-                kunde = false;
-                dag = true;
-                tallet = "";
+        theNumber = theNumber + tal;
+        if (customer) {
+            jTextField_kundenummer.setText(theNumber);
+            if (theNumber.length() == 8) {
+                customer = false;
+                day = true;
+                theNumber = "";
             }
-        } else if (dag) {
-            jTextField_dag.setText(tallet);
-            if (tallet.length() == 2) {
-                dag = false;
-                måned = true;
-                tallet = "";
+        } else if (day) {
+            jTextField_dag.setText(theNumber);
+            if (theNumber.length() == 2) {
+                day = false;
+                month = true;
+                theNumber = "";
             }
-        } else if (måned) {
-            jTextField_måned.setText(tallet);
-            if (tallet.length() == 2) {
-                måned = false;
-                år = true;
-                tallet = "";
+        } else if (month) {
+            jTextField_måned.setText(theNumber);
+            if (theNumber.length() == 2) {
+                month = false;
+                year = true;
+                theNumber = "";
             }
-        } else if (år) {
-            jTextField_år.setText(tallet);
-            if (tallet.length() == 4) {
-                år = false;
-                tid = true;
-                tallet = "";
+        } else if (year) {
+            jTextField_år.setText(theNumber);
+            if (theNumber.length() == 4) {
+                year = false;
+                time = true;
+                theNumber = "";
             }
-        } else if (tid) {
-            jTextField_tid.setText(tallet);
-            if (tallet.length() == 2) {
-                tallet = tallet + ":";
-                jTextField_tid.setText(tallet);
-            } else if (tallet.length() == 5) {
-                tid = false;
-                antalWoksne = true;
-                tallet = "";
+        } else if (time) {
+            jTextField_tid.setText(theNumber);
+            if (theNumber.length() == 2) {
+                theNumber = theNumber + ":";
+                jTextField_tid.setText(theNumber);
+            } else if (theNumber.length() == 5) {
+                time = false;
+                numberOfAdults = true;
+                theNumber = "";
             }
-        } else if (antalWoksne) {
-            jTextField_antalWok.setText(tallet);
+        } else if (numberOfAdults) {
+            jTextField_antalWok.setText(theNumber);
             jButton11.setEnabled(true);
-            if (vidre) {
-                antalWoksne = false;
-                antalBørn = true;
-                tallet = "";
-                vidre = false;
+            if (next) {
+                numberOfAdults = false;
+                numberOfChildren = true;
+                theNumber = "";
+                next = false;
             }
-        } else if (antalBørn) {
-            jTextField_antalBørn.setText(tallet);
+        } else if (numberOfChildren) {
+            jTextField_antalBørn.setText(theNumber);
             jButton11.setEnabled(true);
-            if (vidre) {
-                antalBørn = false;
-                tallet = "";
-                vidre = false;
+            if (next) {
+                numberOfChildren = false;
+                theNumber = "";
+                next = false;
             }
         }
         setOkbuttom();
     }
 
-    public void ændreText(String textfield) {
+    public void changeText(String textfield) {
         jButton_ok.setEnabled(false);
-        kunde = false;
-        dag = false;
-        måned = false;
-        år = false;
-        tid = false;
-        antalWoksne = false;
-        antalBørn = false;
-        vidre = false;
-        tallet = "";
+        customer = false;
+        day = false;
+        month = false;
+        year = false;
+        time = false;
+        numberOfAdults = false;
+        numberOfChildren = false;
+        next = false;
+        theNumber = "";
         switch (textfield) {
             case "Kunde":
-                kunde = true;
+                customer = true;
                 setText("");
                 break;
             case "Dag":
-                dag = true;
+                day = true;
                 setText("");
                 break;
             case "Måned":
-                måned = true;
+                month = true;
                 setText("");
                 break;
             case "År":
-                år = true;
+                year = true;
                 setText("");
                 break;
             case "Tid":
-                tid = true;
+                time = true;
                 setText("");
                 break;
             case "Antalvoksne":
-                antalWoksne = true;
+                numberOfAdults = true;
                 setText("");
                 break;
             case "Antalbørn":
-                antalBørn = true;
+                numberOfChildren = true;
                 setText("");
                 break;
         }
@@ -180,7 +180,7 @@ public class EventView extends javax.swing.JPanel {
     public void addEventLine() {
         String place = jTextField_sted.getText();
         if (!place.equals("") && place.length() > 4) {
-            String dato = jTextField_år.getText() + "-" + jTextField_måned.getText() + "-" + jTextField_dag.getText() + " " + jTextField_tid.getText() + ":00";
+            String date = jTextField_år.getText() + "-" + jTextField_måned.getText() + "-" + jTextField_dag.getText() + " " + jTextField_tid.getText() + ":00";
             int amount = Integer.parseInt(jTextField_antalBørn.getText()) + Integer.parseInt(jTextField_antalWok.getText());
             int customerNumber = Integer.parseInt(jTextField_kundenummer.getText());
             saleHandler.getCurrentSale().addEventLine(eventType, amount, customerNumber, place);
@@ -509,7 +509,7 @@ public class EventView extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField_månedActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        vidre = true;
+        next = true;
         setText("");
     }//GEN-LAST:event_jButton11ActionPerformed
 
@@ -558,32 +558,32 @@ public class EventView extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton_okActionPerformed
 
     private void jButton_fortrydActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_fortrydActionPerformed
-        tallet = "";
+        theNumber = "";
         setText("");
     }//GEN-LAST:event_jButton_fortrydActionPerformed
 
     private void jTextField_dagMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField_dagMouseClicked
-        ændreText("Dag");
+        changeText("Dag");
     }//GEN-LAST:event_jTextField_dagMouseClicked
 
     private void jTextField_månedMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField_månedMouseClicked
-        ændreText("Måned");
+        changeText("Måned");
     }//GEN-LAST:event_jTextField_månedMouseClicked
 
     private void jTextField_årMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField_årMouseClicked
-        ændreText("År");
+        changeText("År");
     }//GEN-LAST:event_jTextField_årMouseClicked
 
     private void jTextField_tidMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField_tidMouseClicked
-        ændreText("Tid");
+        changeText("Tid");
     }//GEN-LAST:event_jTextField_tidMouseClicked
 
     private void jTextField_antalWokMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField_antalWokMouseClicked
-        ændreText("Antalvoksne");
+        changeText("Antalvoksne");
     }//GEN-LAST:event_jTextField_antalWokMouseClicked
 
     private void jTextField_antalBørnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField_antalBørnMouseClicked
-        ændreText("Antalbørn");
+        changeText("Antalbørn");
     }//GEN-LAST:event_jTextField_antalBørnMouseClicked
 
     private void jTextField_antalBørnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_antalBørnActionPerformed
@@ -591,7 +591,7 @@ public class EventView extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField_antalBørnActionPerformed
 
     private void jTextField_kundenummerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField_kundenummerMouseClicked
-        ændreText("Kunde");
+        changeText("Kunde");
     }//GEN-LAST:event_jTextField_kundenummerMouseClicked
 
 

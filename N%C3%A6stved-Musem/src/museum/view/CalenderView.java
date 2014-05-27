@@ -30,9 +30,9 @@ private Listeners listeners;
 
      * @param x
      */
-    public CalenderView(int day, int mounth, int year, String x) {
+    public CalenderView(int day, int month, int year, String x) {
         this.day = day;
-        this.mounth = mounth;
+        this.mounth = month;
         this.year = year;
         this.x = x;
         this.storeHandler = StoreHandler.storeHandler();
@@ -42,7 +42,7 @@ private Listeners listeners;
         setSize(60, 60);
         setText();
         calendar = Calendar.getInstance();
-        calendar.set(year, mounth, day, 00, 00, 00);
+        calendar.set(year, month, day, 00, 00, 00);
     }
     
     public void setText(){

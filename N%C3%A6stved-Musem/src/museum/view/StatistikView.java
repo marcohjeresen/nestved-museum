@@ -8,34 +8,29 @@ package museum.view;
 import utility.StatistikHandler;
 import utility.Line;
 import utility.DateFormatTools;
-
 import java.awt.Color;
 import java.awt.Graphics;
-import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author MarcoPc
  */
-public class StatestikView extends javax.swing.JPanel {
+public class StatistikView extends javax.swing.JPanel {
 
     private String date;
     private DateFormatTools dateTools;
     private StatistikHandler statistikHandler;
     public static final int LINES_PER_PAGE = 23;
     private ArrayList<Line> lines;
-    private static StatestikView statestikView;
+    private static StatistikView statistikView;
     private int xCord;
 
     /**
      * Creates new form StatestikView
      */
-    private StatestikView() {
+    private StatistikView() {
 
         statistikHandler = StatistikHandler.getStatistikHandler();
         initComponents();
@@ -43,17 +38,17 @@ public class StatestikView extends javax.swing.JPanel {
         xCord = 10;
     }
 
-    public static StatestikView getStatView(){
-        if (statestikView == null) {
-            statestikView = new StatestikView();
+    public static StatistikView getStatView(){
+        if (statistikView == null) {
+            statistikView = new StatistikView();
         }
-        return statestikView;
+        return statistikView;
     }
 
     public void setStat(ArrayList<Line> lineList, String date) {
         this.lines = lineList;
         this.date = date;
-        statestikView.repaint();
+        statistikView.repaint();
     }
 
     public void drawLines(Graphics g, int page) {
@@ -90,13 +85,13 @@ public class StatestikView extends javax.swing.JPanel {
 
         for (int i = 0; i < lines.size(); i++) {
             g.drawString(dateTools.getDayLetter(lines.get(i).getTicketDate()), (140 + (i * 90)), 40);
-            int number = lines.get(i).getTkAdultQu() + lines.get(i).getTkAGroupQu();
+            int number = lines.get(i).getTicketAdultQuantities()+ lines.get(i).getTicketGroupQuantities();
             g.drawString("" + number, (170 + (i * 90)), 100);
-            g.drawString("" + lines.get(i).getTkKidsQu(), (170 + (i * 90)), 150);
-            g.drawString("" + lines.get(i).getTkFreeQu(), (170 + (i * 90)), 200);
-            g.drawString("" + lines.get(i).getEvSold(), (170 + (i * 90)), 250);
-            g.drawString("" + lines.get(i).getEvQuantities(), (170 + (i * 90)), 300);
-            int total = number + lines.get(i).getTkKidsQu() + lines.get(i).getTkFreeQu() + lines.get(i).getEvQuantities();
+            g.drawString("" + lines.get(i).getTicketChildenQuantities(), (170 + (i * 90)), 150);
+            g.drawString("" + lines.get(i).getTicketFreeQuantities(), (170 + (i * 90)), 200);
+            g.drawString("" + lines.get(i).getEventSold(), (170 + (i * 90)), 250);
+            g.drawString("" + lines.get(i).getEventQuantities(), (170 + (i * 90)), 300);
+            int total = number + lines.get(i).getTicketChildenQuantities()+ lines.get(i).getTicketFreeQuantities()+ lines.get(i).getEventQuantities();
             g.drawString("" + total, (170 + (i * 90)), 360);
         }
     }

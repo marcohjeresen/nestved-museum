@@ -107,7 +107,7 @@ public class DifferanceRegistreTest {
         System.out.println("getCurrentCahsEuro");
         DifferanceRegistre instance = null;
         int expResult = 0;
-        int result = instance.getCurrentCahsEuro();
+        int result = instance.getCurrentCashEuro();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -121,7 +121,7 @@ public class DifferanceRegistreTest {
         System.out.println("setCurrentCahsEuro");
         int currentCahsEuro = 0;
         DifferanceRegistre instance = null;
-        instance.setCurrentCahsEuro(currentCahsEuro);
+        instance.setCurrentCashEuro(currentCahsEuro);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

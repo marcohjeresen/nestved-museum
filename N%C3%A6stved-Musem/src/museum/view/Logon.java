@@ -6,31 +6,22 @@
 package museum.view;
 
 import java.awt.CardLayout;
-import java.text.ParseException;
 import model.Handler.*;
-
-/**
- *
- * @author MarcoPc
- */
 import utility.Listeners;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import print.PrintHandler;
 
 public class Logon extends javax.swing.JPanel implements ActionListener {
 
-    private String kode;
+    private String code;
     private StoreHandler storeHandler;
     private MoneyHandler moneyHandler;
     private PrintHandler printHandler;
     private Listeners listeners;
-    private boolean dkcash;
-    private boolean eurocash;
+    private boolean dkCash;
+    private boolean euroCash;
     private String dk;
     private String euro;
     private double dkc;
@@ -46,11 +37,11 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
         printHandler = new PrintHandler();
 
         initComponents();
-        kode = "0";
+        code = "0";
         dk = "0";
         euro = "0";
-        dkcash = true;
-        eurocash = false;
+        dkCash = true;
+        euroCash = false;
         settextfield();
         setEndText();
         setSize(new Dimension(1008, 691));
@@ -58,7 +49,7 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
         cl.addLayoutComponent(jP_logon, "Logon");
         cl.addLayoutComponent(jP_CashRegistre, "CashReg");
         cl.show(this, "Logon");
-        kode = "1421";
+        code = "1421";
         settextfield();
     }
 
@@ -68,29 +59,29 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
     }
 
     public void setCode(String tal) {
-        if (kode == "0") {
-            kode = tal;
+        if (code == "0") {
+            code = tal;
         } else {
-            kode = kode + tal;
+            code = code + tal;
         }
         settextfield();
     }
 
     public void settextfield() {
-        jTextField_kode.setText("Kode: " + kode);
+        jTextField_kode.setText("Kode: " + code);
     }
 
     public boolean openOrClose() {
-        boolean open = moneyHandler.cashRegistre();
+        boolean open = moneyHandler.cashRegister();
         return open;
     }
 
     public void setcash(String tal) {
-        if (dkcash) {
+        if (dkCash) {
             dk = dk + tal;
-        } else if (!dkcash) {
+        } else if (!dkCash) {
             euro = euro + tal;
-            eurocash = true;
+            euroCash = true;
         }
         setText();
         setEndText();
@@ -99,20 +90,20 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
     public void setText() {
         dkc = Double.parseDouble(dk);
         euc = Double.parseDouble(euro);
-        if (dkcash) {
+        if (dkCash) {
             jTextField_DkCash.setText("Total: " + dkc);
-        } else if (!dkcash) {
+        } else if (!dkCash) {
             jTextField_Eurocash.setText("Total: " + euc);
         }
     }
 
     public void endReg() {
-        if (dkcash) {
+        if (dkCash) {
             if (dkc != 0) {
-                dkcash = false;
+                dkCash = false;
                 setText();
             }
-        } else if (!dkcash && eurocash) {
+        } else if (!dkCash && euroCash) {
             if (euc != 0) {
                 int dkMoney = (int) (dkc * 100);
                 int euroMoney = (int) (euc * 100);
@@ -123,7 +114,7 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
                     moneyHandler.setCashRegistre(dkMoney, euroMoney);
                     listeners.notifyListeners("LogAndCashOk");
                 } else {
-                    moneyHandler.endCashregister(dkMoney, euroMoney, storeHandler.getLogEmployee());
+                    moneyHandler.endCashRegister(dkMoney, euroMoney, storeHandler.getLogEmployee());
                     if (jCheckBox_kvit.isSelected()) {
                         printHandler.cashReport();
                     }
@@ -171,7 +162,7 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
         jTextField_kode.setText("");
         dk = "0";
         euro = "0";
-        dkcash = true;
+        dkCash = true;
     }
 
     /**
@@ -710,17 +701,17 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
     }//GEN-LAST:event_jButton_0ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        kode = "0";
+        code = "0";
         settextfield();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton_LogonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_LogonActionPerformed
-        int talkode = Integer.parseInt(kode);
-        kode = "0";
+        int numberCode = Integer.parseInt(code);
+        code = "0";
         settextfield();
         clearCashPage();
-        if (storeHandler.employeeLogin(talkode)) {
-            if (!moneyHandler.cashRegistre()) {
+        if (storeHandler.employeeLogin(numberCode)) {
+            if (!moneyHandler.cashRegister()) {
                 showPage("CashReg");
                 setText();
             } else {
@@ -797,12 +788,12 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
     }//GEN-LAST:event_jTextField_EurocashActionPerformed
 
     private void jTextField_DkCashMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField_DkCashMouseClicked
-        dkcash = true;
+        dkCash = true;
         dk = "0";
     }//GEN-LAST:event_jTextField_DkCashMouseClicked
 
     private void jTextField_EurocashMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField_EurocashMouseClicked
-        dkcash = false;
+        dkCash = false;
         euro = "0";
     }//GEN-LAST:event_jTextField_EurocashMouseClicked
 

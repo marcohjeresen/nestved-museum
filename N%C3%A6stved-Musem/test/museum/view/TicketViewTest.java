@@ -25,7 +25,7 @@ public class TicketViewTest {
     public void testSettext() {
         System.out.println("settext");
         TicketView instance = null;
-        instance.settext();
+        instance.setJButtonText();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -37,7 +37,7 @@ public class TicketViewTest {
     public void testAddticket() {
         System.out.println("addticket");
         TicketView instance = null;
-        instance.addticket();
+        instance.addTicket();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

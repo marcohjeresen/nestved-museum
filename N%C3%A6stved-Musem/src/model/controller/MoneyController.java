@@ -8,11 +8,8 @@ package model.controller;
 import db.DBConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.CashRegister;
 import model.DifferanceRegistre;
-import museum.MainView;
 
 /**
  *
@@ -57,7 +54,7 @@ public class MoneyController {
     public void addEndCashToDatabase(DifferanceRegistre dif) {
         DBConnection db = new DBConnection();
         db.execute("insert into differance values ('"+dif.getId()+"',"+dif.getEmployee().getCpr()+""
-                + ","+dif.getCurrentCashDk()+","+dif.getCurrentCahsEuro()+","+dif.getExpectedDk()+","+dif.getExpectedEuro()+""
+                + ","+dif.getCurrentCashDk()+","+dif.getCurrentCashEuro()+","+dif.getExpectedDk()+","+dif.getExpectedEuro()+""
                 + ","+dif.getDifferanceDk()+","+dif.getDifferanceEuro()+",'"+dif.getDate()+"')");
         db.close();
     }

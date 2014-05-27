@@ -95,7 +95,6 @@ public class EventLine {
 
     public int getEventlinePriceDk() {
         int dk = 0;
-        
             dk = eventtype.getPriceDk();
         
         return dk;

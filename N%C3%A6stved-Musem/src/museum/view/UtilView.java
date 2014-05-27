@@ -10,17 +10,12 @@ import utility.DateFormatTools;
 import utility.Listeners;
 import utility.StockLine;
 import utility.StatistikHandler;
-
 import print.StatistikPrintHandler;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Handler.*;
 
 /**
@@ -35,7 +30,7 @@ public class UtilView extends javax.swing.JPanel implements ActionListener {
     private Calendar cal;
     private StockHandler stockHandler;
     private StatistikHandler statistikHandler;
-    private StatestikView statestikView;
+    private StatistikView statestikView;
 
     /**
      * Creates new form UtilView
@@ -46,7 +41,7 @@ public class UtilView extends javax.swing.JPanel implements ActionListener {
         dateFormatTools = new DateFormatTools();
         stockHandler = StockHandler.getStockHandler();
         statistikHandler = StatistikHandler.getStatistikHandler();
-        statestikView = StatestikView.getStatView();
+        statestikView = StatistikView.getStatView();
         initComponents();
         jB_printStat.setEnabled(false);
         listeners.addListener(this);

@@ -13,7 +13,7 @@ import static java.awt.print.Printable.NO_SUCH_PAGE;
 import static java.awt.print.Printable.PAGE_EXISTS;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
-import museum.view.StatestikView;
+import museum.view.StatistikView;
 
 
 
@@ -23,9 +23,9 @@ import museum.view.StatestikView;
  */
 public class StatistikPrintHandler implements Printable {
 
-    private StatestikView statistikView;
+    private StatistikView statistikView;
 
-    public StatistikPrintHandler(StatestikView statistikView) {
+    public StatistikPrintHandler(StatistikView statistikView) {
         this.statistikView = statistikView;
     }
 

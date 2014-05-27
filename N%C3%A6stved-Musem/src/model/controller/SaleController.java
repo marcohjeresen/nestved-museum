@@ -10,15 +10,12 @@ import db.DBConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.EventLine;
 import model.Invoice;
 import model.PaymentType;
 import model.ProductLine;
 import model.Sale;
 import model.TicketLine;
-import museum.MainView;
 
 /**
  *
@@ -91,7 +88,7 @@ public class SaleController {
         }
         String dato = dateFormatTools.getDateNowString();
         invoiceId = invoiceId + 1;
-        Invoice invoice = new Invoice(invoiceId, dato, sale1.getEndpriceDk(discount), sale1.getEndpriceEuro(discount), 1);
+        Invoice invoice = new Invoice(invoiceId, dato, sale1.getEndPriceDk(discount), sale1.getEndPriceEuro(discount), 1);
         sale1.setInvoice(invoice);
         sale1.setDate();
         saleId = saleId + 1;

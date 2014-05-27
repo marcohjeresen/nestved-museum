@@ -90,7 +90,7 @@ public class SaleViewTest {
         String type = "";
         boolean search = false;
         SaleView instance = new SaleView();
-        instance.setChoosenType(type, search);
+        instance.setChosenType(type, search);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -138,7 +138,7 @@ public class SaleViewTest {
     public void testMuseumscard() {
         System.out.println("Museumscard");
         SaleView instance = new SaleView();
-        instance.Museumscard();
+        instance.museumsCard();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -162,7 +162,7 @@ public class SaleViewTest {
     public void testSetModtagetBeløb() {
         System.out.println("setModtagetBel\u00f8b");
         SaleView instance = new SaleView();
-        instance.setModtagetBeløb();
+        instance.setReceivedAmount();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

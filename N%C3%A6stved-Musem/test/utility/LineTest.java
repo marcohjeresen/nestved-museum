@@ -26,7 +26,7 @@ public class LineTest {
         System.out.println("getTkAdultQu");
         Line instance = null;
         int expResult = 0;
-        int result = instance.getTkAdultQu();
+        int result = instance.getTicketAdultQuantities();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -40,7 +40,7 @@ public class LineTest {
         System.out.println("getEvQuantities");
         Line instance = null;
         int expResult = 0;
-        int result = instance.getEvQuantities();
+        int result = instance.getEventQuantities();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -54,7 +54,7 @@ public class LineTest {
         System.out.println("setEvQuantities");
         int evQuantities = 0;
         Line instance = null;
-        instance.setEvQuantities(evQuantities);
+        instance.setEventQuantities(evQuantities);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -67,7 +67,7 @@ public class LineTest {
         System.out.println("getEvSold");
         Line instance = null;
         int expResult = 0;
-        int result = instance.getEvSold();
+        int result = instance.getEventSold();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -81,7 +81,7 @@ public class LineTest {
         System.out.println("setEvSold");
         int evSold = 0;
         Line instance = null;
-        instance.setEvSold(evSold);
+        instance.setEventSold(evSold);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -94,7 +94,7 @@ public class LineTest {
         System.out.println("setTkAdultQu");
         int tkAdultQu = 0;
         Line instance = null;
-        instance.setTkAdultQu(tkAdultQu);
+        instance.setTicketAdultQuantities(tkAdultQu);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -107,7 +107,7 @@ public class LineTest {
         System.out.println("getTkKidsQu");
         Line instance = null;
         int expResult = 0;
-        int result = instance.getTkKidsQu();
+        int result = instance.getTicketChildenQuantities();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -121,7 +121,7 @@ public class LineTest {
         System.out.println("setTkKidsQu");
         int tkKidsQu = 0;
         Line instance = null;
-        instance.setTkKidsQu(tkKidsQu);
+        instance.setTicketChildenQuantities(tkKidsQu);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -134,7 +134,7 @@ public class LineTest {
         System.out.println("getTkFreeQu");
         Line instance = null;
         int expResult = 0;
-        int result = instance.getTkFreeQu();
+        int result = instance.getTicketFreeQuantities();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -148,7 +148,7 @@ public class LineTest {
         System.out.println("setTkFreeQu");
         int tkFreeQu = 0;
         Line instance = null;
-        instance.setTkFreeQu(tkFreeQu);
+        instance.setTicketFreeQuantities(tkFreeQu);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -161,7 +161,7 @@ public class LineTest {
         System.out.println("getTkAGroupQu");
         Line instance = null;
         int expResult = 0;
-        int result = instance.getTkAGroupQu();
+        int result = instance.getTicketGroupQuantities();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -175,7 +175,7 @@ public class LineTest {
         System.out.println("setTkAGroupQu");
         int tkAGroupQu = 0;
         Line instance = null;
-        instance.setTkAGroupQu(tkAGroupQu);
+        instance.setTicketGroupQuantities(tkAGroupQu);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -221,32 +221,10 @@ public class LineTest {
         fail("The test case is a prototype.");
     }
 
-    /**
-     * Test of getTicketQuantities method, of class Line.
-     */
-    @Test
-    public void testGetTicketQuantities() {
-        System.out.println("getTicketQuantities");
-        Line instance = null;
-        int expResult = 0;
-        int result = instance.getTicketQuantities();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+ 
 
-    /**
-     * Test of setTicketQuantities method, of class Line.
-     */
-    @Test
-    public void testSetTicketQuantities() {
-        System.out.println("setTicketQuantities");
-        int ticketQuantities = 0;
-        Line instance = null;
-        instance.setTicketQuantities(ticketQuantities);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+
+
 
     /**
      * Test of getTicketDate method, of class Line.

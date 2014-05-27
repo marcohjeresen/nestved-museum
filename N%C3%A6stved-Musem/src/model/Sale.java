@@ -25,8 +25,8 @@ public class Sale {
     private ArrayList<EventLine> eventLine;
     private ArrayList<ProductLine> productLine;
     private Invoice invoice;
-    private int endpriceDk;
-    private int endpriceEuro;
+    private int endPriceDk;
+    private int endPriceEuro;
 
     public Sale(int id, PaymentType paymentType, Employee employee, String date) {
         this.id = id;
@@ -243,9 +243,9 @@ public class Sale {
         this.invoice = invoice;
     }
 
-    public int getEndpriceDk(boolean discount) {
-        setEndprice(discount);
-        return endpriceDk;
+    public int getEndPriceDk(boolean discount) {
+        setEndPrice(discount);
+        return endPriceDk;
     }
 
     public void clearSale() {
@@ -258,26 +258,26 @@ public class Sale {
         listeners.notifyListeners("Basket Change");
     }
 
-    public void setEndprice(boolean discount) {
+    public void setEndPrice(boolean discount) {
         int price = 0;
-        endpriceDk = 0;
-        endpriceEuro = 0;
+        endPriceDk = 0;
+        endPriceEuro = 0;
         if (!productLine.isEmpty()) {
             for (ProductLine productline : productLine) {
                 if (discount) {
                     price = productline.getProduct().getPriceDk() / 100;
                     price = price * productline.getProduct().getDiscount();
                     price = price * productline.getQuantities();
-                    endpriceDk = (int) (endpriceDk + price);
+                    endPriceDk = (int) (endPriceDk + price);
                     price = productline.getProduct().getPriceEuro() * productline.getProduct().getDiscount();
                     price = price / 100;
                     price = price * productline.getQuantities();
-                    endpriceEuro = (int) (endpriceEuro + price);
+                    endPriceEuro = (int) (endPriceEuro + price);
                 } else {
                     price = productline.getProduct().getPriceDk() * productline.getQuantities();
-                    endpriceDk = (int) (endpriceDk + price);
+                    endPriceDk = (int) (endPriceDk + price);
                     price = productline.getProduct().getPriceEuro() * productline.getQuantities();
-                    endpriceEuro = (int) (endpriceEuro + price);
+                    endPriceEuro = (int) (endPriceEuro + price);
                 }
             }
         }
@@ -286,16 +286,16 @@ public class Sale {
                 if (discount) {
                     price = eventLine1.getEventlinePriceDk() * 90;
                     price = price / 100;
-                    endpriceDk = (int) (endpriceDk + price);
+                    endPriceDk = (int) (endPriceDk + price);
                     price = eventLine1.getEventlineEuro() / 100;
                     price = price * 90;
-                    endpriceEuro = (int) (endpriceEuro + price);
+                    endPriceEuro = (int) (endPriceEuro + price);
 
                 } else {
                     price = eventLine1.getEventlinePriceDk();
-                    endpriceDk = (int) (endpriceDk + price);
+                    endPriceDk = (int) (endPriceDk + price);
                     price = eventLine1.getEventlineEuro();
-                    endpriceEuro = (int) (endpriceEuro + price);
+                    endPriceEuro = (int) (endPriceEuro + price);
                 }
             }
         }
@@ -305,29 +305,29 @@ public class Sale {
                     price = ticketLine1.getTicketType().getPriceDk() * 90;
                     price = price / 100;
                     price = price * ticketLine1.getQuantities();
-                    endpriceDk = (int) (endpriceDk + price);
+                    endPriceDk = (int) (endPriceDk + price);
                     price = ticketLine1.getTicketType().getPriceEuro() * 90;
                     price = price / 100;
                     price = price * ticketLine1.getQuantities();
-                    endpriceEuro = (int) (endpriceEuro + price);
+                    endPriceEuro = (int) (endPriceEuro + price);
                 } else {
                     price = ticketLine1.getTicketType().getPriceDk() * ticketLine1.getQuantities();
-                    endpriceDk = (int) (endpriceDk + price);
+                    endPriceDk = (int) (endPriceDk + price);
                     price = ticketLine1.getTicketType().getPriceEuro() * ticketLine1.getQuantities();
-                    endpriceEuro = (int) (endpriceEuro + price);
+                    endPriceEuro = (int) (endPriceEuro + price);
                 }
             }
         }
     }
 
-    public int getEndpriceEuro(boolean discount) {
-        setEndprice(discount);
-        return endpriceEuro;
+    public int getEndPriceEuro(boolean discount) {
+        setEndPrice(discount);
+        return endPriceEuro;
     }
 
     @Override
     public String toString() {
-        return "Sale{" + "id=" + id + ", paymentType=" + paymentType + ", employee=" + employee + ", date=" + date + ", ticketLine=" + ticketLine + ", eventLine=" + eventLine + ", productLine=" + productLine + ", invoice=" + invoice + ", endpriceDk=" + endpriceDk + ", endpriceEuro=" + endpriceEuro + '}';
+        return "Sale{" + "id=" + id + ", paymentType=" + paymentType + ", employee=" + employee + ", date=" + date + ", ticketLine=" + ticketLine + ", eventLine=" + eventLine + ", productLine=" + productLine + ", invoice=" + invoice + ", endpriceDk=" + endPriceDk + ", endpriceEuro=" + endPriceEuro + '}';
     }
 
 }

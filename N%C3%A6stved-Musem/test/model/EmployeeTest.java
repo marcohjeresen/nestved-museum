@@ -108,7 +108,7 @@ public class EmployeeTest {
         System.out.println("getAdresse");
         Employee instance = null;
         String expResult = "";
-        String result = instance.getAdresse();
+        String result = instance.getAddress();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -122,7 +122,7 @@ public class EmployeeTest {
         System.out.println("setAdresse");
         String adresse = "";
         Employee instance = null;
-        instance.setAdresse(adresse);
+        instance.setAddress(adresse);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

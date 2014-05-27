@@ -27,8 +27,8 @@ public class StatestikViewTest {
     @Test
     public void testGetStatView() {
         System.out.println("getStatView");
-        StatestikView expResult = null;
-        StatestikView result = StatestikView.getStatView();
+        StatistikView expResult = null;
+        StatistikView result = StatistikView.getStatView();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -42,7 +42,7 @@ public class StatestikViewTest {
         System.out.println("setStat");
         ArrayList<Line> lineList = null;
         String date = "";
-        StatestikView instance = null;
+        StatistikView instance = null;
         instance.setStat(lineList, date);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -56,7 +56,7 @@ public class StatestikViewTest {
         System.out.println("drawLines");
         Graphics g = null;
         int page = 0;
-        StatestikView instance = null;
+        StatistikView instance = null;
         instance.drawLines(g, page);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
