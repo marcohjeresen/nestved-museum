@@ -28,6 +28,7 @@ public class DBConnection {
 
     /**
      * Constructor, creates a new object of the class.
+     * 
      */
     public DBConnection() {
 
@@ -64,9 +65,15 @@ public class DBConnection {
         connection();
     }
 
+    /**
+     * 
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */
     public void connect() throws ClassNotFoundException, SQLException {
         isConnected = false;
         connection();
+  
     }
 
     /**

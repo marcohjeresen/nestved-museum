@@ -372,5 +372,13 @@ public class PrintHandler implements Printable {
             }
         }
     }
+
+    
+    
+    public MoneyHandler getMoneyHandler() {
+        return moneyHandler;
+    }
+    
+    
 }
 
