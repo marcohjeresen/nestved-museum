@@ -513,6 +513,11 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
 
         jCheckBox_kvit.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jCheckBox_kvit.setText("Udskriv Rapport");
+        jCheckBox_kvit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox_kvitActionPerformed(evt);
+            }
+        });
 
         jTextField_Eurocash.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -796,6 +801,10 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
         dkCash = false;
         euro = "0";
     }//GEN-LAST:event_jTextField_EurocashMouseClicked
+
+    private void jCheckBox_kvitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_kvitActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox_kvitActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
