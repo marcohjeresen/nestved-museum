@@ -5,8 +5,6 @@
  */
 package model.Handler;
 
-import java.util.ArrayList;
-import model.Employee;
 import model.Product;
 import org.junit.Test;
 import static org.junit.Assert.*;
