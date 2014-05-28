@@ -8,6 +8,7 @@ package print;
 import utility.DateFormatTools;
 
 import db.DBConnection;
+import docTools.DocHandler;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -43,6 +44,7 @@ public class PrintHandler implements Printable {
     ArrayList<TicketLine> ticketLines;
     ArrayList<EventLine> eventLines;
     private int xCord;
+    private DocHandler docHandler;
     private SaleHandler saleHandler;
     private StoreHandler storeHandler;
     private StoreController storeController;
@@ -50,11 +52,13 @@ public class PrintHandler implements Printable {
     private DateFormatTools dateFormatTools;
 
     public PrintHandler() {
+       
         saleHandler = SaleHandler.getSaleHandler();
         storeHandler = StoreHandler.storeHandler();
         moneyHandler = MoneyHandler.getMoneyHandler();
         storeController = StoreController.getStoreController();
         dateFormatTools = new DateFormatTools();
+        
         lines = new ArrayList<>();
         productLines = new ArrayList<>();
         ticketLines = new ArrayList<>();
@@ -242,9 +246,9 @@ public class PrintHandler implements Printable {
         }
         Line t = new Line("-------------------------------------------------------", 0, -1);
         Line tot = new Line("Alt I Alt Salg: ", 0, -1);
-        Line totalp = new Line("Product:    Antal I Alt: " + totalProd + "    Antal Forskelige: " + productLines.size(), 0, -1);
-        Line totalt = new Line("Billetter:    Antal I Alt: " + totalTic + "    Antal Forskelige: " + ticketLines.size(), 0, -1);
-        Line totale = new Line("Event:    Antal I Alt: " + totalEvt + "    Antal Forskelige: " + eventLines.size(), 0, -1);
+        Line totalp = new Line("Product:    Antal I Alt: " + totalProd + "    Antal Forskelige: " + prodLineList.size(), 0, -1);
+        Line totalt = new Line("Billetter:    Antal I Alt: " + totalTic + "    Antal Forskelige: " + ticketLineList.size(), 0, -1);
+        Line totale = new Line("Event:    Antal I Alt: " + totalEvt + "    Antal Forskelige: " + eventLineList.size(), 0, -1);
 
         lines.add(t);
         lines.add(tot);
@@ -291,7 +295,9 @@ public class PrintHandler implements Printable {
         } catch (SQLException ex) {
             System.out.println("print - PrintHandler - cashReport(): sql Error :" + ex.getLocalizedMessage());
         }
-        doPrint();
+        docHandler = new DocHandler(lines);
+//        doPrint();
+        
     }
 
     public void drawLines(Graphics g, int page) {

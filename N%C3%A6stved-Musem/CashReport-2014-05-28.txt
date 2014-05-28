@@ -1,0 +1,29 @@
+Produkter: 
+2720  Champagnefløjte,1
+2735  Kgl. Mundglas,1
+2765  Sekskantet vinglas,1
+2810  Fransk vinkande,1
+2258  Chokolade i metalæske,1
+2169  Mini syltetøj,1
+2168  Mandelcreme,1
+2171  Peber og mandel tapenade,1
+Billetter: 
+1 Gratister (Museumskort, foregning, ovs),10
+2 Voksenbillet, over 18 år,10
+3 Børnebillet, under 18 år,10
+Event: 
+5 Foredrag mus 9-17,7
+6 Foredrag mus 17-19 week 9-17,8
+-------------------------------------------------------
+Alt I Alt Salg: 
+Product:    Antal I Alt: 8    Antal Forskelige: 8
+Billetter:    Antal I Alt: 30    Antal Forskelige: 3
+Event:    Antal I Alt: 15    Antal Forskelige: 2
+-------------------------------------------------------
+Kasse Opgørelse:
+Kasse Start:   Dato: 2014-05-28 09:24:16.0
+Medarbejder: Mark Hjeresen DK I Kassen: 7.0 EURO I Kassen: 7.0
+Kasse Slut:   Dato: 2014-05-28 09:24:57.0
+Mark Hjeresen  ForvDk: 4713.0 ForvEuro: 7.0 SlutDk: 7.0 SlutEuro: 7.0
+Difference Type:  DifDk: -4706.0 DifEuro: 0.0
+
