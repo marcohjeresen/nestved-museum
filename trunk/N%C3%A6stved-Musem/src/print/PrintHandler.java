@@ -296,7 +296,7 @@ public class PrintHandler implements Printable {
             System.out.println("print - PrintHandler - cashReport(): sql Error :" + ex.getLocalizedMessage());
         }
         docHandler = new DocHandler(lines);
-//        doPrint();
+        doPrint();
         
     }
 
