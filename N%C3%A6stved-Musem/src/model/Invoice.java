@@ -1,15 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 package model;
 
-/**
- *
- * @author markh_000
- */
+
 public class Invoice {
     private int id;
     private String date;
@@ -17,6 +10,10 @@ public class Invoice {
     private int priceEuro;
     private int invoiceStatus;
 
+    /**
+    * Constructor, creates a new object of the class.
+    */
+    
     public Invoice(int id, String date, int priceDk, int priceEuro, int invoiceStatus) {
         this.id = id;
         this.date = date;

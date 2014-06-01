@@ -1,9 +1,6 @@
 
 package model;
-
-/*
-*DifferanceRegistre klassen indeholder de data som man skal bruge for at kunne lukke kassen.
-*/ 
+ 
 
 public class DifferanceRegistre {
 
@@ -18,10 +15,10 @@ public class DifferanceRegistre {
     private String date;
 
     
-    /*
-    * Vores constructor skal kaldes med de nødvendige informationer der skal til, for at lægge bruge objekter af 
-    * klassen og lægge et objekt af klassen i databasen.
+    /**
+    * Constructor, creates a new object of the class.
     */
+    
     public DifferanceRegistre(int id, Employee employee, int currentCashDk, int currentCahsEuro, int expectedDk, int expectedEuro, int differanceDk, int differanceEuro, String date) {
         this.id = id;
         this.employee = employee;

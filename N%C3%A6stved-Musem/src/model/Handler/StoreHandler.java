@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package model.Handler;
 
 import utility.DateFormatTools;
@@ -17,10 +13,7 @@ import model.TicketType;
 import model.controller.StoreController;
 import utility.Listeners;
 
-/**
- *
- * @author MarcoPc
- */
+
 public class StoreHandler {
 
     private static StoreHandler storeHandler;
@@ -33,6 +26,10 @@ public class StoreHandler {
     private EventType chosenEvent;
     private String event;
 
+    /*
+    Constructor, creates a new object of the class.
+    */
+    
     public StoreHandler() {
         controller = StoreController.getStoreController();
         listeners = Listeners.getList();
@@ -42,6 +39,10 @@ public class StoreHandler {
         chosenEvent = null;
     }
 
+    /*
+    Method, creates a singleton of StoreHandler.
+    */
+    
     public static StoreHandler storeHandler() {
         if (storeHandler == null) {
             storeHandler = new StoreHandler();

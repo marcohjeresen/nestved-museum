@@ -1,17 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 package model;
 
 import java.util.ArrayList;
 
-/**
- *
- * @author markh_000
- */
+
 public class Employee {
     private int cpr;
     private String name;
@@ -22,6 +15,10 @@ public class Employee {
     private int phone;
     private ArrayList phoneList;
 
+    /**
+    * Constructor, creates a new object of the class.
+    */
+    
     public Employee(int cpr, String name, String address, int postZip, String city, int password) {
         this.cpr = cpr;
         this.name = name;

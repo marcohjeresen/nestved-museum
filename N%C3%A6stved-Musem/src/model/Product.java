@@ -1,15 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package model;
 
-/**
- *
- * @author markh_000
- */
+
 public class Product extends ProductGroup{
     private int productNumber;
     private String name;
@@ -20,6 +12,10 @@ public class Product extends ProductGroup{
     private int discount;
     private int quantities;
 
+    /**
+    * Constructor, creates a new object of the class.
+    */
+    
     public Product(int productNumber, String name, String supplier, int buyPrice, int priceDk, int priceEuro, int discount, int quantities, int groupId, String groupType) {
         super(groupId, groupType);
         this.productNumber = productNumber;
