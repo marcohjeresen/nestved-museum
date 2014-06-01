@@ -1,9 +1,7 @@
 
 package model;
 
-/*
-*Cashregister klassen indeholde de nødvendige data som man skal bruge for at kunne åbne kassen.
-*/ 
+
 
 public class CashRegister {
     private int id;
@@ -12,8 +10,8 @@ public class CashRegister {
     private int amountEuro;
     private Employee employee;
 
-    /*
-    *Vores constructor oprettes med de nødvendige data som skal bruges til at bruge et object af klassen.
+    /**
+    * Constructor, creates a new object of the class.
     */
     
     public CashRegister(int id,String date, int amountDk, int amountEuro, Employee employee) {

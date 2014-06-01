@@ -1,19 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 package model;
 
-/**
- *
- * @author markh_000
- */
 public class InvoiceStatus {
     private int id;
     private String type;
 
+    /**
+    * Constructor, creates a new object of the class.
+    */
+    
     public InvoiceStatus(int id, String type) {
         this.id = id;
         this.type = type;

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package model.Handler;
 
 import utility.DateFormatTools;
@@ -12,10 +8,6 @@ import model.DifferanceRegistre;
 import model.Employee;
 import model.controller.MoneyController;
 
-/**
- *
- * @author MarcoPc
- */
 public class MoneyHandler {
 
     private static MoneyHandler moneyHandler;
@@ -24,12 +16,19 @@ public class MoneyHandler {
     private MoneyController moneyController;
     private StoreHandler storeHandler;
 
+    /**
+    * Constructor, creates a new object of the class.
+    */
+    
     public MoneyHandler() {
         dateFormatTools = new DateFormatTools();
         moneyController = MoneyController.getMoneyController();
         storeHandler = StoreHandler.storeHandler();
     }
 
+    /**
+    * Method, creates a singleton of MoneyHandler.
+    */
     public static MoneyHandler getMoneyHandler() {
         if (moneyHandler == null) {
             moneyHandler = new MoneyHandler();
@@ -37,6 +36,12 @@ public class MoneyHandler {
         return moneyHandler;
     }
 
+    
+    /**
+     * Method, used to set the cashregistre and sends information to the database.
+     * @param dk
+     * @param euro 
+     */
     public void setCashRegistre(int dk, int euro) {
         String date = dateFormatTools.getDateNowString();
         int id = moneyController.getIdFromData();
@@ -49,6 +54,11 @@ public class MoneyHandler {
         cashRegister = null;
     }
 
+    
+    /**
+     * Method,checks if the cashRegister is true or false.
+     * @return isthere as true or false depending on if cashRegister has been set.
+     */
     public boolean cashRegister() {
         boolean isthere = false;
         if (cashRegister == null) {
@@ -63,6 +73,13 @@ public class MoneyHandler {
         return cashRegister;
     }
 
+    
+    /**
+     * Method, this method adds or removes money from the current cashRegister.
+     * @param type
+     * @param curency
+     * @param amount 
+     */
     public void addCashAmount(String type, String curency, int amount) {
         int amountDk = cashRegister.getAmountDk();
         int amountEuro = cashRegister.getAmountEuro();
@@ -90,6 +107,14 @@ public class MoneyHandler {
         }
     }
 
+    
+    /**
+     * Method, it calculates the difference and sends the information to the database
+     * and then empties the cashRegister.
+     * @param dkInTheBox
+     * @param euroInTheBox
+     * @param employee 
+     */
     public void endCashRegister(int dkInTheBox, int euroInTheBox, Employee employee) {
         int differanceDk = dkInTheBox - cashRegister.getAmountDk();
         int differanceEuro = euroInTheBox - cashRegister.getAmountEuro();

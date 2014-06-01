@@ -1,24 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 package model.Handler;
 
 import model.Sale;
 
-/**
- *
- * @author markh_000
- */
+
 public class SaleHandler {
     private static SaleHandler saleHandler;
     private Sale currentSale;
 
+    /**
+    * Constructor, creates a new object of the class.
+    */
+    
     public SaleHandler() {
         currentSale = new Sale(0, null, null, null);
     }
+    
+    /**
+    * Method, creates a singleton of SaleHandler.
+    */
     
     public static SaleHandler getSaleHandler(){
         if (saleHandler == null) {

@@ -1,18 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import utility.DateFormatTools;
 import utility.Listeners;
 import java.util.ArrayList;
 
-/**
- *
- * @author markh_000
- */
 public class Sale {
 
     private Listeners listeners;
@@ -28,6 +19,9 @@ public class Sale {
     private int endPriceDk;
     private int endPriceEuro;
 
+    /**
+     * Constructor, creates a new object of the class.
+     */
     public Sale(int id, PaymentType paymentType, Employee employee, String date) {
         this.id = id;
         this.paymentType = paymentType;
@@ -53,6 +47,10 @@ public class Sale {
         return ticketLine;
     }
 
+    /**
+     * Method, adds a ticket to the sale. If the ticket already exist will it
+     * change the value rather than adding it again.
+     */
     public void addTicketLine(TicketType tt, int quantities) {
         boolean isthere = false;
 
@@ -85,6 +83,10 @@ public class Sale {
         return eventLine;
     }
 
+    /**
+     * Method, adds an event to the sale. If the event already exist will it
+     * change the value rather than adding it again.
+     */
     public void addEventLine(EventType et, int quantities, int customer, String place) {
         boolean isthere = false;
         if (!eventLine.isEmpty()) {
@@ -110,6 +112,10 @@ public class Sale {
         return productLine;
     }
 
+    /**
+     * Method, adds a product to the sale. If the product already exist will it
+     * change the value rather than adding it again.
+     */
     public void addProduct(Product p) {
         boolean isthere = false;
         if (p.getQuantities() >= 1) {
@@ -137,6 +143,11 @@ public class Sale {
         listeners.notifyListeners("Basket Change");
     }
 
+    /**
+     * Method, removes the chosen product from the sale.
+     *
+     * @param p
+     */
     public void removeProductLine(Product p) {
         for (int i = 0; i < productLine.size(); i++) {
             if (productLine.get(i).getProduct().equals(p)) {
@@ -146,6 +157,11 @@ public class Sale {
         listeners.notifyListeners("Basket Change");
     }
 
+    /**
+     * Method, removes the chosen event from the sale.
+     *
+     * @param et
+     */
     public void removeEventLine(EventType et) {
         for (int i = 0; i < eventLine.size(); i++) {
             if (eventLine.get(i).getEventtype().equals(et)) {
@@ -155,6 +171,11 @@ public class Sale {
         listeners.notifyListeners("Basket Change");
     }
 
+    /**
+     * Method, removes the chosen ticket from the sale.
+     *
+     * @param t
+     */
     public void removeTicketLine(TicketType t) {
         for (int i = 0; i < ticketLine.size(); i++) {
             if (ticketLine.get(i).getTicketType().equals(t)) {
@@ -164,6 +185,12 @@ public class Sale {
         listeners.notifyListeners("Basket Change");
     }
 
+    
+    /**
+     * Method, adding or removing chosen product.
+     * @param p
+     * @param quantities 
+     */
     public void addRemoveProductLineQuantities(Product p, int quantities) {
         for (int i = 0; i < productLine.size(); i++) {
             if (productLine.get(i).getProduct().equals(p)) {
@@ -179,6 +206,12 @@ public class Sale {
         listeners.notifyListeners("Basket Change");
     }
 
+    
+    /**
+     * Method, adding or removing chosen ticket.
+     * @param tt
+     * @param quantities 
+     */
     public void addRemoveTicketLineQuantities(TicketType tt, int quantities) {
         for (int i = 0; i < ticketLine.size(); i++) {
             if (ticketLine.get(i).getTicketType().equals(tt)) {
@@ -189,15 +222,21 @@ public class Sale {
                 }
                 if ("Gruppebillet, min. 10 personer".equals(tt.getType())) {
                     if (ticketLine.get(i).getQuantities() < 10) {
-                      ticketLine.remove(i);  
+                        ticketLine.remove(i);
                     }
-                    
+
                 }
             }
         }
         listeners.notifyListeners("Basket Change");
     }
 
+    
+    /**
+     * Method, adding or removing chosen event.
+     * @param et
+     * @param quantities 
+     */
     public void addRemoveEventLineQuantities(EventType et, int quantities) {
         for (int i = 0; i < eventLine.size(); i++) {
             if (eventLine.get(i).getEventtype().equals(et)) {
@@ -243,11 +282,10 @@ public class Sale {
         this.invoice = invoice;
     }
 
-    public int getEndPriceDk(boolean discount) {
-        setEndPrice(discount);
-        return endPriceDk;
-    }
-
+    
+    /**
+     * Method, clear the sale by removing all products, events and tickets.
+     */
     public void clearSale() {
         ticketLine.removeAll(ticketLine);
         eventLine.removeAll(eventLine);
@@ -258,6 +296,11 @@ public class Sale {
         listeners.notifyListeners("Basket Change");
     }
 
+    
+    /**
+     * Method, finds the ends price depending on discount is true or false.
+     * @param discount 
+     */
     public void setEndPrice(boolean discount) {
         int price = 0;
         endPriceDk = 0;
@@ -320,6 +363,23 @@ public class Sale {
         }
     }
 
+    
+        /**
+     * Method, calls the method setEndPrice.
+     * @param discount
+     * @return endPriceDk is an int.
+     */
+    public int getEndPriceDk(boolean discount) {
+        setEndPrice(discount);
+        return endPriceDk;
+    }
+    
+    
+    /**
+     * Method, calls the method setEndPrice.
+     * @param discount
+     * @return endPriceEuro is an int.
+     */
     public int getEndPriceEuro(boolean discount) {
         setEndPrice(discount);
         return endPriceEuro;

@@ -1,21 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package model;
 
-/**
- *
- * @author markh_000
- */
 public class EventType {
     private int id;
     private String type;
     private int priceDk;
     private int priceEuro;
 
+    /**
+    * Constructor, creates a new object of the class.
+    */
+    
     public EventType(int id, String type, int priceDk, int priceEuro) {
         this.id = id;
         this.type = type;

@@ -1,21 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package model;
 
-/**
- *
- * @author markh_000
- */
 public class TicketLine {
     private int id;
     private TicketType ticketType;
     private Sale sale;
     private int quantities;
 
+    /**
+    * Constructor, creates a new object of the class.
+    */
+    
     public TicketLine(int id, Sale sale, int quantities, TicketType ticketType) {
         this.id = id;
         this.sale = sale;
