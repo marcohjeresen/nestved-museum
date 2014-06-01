@@ -64,7 +64,7 @@ private final Listeners listeners;
 
         jT_port.setText("3306");
 
-        jT_dbName.setText("museumsydøstdanmark");
+        jT_dbName.setText("museumsydoestdanmark");
 
         jT_user.setText("root");
 
