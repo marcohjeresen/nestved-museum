@@ -19,7 +19,7 @@ public class SaleTest {
     }
 
     /**
-     * Test of getEventLine method, of class Sale.
+     * Test af getEventLine method, of class Sale.
      */
     @Test
     public void testAddEvent() {
