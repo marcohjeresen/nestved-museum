@@ -28,6 +28,13 @@ public class Line {
     private int eventSold;
     private String ticketDate;
 
+    
+    /**
+     * Constructor, creates a new object of the class.
+     * @param text
+     * @param priceDk
+     * @param priceEuro 
+     */
     public Line(String text, int priceDk, int priceEuro) {
         this.text = text;
         this.priceDk = priceDk;

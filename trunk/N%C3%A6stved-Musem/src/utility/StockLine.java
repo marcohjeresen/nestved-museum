@@ -1,15 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package utility;
 
-/**
- *
- * @author MarcoPc
- */
+
 public class StockLine {
 private String productNumber;
 private String productName;
@@ -17,6 +9,10 @@ private String productSupply;
 private String productBuyPrice;
 private String productQuantities;
 
+
+/**
+ * Constructor, creates a new object of the class.
+*/
     public StockLine(String producNumber, String producName, String producSuppl, String producBuyPrice, String producQuantitis) {
         this.productNumber = producNumber;
         this.productName = producName;

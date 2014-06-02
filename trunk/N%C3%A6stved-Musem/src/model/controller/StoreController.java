@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package model.controller;
 
 import db.DBConnection;
@@ -18,10 +14,7 @@ import model.ProductLine;
 import model.TicketType;
 import museum.MainView;
 
-/**
- *
- * @author MarcoPc
- */
+
 public class StoreController {
 
     private static StoreController storeController;
@@ -44,6 +37,10 @@ public class StoreController {
 
     }
 
+    /**
+     * Method, creates a singleton of StoreController if it doesn't exist already.
+     * @return storeController.
+     */
     public static StoreController getStoreController() {
         if (storeController == null) {
             storeController = new StoreController();
@@ -51,6 +48,9 @@ public class StoreController {
         return storeController;
     }
 
+    /**
+     * Method, retrieves all the products from the database.
+     */
     private void getProductData() {
         DBConnection db = new DBConnection();
         try {
@@ -75,6 +75,10 @@ public class StoreController {
         db.close();
     }
 
+    
+    /**
+     * Method, retrieves all the tickets from the database.
+     */
     public void getTicketData() {
         DBConnection db = new DBConnection();
         try {
@@ -90,6 +94,10 @@ public class StoreController {
         }
     }
 
+    
+    /**
+     * Method, retrieves all the events from the database.
+     */
     public void getEventData() {
         DBConnection db = new DBConnection();
         try {
@@ -106,6 +114,9 @@ public class StoreController {
 
     }
 
+    /**
+     * Method, retrieves all the employee data from the database.
+     */
     public void getEmployeeData() {
         DBConnection db = new DBConnection();
         try {
@@ -150,6 +161,12 @@ public class StoreController {
         return eventTypesList;
     }
 
+    
+    /**
+     * Method, checks the database if theres an event on the specific day.
+     * @param date
+     * @return dayEvent, as a String with all the informations about the event.
+     */
     public String getDayEvent(String date) {
         String dayEvent = "";
         DBConnection db = new DBConnection();
@@ -172,6 +189,11 @@ public class StoreController {
         return dayEvent;
     }
     
+    /**
+     * Method, checks the database for events on the specific date.
+     * @param date
+     * @return isthere, as a boolean.
+     */
     public Boolean areThereEvent(String date) {
         boolean isthere = false;
         DBConnection db = new DBConnection();
@@ -189,6 +211,10 @@ public class StoreController {
         
     }
 
+    /**
+     * Method, changes the amount of products in the database.
+     * @param saleProductList 
+     */
     public void alterProductQuantities(ArrayList<ProductLine> saleProductList) {
         DBConnection db = new DBConnection();
         int quantities = 0;

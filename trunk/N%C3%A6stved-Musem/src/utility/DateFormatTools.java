@@ -1,20 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package utility;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- *
- * @author markh_000
- */
 public class DateFormatTools {
 
+    /**
+     * Constructor, creates a new object of the class.
+     *
+     * @author Dennis
+     */
     public DateFormatTools() {
     }
 
@@ -23,6 +19,10 @@ public class DateFormatTools {
         return c;
     }
 
+    /**
+     * Method, gets the current date.
+     * @return date as a String.
+     */
     public String getDateNowString() {
         Calendar c = Calendar.getInstance();
         String year = "" + c.get(Calendar.YEAR);
@@ -35,6 +35,11 @@ public class DateFormatTools {
         return date;
     }
 
+    
+    /**
+     * Method, gets the current date in a shorter String.
+     * @return date as a String.
+     */
     public String getDateNowShortString() {
         Calendar c = Calendar.getInstance();
         String year = "" + c.get(Calendar.YEAR);
@@ -50,6 +55,11 @@ public class DateFormatTools {
         return date;
     }
 
+    /**
+     * Method, gets the current day from Calender.
+     * @param calendar
+     * @return date as a String.
+     */
     public String getDateFromCal(Calendar calendar) {
         String year = "" + calendar.get(Calendar.YEAR);
         String month = "" + (calendar.get(Calendar.MONTH) + 1);
@@ -61,6 +71,13 @@ public class DateFormatTools {
         return date;
     }
 
+    
+    /**
+     * Method, gets a short date.
+     * @param date
+     * @return c as a Calender object.
+     * @throws ParseException 
+     */
     public Calendar getShortDate(String date) throws ParseException {
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
         Calendar c = Calendar.getInstance();
@@ -68,6 +85,11 @@ public class DateFormatTools {
         return c;
     }
 
+    /**
+     * Method, gets a short date from Calender.
+     * @param c
+     * @return date as a String.
+     */
     public String getShortDateFromCal(Calendar c) {
         String year = "" + c.get(Calendar.YEAR);
         String month = "";
@@ -86,6 +108,11 @@ public class DateFormatTools {
         return date;
     }
 
+    /**
+     * Method, formats stringdate to a calender.
+     * @param date
+     * @return datecal as a Calender object.
+     */
     public Calendar getDateFromString(String date) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Calendar dateCal = Calendar.getInstance();
@@ -98,11 +125,22 @@ public class DateFormatTools {
         return dateCal;
     }
 
+    /**
+     * Method, jumps a chosen number of days forward in the calender.
+     * @param calendar
+     * @param days
+     * @return calender as a Calender object.
+     */
     public Calendar getNextday(Calendar calendar, int days) {
         calendar.roll(Calendar.DAY_OF_YEAR, days);
         return calendar;
     }
 
+    /**
+     * Method, is initialized with a string date and formats it to a calender and sets hour, minutes and seconds to 0.
+     * @param date
+     * @return dateCal as a Calender object.
+     */
     public Calendar getStartDateFromString(String date) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Calendar dateCal = Calendar.getInstance();
@@ -118,6 +156,11 @@ public class DateFormatTools {
         return dateCal;
     }
 
+    /**
+     * Method, is initialized with a string date and formats it to a calender and sets hour to 23, minutes to 59 and seconds to 59.
+     * @param date
+     * @return dateCal as a Calender object.
+     */
     public Calendar getEndDateFromString(String date) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Calendar dateCal = Calendar.getInstance();
@@ -133,6 +176,11 @@ public class DateFormatTools {
         return dateCal;
     }
 
+    /**
+     * Method, shows the day name, month and date.
+     * @param date
+     * @return theDate as a String.
+     */
     public String getDay(String date) {
         String theDate = "";
         try {
@@ -149,6 +197,11 @@ public class DateFormatTools {
         return theDate;
     }
 
+    /**
+     * Method, shows the name of the day and the date of the month.
+     * @param date
+     * @return theDate as a String.
+     */
     public String getDayLetter(String date) {
         String theDate = "";
         try {

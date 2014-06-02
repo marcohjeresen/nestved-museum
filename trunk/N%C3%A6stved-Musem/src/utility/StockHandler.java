@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package utility;
 
 import db.DBConnection;
@@ -11,28 +7,35 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import model.Handler.*;
 
-/**
- *
- * @author markh_000
- */
 public class StockHandler {
 
     private static StockHandler StockHandler;
     private StoreHandler storeHandler;
     private ArrayList<StockLine> StockList;
 
+    
+    /**
+     * Constructor, creates a new object of the class.
+     */
     private StockHandler() {
         storeHandler = StoreHandler.storeHandler();
         StockList = new ArrayList<>();
     }
 
+    /**
+     * Method, creates a singleton of StockHandler if it doesn't exist already.
+     * @return StockHandler.
+     */
     public static StockHandler getStockHandler() {
         if (StockHandler == null) {
             StockHandler = new StockHandler();
         }
         return StockHandler;
     }
-
+/**
+ * Method, retrieves all the products from the database and sorts them.
+ * @return Arraylist<StockLine> that contains all the products.
+ */
     public ArrayList<StockLine> getStockList() {
         StockList.removeAll(StockList);
         StockLine st = new StockLine("Nummer", "Navn", "Leverandør ", "KøbsPris", "Antal");
