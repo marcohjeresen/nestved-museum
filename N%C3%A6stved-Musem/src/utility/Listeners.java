@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package utility;
 
@@ -10,19 +5,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-/**
- *
- * @author markh_000
- */
+
 public class Listeners {
     private static Listeners listeners;
     private ArrayList<ActionListener> listenersList;
 
 
+    /**
+     * Constructor, creates a new object of the class.
+     */
     private Listeners() {
         listenersList = new ArrayList<>();
     }
     
+    
+    /**
+     * Method, creates a singleton of Listeners if it doesn't exist already.
+     * @return listeners.
+     */
     public static Listeners getList(){
         if (listeners == null) {
             listeners = new Listeners();

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package utility;
 
 import db.DBConnection;
@@ -11,22 +6,25 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-/**
- *
- * @author MarcoPc
- */
 public class StatistikHandler {
+
     private static StatistikHandler statistikHandler;
     private ArrayList<Line> lineList;
     private DateFormatTools dateFormat;
-    
 
+    /**
+     * Constructor, creates a new object of the class.
+     */
     private StatistikHandler() {
         lineList = new ArrayList<>();
         dateFormat = new DateFormatTools();
-        
+
     }
 
+    /**
+     * Method, creates a singleton of StatistikHandler if it doesn't exist already.
+     * @return statistikHandler.
+     */
     public static StatistikHandler getStatistikHandler() {
         if (statistikHandler == null) {
             statistikHandler = new StatistikHandler();
@@ -34,6 +32,11 @@ public class StatistikHandler {
         return statistikHandler;
     }
 
+    /**
+     * Method, it creates a statistik from the chosen date and 6 days forward by connecting to the database.
+     * @param date
+     * @return Arraylist<Line> with all the required information.
+     */
     public ArrayList<Line> getWeekStat(String date) {
         lineList.removeAll(lineList);
         Calendar StringDate = dateFormat.getStartDateFromString(date);
@@ -140,7 +143,7 @@ public class StatistikHandler {
                     }
                 }
             } catch (SQLException ex) {
-                System.out.println("utility - StatistikHandler - getWeekStat(): sql Error :"+ ex.getLocalizedMessage());
+                System.out.println("utility - StatistikHandler - getWeekStat(): sql Error :" + ex.getLocalizedMessage());
             }
             try {
                 ResultSet rs = db.getResult("select eventline_quantities, eventline_sale_id, sale_date "
@@ -166,11 +169,11 @@ public class StatistikHandler {
                     }
                 }
             } catch (SQLException ex) {
-                System.out.println("utility - StatistikHandler - getWeekStat(): sql Error :"+ ex.getLocalizedMessage());
+                System.out.println("utility - StatistikHandler - getWeekStat(): sql Error :" + ex.getLocalizedMessage());
             }
             db.close();
         }
         return lineList;
     }
-    
+
 }

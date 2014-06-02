@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package model.controller;
 
 import utility.DateFormatTools;
@@ -17,21 +13,25 @@ import model.ProductLine;
 import model.Sale;
 import model.TicketLine;
 
-/**
- *
- * @author MarcoPc
- */
+
 public class SaleController {
 
     private static SaleController saleController;
     private ArrayList<PaymentType> paymentTypesList;
     private DateFormatTools dateFormatTools;
 
+    /**
+     * Constructor, creates a new object of the class.
+     */
     public SaleController() {
         paymentTypesList = new ArrayList<>();
         dateFormatTools = new DateFormatTools();
     }
 
+    /**
+     * Method, creates a singleton of SaleController if it doesn't exist already.
+     * @return saleController.
+     */
     public static SaleController controller() {
         if (saleController == null) {
             saleController = new SaleController();
@@ -39,6 +39,9 @@ public class SaleController {
         return saleController;
     }
 
+    /**
+     * Method, changes the different payment methods in the system.
+     */
     public void getPaymentData() {
         DBConnection db = new DBConnection();
         try {
@@ -54,6 +57,12 @@ public class SaleController {
         }
     }
 
+    
+    /**
+     * Method, ends the current sale by adding all the sale information to the database.
+     * @param sale1
+     * @param discount 
+     */
     public void endSale(Sale sale1, boolean discount) {
         DBConnection db = new DBConnection();
         int invoiceId = 0;

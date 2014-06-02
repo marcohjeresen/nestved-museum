@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model.controller;
 
 import db.DBConnection;
@@ -11,17 +6,21 @@ import java.sql.SQLException;
 import model.CashRegister;
 import model.DifferanceRegistre;
 
-/**
- *
- * @author MarcoPc
- */
 public class MoneyController {
 
     private static MoneyController moneyController;
 
+    
+    /**
+     * Constructor, creates a new object of the class.
+     */
     public MoneyController() {
     }
 
+    /**
+     * Method, creates a singleton of MoneyController if it doesn't exist already.
+     * @return moneyController.
+     */
     public static MoneyController getMoneyController() {
         if (moneyController == null) {
             moneyController = new MoneyController();
@@ -29,6 +28,11 @@ public class MoneyController {
         return moneyController;
     }
 
+    
+    /**
+     * Method, checks for the next avaible ID for cashregister from the database
+     * @return 
+     */
     public int getIdFromData() {
         DBConnection db = new DBConnection();
         int id = 0;
@@ -45,17 +49,26 @@ public class MoneyController {
         return id;
     }
 
+    
+    /**
+     * Method, sends the start amount of the cashregister to the database.
+     * @param register 
+     */
     public void addStartingCashToDataBase(CashRegister register) {
         DBConnection db = new DBConnection();
         db.execute("insert into cashregistercontent values (" + register.getId() + ",'" + register.getDate() + "'," + register.getAmountDk() + "," + register.getAmountEuro() + "," + register.getEmployee().getCpr() + ")");
         db.close();
     }
-    
+
+    /**
+     * Method, sends the end amount of the cashregister to the database.
+     * @param dif 
+     */
     public void addEndCashToDatabase(DifferanceRegistre dif) {
         DBConnection db = new DBConnection();
-        db.execute("insert into differance values ('"+dif.getId()+"',"+dif.getEmployee().getCpr()+""
-                + ","+dif.getCurrentCashDk()+","+dif.getCurrentCashEuro()+","+dif.getExpectedDk()+","+dif.getExpectedEuro()+""
-                + ","+dif.getDifferanceDk()+","+dif.getDifferanceEuro()+",'"+dif.getDate()+"')");
+        db.execute("insert into differance values ('" + dif.getId() + "'," + dif.getEmployee().getCpr() + ""
+                + "," + dif.getCurrentCashDk() + "," + dif.getCurrentCashEuro() + "," + dif.getExpectedDk() + "," + dif.getExpectedEuro() + ""
+                + "," + dif.getDifferanceDk() + "," + dif.getDifferanceEuro() + ",'" + dif.getDate() + "')");
         db.close();
     }
 

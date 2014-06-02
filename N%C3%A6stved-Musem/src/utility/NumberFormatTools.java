@@ -15,9 +15,16 @@ public class NumberFormatTools {
     private int priceInt;
     private double priceDouble;
 
+    /**
+     * Constructor, creates a new object of the class.
+     */
     public NumberFormatTools() {
     }
     
+    /**
+     * Method, creates a singleton of NumberFormatTools if it doesn't exist already..
+     * @return numberFormatTools.
+     */
     public static NumberFormatTools getTools(){
         if (numberFormatTools == null) {
             numberFormatTools = new NumberFormatTools();

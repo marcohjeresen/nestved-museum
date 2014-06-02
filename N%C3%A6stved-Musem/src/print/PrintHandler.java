@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package print;
 
 import utility.DateFormatTools;
@@ -32,10 +27,6 @@ import model.Handler.StoreHandler;
 import model.controller.StoreController;
 import utility.Line;
 
-/**
- *
- * @author MarcoPc
- */
 public class PrintHandler implements Printable {
 
     public static final int LINES_PER_PAGE = 23;
@@ -51,14 +42,17 @@ public class PrintHandler implements Printable {
     private MoneyHandler moneyHandler;
     private DateFormatTools dateFormatTools;
 
+    /**
+     * Constructor, creates a new object of the class.
+     */
     public PrintHandler() {
-       
+
         saleHandler = SaleHandler.getSaleHandler();
         storeHandler = StoreHandler.storeHandler();
         moneyHandler = MoneyHandler.getMoneyHandler();
         storeController = StoreController.getStoreController();
         dateFormatTools = new DateFormatTools();
-        
+
         lines = new ArrayList<>();
         productLines = new ArrayList<>();
         ticketLines = new ArrayList<>();
@@ -66,6 +60,12 @@ public class PrintHandler implements Printable {
         xCord = 10;
     }
 
+    /**
+     * Method, prints the "Kvittering" with the sale its initialized with.
+     *
+     * @param sale
+     * @param discount
+     */
     public void kvitteringPrint(Sale sale, boolean discount) {
         lines.removeAll(lines);
         Line startLine = new Line("Næstved Museum", 0, 0);
@@ -134,6 +134,9 @@ public class PrintHandler implements Printable {
         doPrint();
     }
 
+    /**
+     * Method, prints the cashreport for the entire day.
+     */
     public void cashReport() {
         Line empty = new Line("", 0, -1);
         String date = dateFormatTools.getDateNowShortString();
@@ -297,9 +300,15 @@ public class PrintHandler implements Printable {
         }
         docHandler = new DocHandler(lines);
         doPrint();
-        
+
     }
 
+    /**
+     * Method, decides where the lines will be on the papir.
+     *
+     * @param g
+     * @param page
+     */
     public void drawLines(Graphics g, int page) {
         g.setColor(new Color(150, 190, 255));
         g.fillRect(5, 10, 10 * xCord, 75);
@@ -342,6 +351,15 @@ public class PrintHandler implements Printable {
         g.drawString("Side " + (page + 1), 10, 175 + lineCount * 20);
     }
 
+    /**
+     * Method, retrieves the information from drawlines() and prints it.
+     *
+     * @param g
+     * @param pf
+     * @param page
+     * @return printResult, as an int. PAGE_EXISTS or NO_SUCH_PAGE
+     * @throws PrinterException
+     */
     @Override
     public int print(Graphics g, PageFormat pf, int page) throws PrinterException {
         int printResult;
@@ -359,6 +377,10 @@ public class PrintHandler implements Printable {
         return printResult;
     }
 
+    /**
+     * Method, Checks if you are available to print and asks if you want to
+     * print.
+     */
     public void doPrint() {
         PrinterJob job = PrinterJob.getPrinterJob();
         Printable doc = this;
@@ -368,17 +390,13 @@ public class PrintHandler implements Printable {
             try {
                 job.print();
             } catch (PrinterException ex) {
-               System.out.println("print - PrintHandler - doPrint(): Printer Error :" + ex.getLocalizedMessage());
+                System.out.println("print - PrintHandler - doPrint(): Printer Error :" + ex.getLocalizedMessage());
             }
         }
     }
 
-    
-    
     public MoneyHandler getMoneyHandler() {
         return moneyHandler;
     }
-    
-    
-}
 
+}

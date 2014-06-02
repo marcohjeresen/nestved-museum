@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package print;
 
 import java.awt.Graphics;
@@ -17,18 +13,23 @@ import museum.view.StatistikView;
 
 
 
-/**
- *
- * @author MarcoPc
- */
+
 public class StatistikPrintHandler implements Printable {
 
     private StatistikView statistikView;
 
+    
+    /**
+     * Constructor, creates a new object of the class.
+     * @param statistikView 
+     */
     public StatistikPrintHandler(StatistikView statistikView) {
         this.statistikView = statistikView;
     }
 
+    /**
+     * Method, Checks if you are available to print and asks if you want to print.
+     */
     public void doPrint() {
         PrinterJob job = PrinterJob.getPrinterJob();
         Printable doc = this;
@@ -45,6 +46,15 @@ public class StatistikPrintHandler implements Printable {
         }
     }
 
+    
+    /**
+     * Method, retrieves the information from statistikView and prints it.
+     * @param g
+     * @param pf
+     * @param page
+     * @return printResult, as an int. PAGE_EXISTS or NO_SUCH_PAGE
+     * @throws PrinterException 
+     */
     @Override
     public int print(Graphics g, PageFormat pf, int page) throws PrinterException {
         int printResult;
