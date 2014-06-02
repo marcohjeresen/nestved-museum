@@ -43,7 +43,7 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
         dkCash = true;
         euroCash = false;
         settextfield();
-        setEndText();
+        setCashRegistreText();
         setSize(new Dimension(1008, 691));
         CardLayout cl = (CardLayout) getLayout();
         cl.addLayoutComponent(jP_logon, "Logon");
@@ -84,7 +84,7 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
             euroCash = true;
         }
         setText();
-        setEndText();
+        setCashRegistreText();
     }
 
     public void setText() {
@@ -107,7 +107,7 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
             if (euc != 0) {
                 int dkMoney = (int) (dkc * 100);
                 int euroMoney = (int) (euc * 100);
-                setEndText();
+                setCashRegistreText();
                 if (!openOrClose()) {
                     dkMoney = (int) (dkc * 100);
                     euroMoney = (int) (euc * 100);
@@ -125,9 +125,9 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
         }
     }
 
-    public void setEndText() {
+    public void setCashRegistreText() {
         if (openOrClose()) {
-            jLabel_overskrift.setText("God Aften :-)");
+            jLabel_overskrift.setText("Luk Kassen");
             double dkReg = moneyHandler.getCashRegister().getAmountDk() / 100;
             double euroReg = moneyHandler.getCashRegister().getAmountEuro() / 100;
             double difDk = (dkc * 100) - moneyHandler.getCashRegister().getAmountDk();
@@ -140,16 +140,29 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
             jTextField_diffEuro.setText("" + difeuro);
             jButton_end.setText("Luk Kassen");
             jCheckBox_kvit.setEnabled(true);
+            jTextField_dkRegistre.setVisible(true);
+            jLabel_regCashEuro.setVisible(true);
+            jTextField_EuroRegistre.setVisible(true);
+            jLabel_rigCash.setVisible(true);
+            jTextField_diffDk.setVisible(true);
+            jLabel_diff.setVisible(true);
+            jTextField_diffEuro.setVisible(true);
+            jLabel_diffEoru.setVisible(true);
         } else {
-            jLabel_overskrift.setText("Godmorgen :-)");
+            jLabel_overskrift.setText("Åben Kassen");
             jButton_end.setText("Åben Kassen");
             jCheckBox_kvit.setSelected(false);
-            jTextField_dkRegistre.setEnabled(false);;
-            jTextField_EuroRegistre.setEnabled(false);;
-            jTextField_diffDk.setEnabled(false);;
-            jTextField_diffEuro.setEnabled(false);;
-            jCheckBox_kvit.setEnabled(false);
+            jTextField_dkRegistre.setVisible(false);
+            jLabel_regCashEuro.setVisible(false);
+            jTextField_EuroRegistre.setVisible(false);
+            jLabel_rigCash.setVisible(false);
+            jTextField_diffDk.setVisible(false);
+            jLabel_diff.setVisible(false);
+            jTextField_diffEuro.setVisible(false);
+            jLabel_diffEoru.setVisible(false);
+            jCheckBox_kvit.setVisible(false);
         }
+        repaint();
     }
 
     public void clearCashPage() {
@@ -203,10 +216,10 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
         jButton5 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+        jLabel_regCashEuro = new javax.swing.JLabel();
         jTextField_EuroRegistre = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        jLabel_diff = new javax.swing.JLabel();
+        jLabel_diffEoru = new javax.swing.JLabel();
         jTextField_diffDk = new javax.swing.JTextField();
         jTextField_diffEuro = new javax.swing.JTextField();
         jButton13 = new javax.swing.JButton();
@@ -215,7 +228,7 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
         jCheckBox_kvit = new javax.swing.JCheckBox();
         jTextField_Eurocash = new javax.swing.JTextField();
         jTextField_dkRegistre = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
+        jLabel_rigCash = new javax.swing.JLabel();
         jLabel_overskrift = new javax.swing.JLabel();
 
         setLayout(new java.awt.CardLayout());
@@ -399,6 +412,7 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
 
         add(jP_logon, "card2");
 
+        jTextField_DkCash.setEditable(false);
         jTextField_DkCash.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTextField_DkCashMouseClicked(evt);
@@ -484,11 +498,17 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
             }
         });
 
-        jLabel4.setText("Kassens Indhold Euro");
+        jLabel_regCashEuro.setText("Kassens Indhold Euro");
 
-        jLabel5.setText("Differencen Dk");
+        jTextField_EuroRegistre.setEditable(false);
 
-        jLabel6.setText("Differencen Euro");
+        jLabel_diff.setText("Differencen Dk");
+
+        jLabel_diffEoru.setText("Differencen Euro");
+
+        jTextField_diffDk.setEditable(false);
+
+        jTextField_diffEuro.setEditable(false);
 
         jButton13.setText("1");
         jButton13.addActionListener(new java.awt.event.ActionListener() {
@@ -519,6 +539,7 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
             }
         });
 
+        jTextField_Eurocash.setEditable(false);
         jTextField_Eurocash.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTextField_EurocashMouseClicked(evt);
@@ -530,7 +551,9 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
             }
         });
 
-        jLabel3.setText("Kassens Indhold Dk");
+        jTextField_dkRegistre.setEditable(false);
+
+        jLabel_rigCash.setText("Kassens Indhold Dk");
 
         jLabel_overskrift.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabel_overskrift.setText("jLabel7");
@@ -586,15 +609,15 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
                             .addGroup(jP_CashRegistreLayout.createSequentialGroup()
                                 .addGroup(jP_CashRegistreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(jTextField_diffDk)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel_diff, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jTextField_dkRegistre, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING))
+                                    .addComponent(jLabel_rigCash, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addGap(18, 18, 18)
                                 .addGroup(jP_CashRegistreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel_regCashEuro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jTextField_EuroRegistre)
                                     .addComponent(jTextField_diffEuro)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addComponent(jLabel_diffEoru, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addComponent(jCheckBox_kvit, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jP_CashRegistreLayout.createSequentialGroup()
                         .addGap(362, 362, 362)
@@ -613,16 +636,16 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
                 .addGroup(jP_CashRegistreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jP_CashRegistreLayout.createSequentialGroup()
                         .addGroup(jP_CashRegistreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
+                            .addComponent(jLabel_rigCash)
+                            .addComponent(jLabel_regCashEuro))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jP_CashRegistreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextField_dkRegistre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField_EuroRegistre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jP_CashRegistreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6))
+                            .addComponent(jLabel_diff)
+                            .addComponent(jLabel_diffEoru))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jP_CashRegistreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextField_diffDk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -773,7 +796,7 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
 
     private void jButton_endActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_endActionPerformed
         endReg();
-        setEndText();
+        setCashRegistreText();
     }//GEN-LAST:event_jButton_endActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
@@ -836,11 +859,11 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
     private javax.swing.JCheckBox jCheckBox_kvit;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel_diff;
+    private javax.swing.JLabel jLabel_diffEoru;
     private javax.swing.JLabel jLabel_overskrift;
+    private javax.swing.JLabel jLabel_regCashEuro;
+    private javax.swing.JLabel jLabel_rigCash;
     private javax.swing.JPanel jP_CashRegistre;
     private javax.swing.JPanel jP_logon;
     private javax.swing.JPanel jPanel1;
