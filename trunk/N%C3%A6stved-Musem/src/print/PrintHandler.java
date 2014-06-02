@@ -326,7 +326,7 @@ public class PrintHandler implements Printable {
                     if (lines.get(i).getPriceEuro() == -1) {
                         g.drawString(lines.get(i).getText(), 10, yCoord);
                         int priceDk = (lines.get(i).getPriceDk());
-                        g.drawString(priceDk + "", 9 * xCord, yCoord);
+                        g.drawString(priceDk + "", 25 * xCord, yCoord);
                     } else if (lines.get(i).getPriceEuro() == -2) {
                         g.drawString(lines.get(i).getProductNumber(), 10, yCoord);
                         g.drawString(lines.get(i).getProductTitle(), 70, yCoord);
@@ -339,11 +339,14 @@ public class PrintHandler implements Printable {
                             g.drawString(lines.get(i).getProductBuyPrice(), 370, yCoord);
                         }
                         g.drawString(lines.get(i).getProductQuantities(), 450, yCoord);
+                    }else if (lines.get(i).getPriceEuro() > 0) {
+                        g.drawString(lines.get(i).getText(), 10, yCoord);
+                    double priceDk = (lines.get(i).getPriceDk() / 100);
+                    g.drawString(priceDk + " kr", 9 * xCord, yCoord);
                     }
                 } else {
                     g.drawString(lines.get(i).getText(), 10, yCoord);
-                    double priceDk = (lines.get(i).getPriceDk() / 100);
-                    g.drawString(priceDk + " kr", 9 * xCord, yCoord);
+                    
                 }
                 lineCount++;
             }
