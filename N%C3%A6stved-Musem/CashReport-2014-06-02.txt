@@ -1,0 +1,69 @@
+Produkter: 
+2211  Træ-økse,6
+2213  Magnet, chokolade,6
+2214  Magnet, Lunde,5
+2183  Juice, Kildevand,2
+2180  Stor stempelkaffe,2
+2181  Lille stempelkaffe,2
+2182  Te, kaffe fra termokande,2
+1035  Bornholmsk Værkstedskeramik,2
+1034  Bolværker fra Middelalderen,2
+1047  Danmark og Renæssancen,2
+1053  Danske Lommelærker,1
+5016  Magnet vikingeskib,1
+5026  Bogstøtte, Hest 28 cm,1
+5027  Figur, Thor 15 cm,2
+5063  Stort vikingeskib 30 cm,5
+Billetter: 
+4 Gruppebillet, min. 10 personer,80
+Event: 
+5 Foredrag mus 9-17,10
+-------------------------------------------------------
+Alt I Alt Salg: 
+Product:    Antal I Alt: 41    Antal Forskelige: 15
+Billetter:    Antal I Alt: 80    Antal Forskelige: 1
+Event:    Antal I Alt: 10    Antal Forskelige: 1
+-------------------------------------------------------
+Kasse Opgørelse:
+Kasse Start:   Dato: 2014-06-02 07:41:14.0
+Medarbejder: Mark Hjeresen DK I Kassen: 7.0 EURO I Kassen: 7.0
+Kasse Slut:   Dato: 2014-06-02 07:41:22.0
+Mark Hjeresen  ForvDk: 7.0 ForvEuro: 7.0 SlutDk: 7.0 SlutEuro: 7.0
+Difference Type:  DifDk: 0.0 DifEuro: 0.0
+
+Kasse Start:   Dato: 2014-06-02 07:41:57.0
+Medarbejder: Mark Hjeresen DK I Kassen: 7.0 EURO I Kassen: 7.0
+Kasse Slut:   Dato: 2014-06-02 07:42:02.0
+Mark Hjeresen  ForvDk: 7.0 ForvEuro: 7.0 SlutDk: 7.0 SlutEuro: 7.0
+Difference Type:  DifDk: 0.0 DifEuro: 0.0
+
+Kasse Start:   Dato: 2014-06-02 07:42:34.0
+Medarbejder: Mark Hjeresen DK I Kassen: 4.0 EURO I Kassen: 5.0
+Kasse Slut:   Dato: 2014-06-02 07:42:52.0
+Mark Hjeresen  ForvDk: 4.0 ForvEuro: 5.0 SlutDk: 50.0 SlutEuro: 80.0
+Difference Type:  DifDk: 46.0 DifEuro: 75.0
+
+Kasse Start:   Dato: 2014-06-02 10:15:19.0
+Medarbejder: Mark Hjeresen DK I Kassen: 7.0 EURO I Kassen: 7.0
+Kasse Slut:   Dato: 2014-06-02 10:17:46.0
+Mark Hjeresen  ForvDk: 1811.0 ForvEuro: 7.0 SlutDk: 7.0 SlutEuro: 7.0
+Difference Type:  DifDk: -1804.0 DifEuro: 0.0
+
+Kasse Start:   Dato: 2014-06-02 10:18:40.0
+Medarbejder: Mark Hjeresen DK I Kassen: 7.0 EURO I Kassen: 7.0
+Kasse Slut:   Dato: 2014-06-02 10:18:45.0
+Mark Hjeresen  ForvDk: 7.0 ForvEuro: 7.0 SlutDk: 7.0 SlutEuro: 7.0
+Difference Type:  DifDk: 0.0 DifEuro: 0.0
+
+Kasse Start:   Dato: 2014-06-02 10:39:22.0
+Medarbejder: Mark Hjeresen DK I Kassen: 7.0 EURO I Kassen: 7.0
+Kasse Slut:   Dato: 2014-06-02 10:39:26.0
+Mark Hjeresen  ForvDk: 7.0 ForvEuro: 7.0 SlutDk: 7.0 SlutEuro: 7.0
+Difference Type:  DifDk: 0.0 DifEuro: 0.0
+
+Kasse Start:   Dato: 2014-06-02 10:40:59.0
+Medarbejder: Mark Hjeresen DK I Kassen: 7.0 EURO I Kassen: 7.0
+Kasse Slut:   Dato: 2014-06-02 10:41:03.0
+Mark Hjeresen  ForvDk: 7.0 ForvEuro: 7.0 SlutDk: 7.0 SlutEuro: 7.0
+Difference Type:  DifDk: 0.0 DifEuro: 0.0
+

@@ -139,7 +139,7 @@ public class Logon extends javax.swing.JPanel implements ActionListener {
             jTextField_diffDk.setText("" + difDk);
             jTextField_diffEuro.setText("" + difeuro);
             jButton_end.setText("Luk Kassen");
-            jCheckBox_kvit.setEnabled(true);
+            jCheckBox_kvit.setVisible(true);
             jTextField_dkRegistre.setVisible(true);
             jLabel_regCashEuro.setVisible(true);
             jTextField_EuroRegistre.setVisible(true);
