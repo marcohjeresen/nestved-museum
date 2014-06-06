@@ -3,6 +3,8 @@ package model;
 import utility.DateFormatTools;
 import utility.Listeners;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class Sale {
 
@@ -87,7 +89,9 @@ public class Sale {
      * Method, adds an event to the sale. If the event already exist will it
      * change the value rather than adding it again.
      */
-    public void addEventLine(EventType et, int quantities, int customer, String place) {
+    public void addEventLine(EventType et, int quantities, int customer, String place, String date) {
+        Calendar c = new GregorianCalendar();
+        c = dateTools.getDateFromString(date);
         boolean isthere = false;
         if (!eventLine.isEmpty()) {
             for (int i = 0; i < eventLine.size(); i++) {
@@ -98,11 +102,11 @@ public class Sale {
                 }
             }
             if (!isthere) {
-                EventLine el = new EventLine(0, et, this, quantities, dateTools.getDateNowString(), customer, place);
+                EventLine el = new EventLine(0, et, this, quantities, dateTools.getDateFromCal(c), customer, place);
                 eventLine.add(el);
             }
         } else {
-            EventLine el = new EventLine(0, et, this, quantities, dateTools.getDateNowString(), customer, place);
+            EventLine el = new EventLine(0, et, this, quantities, dateTools.getDateFromCal(c), customer, place);
             eventLine.add(el);
         }
         listeners.notifyListeners("Basket Change");

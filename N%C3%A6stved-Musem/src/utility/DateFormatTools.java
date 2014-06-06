@@ -114,7 +114,7 @@ public class DateFormatTools {
      * @return datecal as a Calender object.
      */
     public Calendar getDateFromString(String date) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar dateCal = Calendar.getInstance();
         try {
             Date d = formatter.parse(date);
@@ -193,6 +193,23 @@ public class DateFormatTools {
             theDate = theDate.substring(0, 1).toUpperCase() + theDate.substring(1);
         } catch (ParseException ex) {
             System.out.println("utility - DateFormatTools - getDay(): Date parse error" + ex.getLocalizedMessage());
+        }
+        return theDate;
+    }
+    
+    public String getTime(String date) {
+        String theDate = "";
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date d = formatter.parse(date);
+          Calendar fromDate = Calendar.getInstance();
+            fromDate.setTime(d);
+            SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+            theDate = format.format(fromDate.getTime());
+            
+            
+        } catch (ParseException ex) {
+            System.out.println("utility - DateFormatTools - getTime(): Date parse error" + ex.getLocalizedMessage());
         }
         return theDate;
     }

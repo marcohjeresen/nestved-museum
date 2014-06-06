@@ -183,7 +183,7 @@ public class EventView extends javax.swing.JPanel {
             String date = jTextField_år.getText() + "-" + jTextField_måned.getText() + "-" + jTextField_dag.getText() + " " + jTextField_tid.getText() + ":00";
             int amount = Integer.parseInt(jTextField_antalBørn.getText()) + Integer.parseInt(jTextField_antalWok.getText());
             int customerNumber = Integer.parseInt(jTextField_kundenummer.getText());
-            saleHandler.getCurrentSale().addEventLine(eventType, amount, customerNumber, place);
+            saleHandler.getCurrentSale().addEventLine(eventType, amount, customerNumber, place, date);
         }
 
     }
