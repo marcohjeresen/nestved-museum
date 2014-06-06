@@ -28,7 +28,7 @@ public class SaleTest {
         PaymentType pt = new PaymentType(1, "Kontant", 0);
         Employee employee = new Employee(1234561234, "Karl", "Parkvej 105", 4700, "Næstved", 1435);
         Sale sale1 = new Sale(1, pt, employee, "2014-05-27 12:22:00");
-        sale1.addEventLine(et, 1, 88888888, "På museumet");
+        sale1.addEventLine(et, 1, 88888888, "På museumet","2014-05-21 18:30:00");
         EventType saleevent = null;
         for (EventLine eventLine : sale1.getEventLine()) {
             saleevent = eventLine.getEventtype();
@@ -88,7 +88,7 @@ public class SaleTest {
         Employee employee = new Employee(1234561234, "Karl", "Parkvej 105", 4700, "Næstved", 1435);
         Sale sale1 = new Sale(1, pt, employee, "2014-05-27 12:22:00");
         sale1.addProduct(p);
-        sale1.addEventLine(et, 1, 88888888, "På museumet");
+        sale1.addEventLine(et, 1, 88888888, "På museumet","2014-05-21 18:30:00");
         sale1.addTicketLine(tt, 1);
 
         boolean discount = false;
@@ -113,7 +113,7 @@ public class SaleTest {
         Employee employee = new Employee(1234561234, "Karl", "Parkvej 105", 4700, "Næstved", 1435);
         Sale sale1 = new Sale(1, pt, employee, "2014-05-27 12:22:00");
         sale1.addProduct(p);
-        sale1.addEventLine(et, 1, 88888888, "På museumet");
+        sale1.addEventLine(et, 1, 88888888, "På museumet","2014-05-21 18:30:00");
         sale1.addTicketLine(tt, 1);
 
         boolean discount = true;
@@ -138,7 +138,7 @@ public class SaleTest {
         Employee employee = new Employee(1234561234, "Karl", "Parkvej 105", 4700, "Næstved", 1435);
         Sale sale1 = new Sale(1, pt, employee, "2014-05-27 12:22:00");
         sale1.addProduct(p);
-        sale1.addEventLine(et, 1, 88888888, "På museumet");
+        sale1.addEventLine(et, 1, 88888888, "På museumet","2014-05-21 18:30:00");
         sale1.addTicketLine(tt, 1);
 
         boolean discount = false;
@@ -163,7 +163,7 @@ public class SaleTest {
         Employee employee = new Employee(1234561234, "Karl", "Parkvej 105", 4700, "Næstved", 1435);
         Sale sale1 = new Sale(1, pt, employee, "2014-05-27 12:22:00");
         sale1.addProduct(p);
-        sale1.addEventLine(et, 1, 88888888, "På museumet");
+        sale1.addEventLine(et, 1, 88888888, "På museumet","2014-05-21 18:30:00");
         sale1.addTicketLine(tt, 1);
 
         boolean discount = true;

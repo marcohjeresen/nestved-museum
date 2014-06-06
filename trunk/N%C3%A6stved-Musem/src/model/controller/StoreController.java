@@ -13,6 +13,7 @@ import model.Product;
 import model.ProductLine;
 import model.TicketType;
 import museum.MainView;
+import utility.DateFormatTools;
 
 
 public class StoreController {
@@ -169,6 +170,7 @@ public class StoreController {
      */
     public String getDayEvent(String date) {
         String dayEvent = "";
+        DateFormatTools dt = new DateFormatTools();
         DBConnection db = new DBConnection();
         try {
             ResultSet rs = db.getResult("SELECT * from eventline where eventline_date like '" + date + "_________'");
@@ -176,6 +178,7 @@ public class StoreController {
                 for (EventType eventType : eventTypesList) {
                     if (rs.getInt("eventline_eventtype_id") == eventType.getId()) {
                         dayEvent = dayEvent + "Sted: " + rs.getString("eventLine_place") + 
+                                "\nTid: "+ dt.getTime(rs.getString("eventline_date"))+
                                 "\nType: " + eventType.getType() + "\nKundeNummer: "+rs.getInt("eventline_customer_phone")+
                                 "\nAntal Personer: "+ rs.getInt("eventline_quantities")+"\n\n";
                     }
