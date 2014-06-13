@@ -25,7 +25,7 @@ public class StoreController {
     private ArrayList<EventType> eventTypesList;
     private ArrayList<Employee> employeesList;
 
-    public StoreController() {
+    private StoreController() {
 
         productsList = new ArrayList<>();
         ticketTypesList = new ArrayList<>();

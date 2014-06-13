@@ -23,7 +23,7 @@ public class SaleController {
     /**
      * Constructor, creates a new object of the class.
      */
-    public SaleController() {
+    private SaleController() {
         paymentTypesList = new ArrayList<>();
         dateFormatTools = new DateFormatTools();
     }

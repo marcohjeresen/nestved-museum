@@ -80,7 +80,7 @@ public class SaleTest {
     @Test
     public void testGetEndpriceDkWithoutDiscount() {
         System.out.println("getEndpriceDkWithoutDiscount");
-        NumberFormatTools nft = new NumberFormatTools();
+        NumberFormatTools nft = NumberFormatTools.getTools();
         Product p = new Product(1, "En is", "Frisco", 50, 5000, 50, 90, 25, 1, "Guf");
         EventType et = new EventType(1, "Foredrag", 5000, 10);
         TicketType tt = new TicketType(1, "Voksen", 5000, 10);
@@ -105,7 +105,7 @@ public class SaleTest {
     @Test
     public void testGetEndpriceDkWithDiscount() {
         System.out.println("getEndpriceDkWithDiscount");
-        NumberFormatTools nft = new NumberFormatTools();
+        NumberFormatTools nft = NumberFormatTools.getTools();
         Product p = new Product(1, "En is", "Frisco", 50, 5000, 50, 90, 1, 1, "Guf");
         EventType et = new EventType(1, "Foredrag", 5000, 10);
         TicketType tt = new TicketType(1, "Voksen", 5000, 10);
@@ -130,7 +130,7 @@ public class SaleTest {
     @Test
     public void testGetEndpriceEuroWithoutDiscount() {
         System.out.println("getEndpriceEuroWithoutDiscount");
-        NumberFormatTools nft = new NumberFormatTools();
+        NumberFormatTools nft = NumberFormatTools.getTools();
         Product p = new Product(1, "En is", "Frisco", 50, 5000, 5000, 90, 1, 1, "Guf");
         EventType et = new EventType(1, "Foredrag", 5000, 1000);
         TicketType tt = new TicketType(1, "Voksen", 5000, 1000);
@@ -155,7 +155,7 @@ public class SaleTest {
     @Test
     public void testGetEndpriceEuroWithDiscount() {
         System.out.println("getEndpriceEuroWithDiscount");
-        NumberFormatTools nft = new NumberFormatTools();
+        NumberFormatTools nft = NumberFormatTools.getTools();
         Product p = new Product(1, "En is", "Frisco", 50, 5000, 5000, 90, 1, 1, "Guf");
         EventType et = new EventType(1, "Foredrag", 5000, 1000);
         TicketType tt = new TicketType(1, "Voksen", 5000, 1000);
