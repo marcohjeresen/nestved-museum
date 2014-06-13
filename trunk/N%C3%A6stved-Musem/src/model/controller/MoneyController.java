@@ -14,7 +14,7 @@ public class MoneyController {
     /**
      * Constructor, creates a new object of the class.
      */
-    public MoneyController() {
+    private MoneyController() {
     }
 
     /**

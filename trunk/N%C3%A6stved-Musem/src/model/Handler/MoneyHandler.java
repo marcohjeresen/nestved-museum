@@ -20,7 +20,7 @@ public class MoneyHandler {
     * Constructor, creates a new object of the class.
     */
     
-    public MoneyHandler() {
+    private MoneyHandler() {
         dateFormatTools = new DateFormatTools();
         moneyController = MoneyController.getMoneyController();
         storeHandler = StoreHandler.storeHandler();

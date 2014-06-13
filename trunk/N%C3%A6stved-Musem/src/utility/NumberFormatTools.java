@@ -18,7 +18,7 @@ public class NumberFormatTools {
     /**
      * Constructor, creates a new object of the class.
      */
-    public NumberFormatTools() {
+    private NumberFormatTools() {
     }
     
     /**

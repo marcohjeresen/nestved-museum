@@ -23,7 +23,7 @@ public class NumberFormatToolsTest {
     @Test
     public void testGetIntValue() {
         double price = 50;
-        NumberFormatTools instance = new NumberFormatTools();
+        NumberFormatTools instance = NumberFormatTools.getTools();
         int expResult = 5000;
         int result = instance.getIntValue(price);
         assertEquals("testGetIntValue har regnet forkert!", expResult, result);
@@ -34,7 +34,7 @@ public class NumberFormatToolsTest {
      */
     @Test
     public void testGetDoubleValue() {
-        NumberFormatTools instance = new NumberFormatTools();
+        NumberFormatTools instance = NumberFormatTools.getTools();
         int price = 5000;
         double expResult = 50;
         double result = instance.getDoubleValue(price);
@@ -46,7 +46,7 @@ public class NumberFormatToolsTest {
      */
     @Test
     public void testGetIntSum() {
-        NumberFormatTools instance = new NumberFormatTools();
+        NumberFormatTools instance = NumberFormatTools.getTools();
         int intPrice = 5000;
         double doublePrice = 50.0;
         int expResult = 10000;
@@ -59,7 +59,7 @@ public class NumberFormatToolsTest {
      */
     @Test
     public void testGetDoubleSum() {
-        NumberFormatTools instance = new NumberFormatTools();
+        NumberFormatTools instance = NumberFormatTools.getTools();
         int intPrice = 230;
         double doublePrice = 50.0;
 

@@ -13,7 +13,7 @@ public class SaleHandler {
     * Constructor, creates a new object of the class.
     */
     
-    public SaleHandler() {
+    private SaleHandler() {
         currentSale = new Sale(0, null, null, null);
     }
     

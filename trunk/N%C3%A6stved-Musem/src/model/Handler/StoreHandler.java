@@ -3,6 +3,7 @@ package model.Handler;
 
 import utility.DateFormatTools;
 
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
@@ -30,7 +31,7 @@ public class StoreHandler {
     Constructor, creates a new object of the class.
     */
     
-    public StoreHandler() {
+    private StoreHandler() {
         controller = StoreController.getStoreController();
         listeners = Listeners.getList();
         search = false;
